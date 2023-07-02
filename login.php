@@ -2,7 +2,6 @@
 
 require_once ('php/connection.php');
 require_once('header.php');
-echo("Hello login");
 
 ?>
 

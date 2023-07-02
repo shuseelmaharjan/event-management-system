@@ -6,72 +6,13 @@ require_once('nav.php');
 
 ?>
 
-    
-    <!--start of pop-up login form-->
-    <div class="popup-login" id="popup-login">
-        <div class="popup">
-            <div class="closeBtn">
-                <a href="#" onclick="login_close()"><i class="fa-solid fa-xmark"></i></a>
-            </div>
-            <h1>Log in</h1>
-            <form action="#" method="post">
-                <label for="username">Email or Username:</label>
-                <input type="text" placeholder="Username or Email" name="username"><br>
-
-                <label for="password">Password:</label>
-                <input type="password" placeholder="Password" name="password"><br>
-                <button>
-                    Log in
-                    <div class="arrow-wrapper">
-                        <div class="arrow"></div>
-                
-                    </div>
-                </button> <br>
-                <div class="loginOption">
-                    <span><a href="#">Forget Password</a></span>
-                    <span>Not a member? <a href="#popup-signup" onclick="signupBtn()"> <strong>Sign Up</strong> here.</a></span>
-
-                </div> 
-            </form>
-        </div>
-    </div>
-    <!--end of pop-up login form-->
-    <!--start of pop-up signup form-->
-    <div class="popup-signup" id="popup-signup">
-        <div class="signup">
-            <div class="closeBtn">
-                <a href="#" onclick="signup_close()"><i class="fa-solid fa-xmark"></i></a>
-            </div>
-            <h1>Sign Up</h1>
-            <form action="php/signup.php" method="post">
-                <label for="name">Full Name:</label><br>
-                <input type="text" name="name" placeholder="Full Name" required><br>
-                <!--email-->
-                <label for="email">Email:</label><br>
-                <input type="email" name="email" placeholder="Email"><br>
-                <label for="phone">Phone:</label><br>
-                <input type="number" name="phone" placeholder="Phone"><br>
-
-                <!--password-->
-                <label for="password">New Password:</label><br>
-                <input type="password" name="newpassword" placeholder="New Password"><br>
-                <label for="password">Confirm Password:</label><br>
-                <input type="password" name="password" placeholder="Confirm Password"><br>
-
-                <button>
-                    Sign up
-                    <div class="arrow-wrapper">
-                        <div class="arrow"></div>
-                    </div>
-                </button> 
-
-            </form>
-        </div>
-    </div>
-    <!--end of pop-up signup form-->
-
-
-
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <?php
+        require_once('login.php');
+        require_once('signup.php');
+    ?>
     <div class="hero">
         <div class="overlay">
             <div class="wrapper">
@@ -280,31 +221,31 @@ require_once('nav.php');
     </footer>
    
     <script>
-        function myFunction() {
-            if (window.pageYOffset > sticky) {
-                header.classList.add("sticky");
-            } else {
-                header.classList.remove("sticky");
-            }
-            }
-        console.log("Hello");
-        function loginbtn(){
-            document.getElementById('popup-login').style.display='inline';
-            console.log("login");
-        }
-        function login_close(){
-            document.getElementById('popup-login').style.display="none";
-            console.log("closeBtn");
-        }
-        function signupBtn(){
-            document.getElementById('popup-signup').style.display = "inline";
-            console.log("Signup close");
-            document.getElementById('popup-login').style.display='none';
-        }
-        function signup_close(){
-            document.getElementById('popup-signup').style.display = "none";
-            console.log("signup btn-closed");
-        }
+        // function myFunction() {
+        //     if (window.pageYOffset > sticky) {
+        //         header.classList.add("sticky");
+        //     } else {
+        //         header.classList.remove("sticky");
+        //     }
+        //     }
+        // console.log("Hello");
+        // function loginbtn(){
+        //     document.getElementById('popup-login').style.display='inline';
+        //     console.log("login");
+        // }
+        // function login_close(){
+        //     document.getElementById('popup-login').style.display="none";
+        //     console.log("closeBtn");
+        // }
+        // function signupBtn(){
+        //     document.getElementById('popup-signup').style.display = "inline";
+        //     console.log("Signup close");
+        //     document.getElementById('popup-login').style.display='none';
+        // }
+        // function signup_close(){
+        //     document.getElementById('popup-signup').style.display = "none";
+        //     console.log("signup btn-closed");
+        // }
     </script>
 </body>
 </html>
