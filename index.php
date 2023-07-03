@@ -164,7 +164,7 @@ require_once('nav.php');
                     </table>
                     
                 </blockquote>
-                <button><a href="events.php">View All Events</a></button>
+                <a href="events.php"><button>View All Events</button></a>
                 
             </div>
             
@@ -199,27 +199,10 @@ require_once('nav.php');
             </div>
         </div>
     </div>
-    <footer>
-        <div class="logo">
-            <a href="index.php"><img src="images/logo-white.webp" width="250px" alt="logo"></a>
-            <ul>
-                <li><a href="#">Who We Are</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-        <div class="right-content">
-            <div class="icons">
-                <ul>
-                    <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                    <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
-                </ul>
-            </div>
-            <p>&copy; 2021 Copyright: All rights reserved.</p>
-        </div>
-    </footer>
-   
+ 
+   <?php
+    require_once('footer.php');
+   ?>
     <script>
         // function myFunction() {
         //     if (window.pageYOffset > sticky) {

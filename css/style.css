@@ -531,7 +531,7 @@ body .navbars .nav{
     color: white;
     text-align: center;
   }
-.overlay button{
+.overlay a button{
     padding: 15px 25px;
     border-radius: 25px;
     border: 2px solid #fff;
@@ -539,8 +539,9 @@ body .navbars .nav{
     transition: 0.5s;
     margin-top: 50px;
     cursor: pointer;
+    color: #fff;
 }
-.overlay button a{
+.overlay a button{
     color: #fff;
     font-size: 14px;
     font-weight: 600;
@@ -578,7 +579,7 @@ body .navbars .nav{
     width: 300px;
 }
 .about-us .content{
-    font-family: 'Ubuntu' sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     width: 70%;
     margin-left: 20%;
     text-align: right;
@@ -602,7 +603,7 @@ body .navbars .nav{
 .about-us .works{
     text-align: center;
     font-size: 40px;
-    font-family: 'Ubuntu' sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-weight: 400;
     text-transform: uppercase;
     margin: 0;
@@ -626,53 +627,3 @@ body .navbars .nav{
     display: inline-block;
 }
 /**************** end of about us container *****************/
-/**************** Start of footer *****************/
-footer{
-    width: 100%;
-    height: 300px;
-    background-image: linear-gradient(to right, #02266C , #1A0051);
-}
-footer .logo{
-    padding: 40px 50px;
-    float: left;
-    width: 50%;
-}
-footer .logo ul{
-    margin-left: 20px;
-    margin-top: 10px;
-}
-footer .logo ul li{
-    list-style: none;
-    padding: 5px; 
-}
-footer .logo ul li a{
-    text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    text-transform: uppercase;
-    font-family: 'Ubuntu' sans-serif;
-}
-footer .right-content{
-    padding: 10px 70px;
-    float: right;
-    margin-top: 90px;
-}
-footer .right-content p{
-    color: #fff;
-    font: 18px;
-    font-family: 'Ubuntu' sans-serif;  
-}
-footer .right-content ul {
-    display: flex;
-}
-footer .right-content ul li{
-    list-style: none;
-    display: flex;
-    color: #fff;
-    font-size: 32px;
-    padding: 20px;
-    
-}
-footer .right-content ul li a{
-    color: #fff;
-}

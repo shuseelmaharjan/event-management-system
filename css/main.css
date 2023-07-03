@@ -7,7 +7,7 @@
 body .navbars{
     font-family: 'Ubuntu', sans-serif;
     position: relative;
-    background-color: #a80b59;
+    background-image: linear-gradient(to right, #02266C , #1A0051);
     font-size: 16px;
     font-weight: 400;
     width: 100%;

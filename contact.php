@@ -49,14 +49,15 @@ require_once('nav.php');
                 </div>
             </div>
             <div class="row">
-                <div class="col">
-                <label for="message">Message:</label><br>
-                <textarea name="message" id="message" cols="100" rows="10"></textarea>
-
+                <div class="message">
+                    <label for="message">Message:</label><br>
+                    <textarea name="message" id="message" atInput rows="5" cols="40" placeholder="Write a message..."></textarea>
                 </div>
+
+               
             </div>
             <div class="row">
-                <input type="button" value="Submit" name="submit">
+                <button>Send Message</button>
             </div>
         </form>
         </div>
@@ -85,7 +86,7 @@ require_once('nav.php');
         width: 100%;
     }
     .content{
-        width: 60%;
+        width: 50%;
         font-family: 'Ubuntu', sans-serif;
     }
     .content h1{
@@ -113,6 +114,10 @@ require_once('nav.php');
     }
     .form form{
         font-family: 'Ubuntu', sans-serif;
+        padding: 20px;
+    }
+    .form .row{
+        width: 100%;
     }
     .form .col{
         width: 50%;
@@ -121,15 +126,45 @@ require_once('nav.php');
     .form .col label{
         width: 10%;
         margin-top: 10px;
+        font-size: 16px;
     }
     .form .col input{
         width: 90%;
-        padding: 10px 0px;
+        padding: 10px 10px;
         margin-top: 10px;
+        font-size: 16px;
     }
-    .form .col textarea{
+    .form .message{
         width: 100%;
         padding: 10px 0px;
+    }
+    .form .message label{
+        width: 100%;
+        font-size: 16px;
+    }
+    .form .message textarea{
+        width: 95%;
         margin-top: 10px;
+        font-size: 16px;
+        padding: 10px;
+    }
+    .form .row button{
+        --arrow-width: 10px;
+        --arrow-stroke: 2px;
+        box-sizing: border-box;
+        border: 0;
+        border-radius: 20px;
+        color: #fff;
+        padding: 1em 1.8em;
+        background: #a80b59;
+        display: flex;
+        transition: 0.3s background;
+        align-items: center;
+        gap: 0.6em;
+        margin-top: 20px;
+        font-weight: bold;
     }
 </style>
+<?php
+require_once('footer.php');
+?>
