@@ -15,9 +15,45 @@ require_once('nav.php');
         require_once('login.php');
         require_once('signup.php');
     ?>
-    <div class="container" margin-top="70px" background-color="#73000E">
-        <div class="heading">
-            <h1>Get In Touch with Us</h1>
+    <div class="container">
+        <div class="wrapper">
+            <h1>Our Packages</h1>
+            <h2>Search your Package</h2>
+            <div class="form">
+                <form action="#">
+                    <label for="destination">Destination:</label>
+                    <input type="text" name="destination">
+                    <label for="date">Date:</label>
+                    <input type="date" name="data">
+                    <label for="eventType">Event Type</label>
+                    <select name="type" id="type">
+                        <option value="marriage">Marriage</option>
+                        <option value="music">Music</option>
+                        <option value="music">Cultural</option>
+                        <option value="music">Dance</option>
+                        <option value="music">Food</option>
+                    </select>
+                </form>
+            </div>
         </div>
     </div>
 </body>
+
+<?php
+    require_once('footer.php');
+?>
+<style>
+    .container{
+        width: 100%;
+        background-color: #E9E9E9;    
+        height: 100%;
+        
+    }
+    .container .wrapper{
+        padding: 40px;
+        width: 100%;
+        
+        margin-left: 10%;
+    }
+
+</style>
