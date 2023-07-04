@@ -11,6 +11,9 @@ include('../php/connection.php');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <!--css-->
     <link rel="stylesheet" href="css/login.css">
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 <body>
     <div class="container py-5">
@@ -31,17 +34,18 @@ include('../php/connection.php');
                 <div id="nav-tab-card" class="tab-pane fade show active">
                   <form role="form" action="php/validation.php" method="post" enctype="multipart/form-data">
 
+                  
                     <div class="form-group">
                       <label for="username">Username :</label> <br>
                       <div class="input-group">
-                        <input type="text" name="username" placeholder="Username" required class="form-control"> 
+                        <input type="text" name="username" placeholder="Username"  class="form-control"> 
                       </div>
                     </div><br>
 
                     <div class="form-group">
                       <label for="password">Password :</label> <br>
                       <div class="input-group">
-                        <input type="password" name="password" placeholder="Password" class="form-control" id="myInput" required>
+                        <input type="password" name="password" placeholder="Password" class="form-control" id="myInput" >
                         
                       </div>
                       <br>
@@ -57,23 +61,39 @@ include('../php/connection.php');
                     <div class="etc-login-form">
                         <p>Forgot your password? <a href="#">Click here</a></p>
                     </div>
+                
                     <?php
-                    function alert(){
-                      echo '<script>
-                      alert("Hello");
-                      </script>';
-                    }
-                    ?>
-                    <div id="invalid_msg" class="alert alert-danger">
-                      Please enter valid credientials.
-                    </div>
+                    if(isset($_GET['error'])){?>
+                      <div id="error" class="alert alert-danger">
+                      <?php echo $_GET['error']?>
+                      <button type="button" class="close" id="closeBtn" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true" onclick="closeBtn()"><i class="fa-sharp fa-solid fa-xmark"></i></span>
+                      </button>
+                      </div>
+                    <?php } ?>                    
+                  </div>
                 </div>
                 <!-- End -->
           </div>
         </div>
     </div>
+    <style>
+      .close{
+        float: right;
+        background: none;
+        border: none;
+        color: #58151c;
+      }
+    </style>
     
     <script>
+
+$('.alert').alert()
+                function closeBtn(){
+                  document.getElementById('error').style.display='none';
+                  console.log("demo");
+                }
+            
         document.getElementById('invalid_msg').style.display='none';
             $(function() {
                 $('[data-toggle="tooltip"]').tooltip()
@@ -87,7 +107,8 @@ include('../php/connection.php');
                     x.type = "password";
                 }
                 }
-            
+
+                
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
