@@ -2,9 +2,11 @@
 <aside id="sidebar">
             <div class="sidebar-title">
                 <div class="sidebar-brand">
+                    <a href="index.php">
                     <img src="../images/logo-white.webp" width="150px" alt="logo">
+                    </a>
+                    
                 </div>
-                <div class="material-icons-outlined" onclick="closeSidebar()">close</div>
             </div>
             <ul class="sidebar-list">
                 <!--dashboard-->
@@ -48,9 +50,9 @@
                 </a>
                 
                 
-                <a href="calendar.php">
+                <a href="types.php">
                     <li class="sidebar-list-item">
-                        <span class="material-symbols-outlined">calendar_month</span> Calendar
+                        <span class="material-symbols-outlined">calendar_month</span> Category
                     </li>
                 </a>
                 

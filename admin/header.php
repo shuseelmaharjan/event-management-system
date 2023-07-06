@@ -8,6 +8,11 @@
     <!--google icons-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <!--bootstrap cdn-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 
 </head>
@@ -16,31 +21,45 @@
         
         <!--start of header-->
         <header class="header">
-            <div class="menu-icon" onclick="openSidebar()">
-                <span class="material-icons-outlined">menu</span>
+            
+            
+            <div class="dropdown col-md-12 d-flex justify-content-end">
+                <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa-solid fa-user"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Edit Profile</a>
+                    <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#logout">Log Out</a>
+                </div>
             </div>
-            <div class="header-left">
-                <span class="material-icons-outlined">search</span>
-            </div>
-            <div class="header-right">
-                <span class="material-icons-outlined">notifications</span>
-                <span class="material-icons-outlined">email</span>
-                <span class="material-icons-outlined" onclick="accountToggle()">account_circle</span>
-                <div class="account" id="account">
-                    <div class="popupAccount">
-                        <ul>
-                            <li><a href="#">Change Password</a></li>
-                            <li><a href="#">Edit Profile</a></li>
-                            <li onclick="logOut()"><a href="logout.php">Log Out</a></li>
-                        </ul>
-                        
+             <!-- Modal -->
+             <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title-centered" id="exampleModalLabel">Are you sure?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" onclick="logOut()" class="btn btn-danger">Log Out</button>
+                    </div>
                     </div>
                 </div>
-            
-                
-            </div>
-            
+                </div>
             
 
         </header>
         <!--end of header-->
+        <style>
+            .dropdown{
+                outline: none;
+            }
+            .dropdown-menu{
+                margin-top: 15px;
+            }
+        </style>
+        <script>
+            function logOut(){
+                window.location = "logout.php";
+            }
+        </script>

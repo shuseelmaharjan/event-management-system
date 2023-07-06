@@ -20,4 +20,5 @@ include('sidebar.php');
     <div class="main-title">
         <p class="font-weight-bold">Messages</p>
     </div>
+    
 </div>
