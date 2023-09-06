@@ -27,7 +27,7 @@ require_once('header.php');
                 </button> <br>
                 <div class="loginOption">
                     <span><a href="#">Forget Password</a></span>
-                    <span>Not a member? <a href="#popup-signup" onclick="signupBtn()"> <strong>Sign Up</strong> here.</a></span>
+                    <span>Not a member? <a href="register.php" onclick="signupBtn()"> <strong>Sign Up</strong> here.</a></span>
     
                 </div> 
             </form>

@@ -13,7 +13,6 @@ require_once('nav.php');
 <body>
     <?php
         require_once('login.php');
-        require_once('signup.php');
     ?>
     <div class="container" >
         <div class="wrapper">

@@ -14,5 +14,15 @@ if($res){
 }else{
     echo"error";
 }
+// public class CRUD{
+//     public function deleteType(){
+//         $id = $_GET['criteria'];
+//         $query = "DELETE FROM types where deleteType = $id";
+//         $response = mysqli_query($conn, $query);
+//         if ($response) {
+//             return true;
+//         }
+//     }
+// }
 
 
