@@ -9,10 +9,7 @@ require_once('nav.php');
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <?php
-        require_once('login.php');
-        // require_once('signup.php');
-    ?>
+
     <div class="hero">
         <div class="overlay">
             <div class="wrapper">

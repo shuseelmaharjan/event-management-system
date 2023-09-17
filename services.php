@@ -9,11 +9,7 @@ require_once('header.php');
 <?php
 require_once('nav.php');
 ?>
-<body>
-<body>
-    <?php
-        require_once('login.php');
-    ?>
+<body>   
     <div class="container">
         <div class="wrapper">
             <h1>Our Packages</h1>

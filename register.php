@@ -1,6 +1,49 @@
 <?php
-session_start();
-require_once('vendor/autoload.php');
+// session_start();
+// require_once('vendor/autoload.php');
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\SMTP;
+// use PHPMailer\PHPMailer\Exception;
+
+// // Function to generate a random OTP
+// function generateOTP() {
+//     return strval(rand(1000, 9999)); 
+// }
+
+// // Function to send OTP to a user's email
+// function sendOTP($email, $otp) {
+//     $mail = new PHPMailer(true);
+
+//     try {
+//         // Configure PHPMailer as shown in previous responses
+
+//         // Sender and recipient information
+//         $mail->setFrom('otp@ems.com', 'Event Management System');
+//         $mail->addAddress($email);
+
+//         // Email content
+//         $mail->isHTML(true);
+//         $mail->Subject = 'Your OTP Code';
+//         $mail->Body = "Your OTP code is: $otp";
+
+//         // Send the email
+//         $mail->send();
+//         return true; // Email sent successfully
+//     } catch (Exception $e) {
+//         return false; // Email could not be sent
+//     }
+// }
+
+// // Example usage:
+// $newUserEmail = $_SESSION['email'];
+// $otp = generateOTP();
+
+// if (sendOTP($newUserEmail, $otp)) {
+//     echo "OTP sent successfully to $newUserEmail";
+// } else {
+//     echo "OTP could not be sent to $newUserEmail";
+// }
+
 
 ?>
 <!DOCTYPE html>
@@ -11,8 +54,40 @@ require_once('vendor/autoload.php');
     <title>EMS | Register</title>
     <!--fontawesome cdn-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!--css link-->
+    <link rel="stylesheet" href="css/log.css">
 </head>
 <body>
+    <div class="verification"n id="verify">
+        <!--header section start here -->
+        <div class="center">
+            <section>
+                <div class="close" id="closeBtn" ><i onclick="closeVerify()" class="fa-solid fa-xmark"></i></div>
+                <div class="title">OTP Verification</div>
+
+                <p>We have sent a verification code to<br></p>
+                <p id="userEmail"></p>
+
+                <div class="image">
+                    <img src="images/shield.svg"  alt="verify">
+                </div>
+                
+                <div id='inputs'>
+                    <input id='input1' type='number' maxLength="3" />
+                    <input id='input2' type='number' maxLength="1" />
+                    <input id='input3' type='number' maxLength="1" />
+                    <input id='input4' type='number' maxLength="1" />
+                    <input id='input5' type='number' maxLength="1" />
+                    <input id='input6' type='number' maxLength="1" />
+                </div>
+                <button>Verify</button>
+                <div class="resend">
+                    <p>Resend OTP in</p>
+                    <p>01:04</p>
+                </div>
+            </section>
+        </div>
+    </div>
     <div class="container">
         <div class="wrapper">
             <a href="index.php">
@@ -78,7 +153,7 @@ require_once('vendor/autoload.php');
 
             </div>
             <div class="button">
-                <input type="submit" value="Register">
+                <input type="submit" onclick="userVerify()" value="Register">
             </div>
         </form>
         
@@ -89,7 +164,6 @@ require_once('vendor/autoload.php');
        
     </div>
     <script type="text/javascript">
-
         document.getElementById("danger").style.display = "none";
         document.getElementById("success").style.display = "none";
         
@@ -118,6 +192,45 @@ require_once('vendor/autoload.php');
 
             }
         }
+
+
+       
+        //page otp verification
+        document.getElementById("verify").style.display="none";
+
+            const inputs = ["input1", "input2", "input3", "input4", "input5", "input6"];
+
+            inputs.map((id) => {
+            const input = document.getElementById(id);
+            addListener(input);
+            });
+
+            function addListener(input) {
+            input.addEventListener("keyup", () => {
+                const code = parseInt(input.value);
+                if (code >= 0 && code <= 9) {
+                const n = input.nextElementSibling;
+                if (n) n.focus();
+                } else {
+                input.value = "";
+                }
+
+                const key = event.key; // const {key} = event; ES6+
+                if (key === "Backspace" || key === "Delete") {
+                const prev = input.previousElementSibling;
+                if (prev) prev.focus();
+                }
+            });
+            }
+
+            function closeVerify(){
+            document.getElementById("verify").style.display="none";
+        }
+            
+
+        
+
+       
         
     </script>
     <?php
@@ -141,45 +254,62 @@ require_once('vendor/autoload.php');
             $conn = new PDO("mysql:host=$servername;dbname=$dbname", $db_username, $db_password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Check if the username already exists in the database
-            $stmt = $conn->prepare("SELECT * FROM tbl_users WHERE username = :username");
-            $stmt->bindParam(':username', $username);
+            // Check if the email already exists in the database
+            $stmt = $conn->prepare("SELECT * FROM tbl_users WHERE email = :email");
+            $stmt->bindParam(':email', $email);
             $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
+            if($stmt->rowCount()>0){
                 echo '<script>';
                 echo 'document.getElementById("danger").style.display="inline-block";';
-                echo'document.getElementById("message").innerText = "Username already exist on database, please use different one.";';
+                echo'document.getElementById("message").innerText = "This email is already exist on database, please use different one.";';
                 echo '</script>';
+            }else{
+                // Check if the username already exists in the database
+                $stmt = $conn->prepare("SELECT * FROM tbl_users WHERE username = :username");
+                $stmt->bindParam(':username', $username);
+                $stmt->execute();
 
-            } else {
-                // Check if passwords match
-                if ($password !== $confirmPassword) {
+                if ($stmt->rowCount() > 0) {
                     echo '<script>';
                     echo 'document.getElementById("danger").style.display="inline-block";';
-                    echo'document.getElementById("message").innerText = "Password doesnot match";';
+                    echo'document.getElementById("message").innerText = "Username already exist on database, please use different one.";';
                     echo '</script>';
+
                 } else {
-                    // Hash the password (use a suitable password hashing library)
-                    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                    // Check if doesnot passwords match
+                    if ($password !== $confirmPassword) {
+                        echo '<script>';
+                        echo 'document.getElementById("danger").style.display="inline-block";';
+                        echo'document.getElementById("message").innerText = "Password doesnot match";';
+                        echo '</script>';
+                    } else {
+                    
 
-                    // Insert data into the database
-                    $insertStmt = $conn->prepare("INSERT INTO tbl_users (name, email, phone, username, dob, gender, password) VALUES (:name, :email, :phone, :username, :dob, :gender, :password)");
-                    $insertStmt->bindParam(':name', $name);
-                    $insertStmt->bindParam(':email', $email);
-                    $insertStmt->bindParam(':phone', $phone);
-                    $insertStmt->bindParam(':username', $username);
-                    $insertStmt->bindParam(':dob', $dob);
-                    $insertStmt->bindParam(':gender', $gender);
-                    $insertStmt->bindParam(':password', $hashedPassword);
-                    $insertStmt->execute();
+                        
+                        // Hash the password (use a suitable password hashing library)
+                        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                        $currentDate = date("Y-m-d"); // Returns the current date in "YYYY-MM-DD" format
+                       
+                        // Insert data into the database
+                        $insertStmt = $conn->prepare("INSERT INTO tbl_users (name, email, phone, username, dob, gender, dateofjoin, password) VALUES (:name, :email, :phone, :username, :dob, :gender, :dateofjoin, :password)");
+                        $insertStmt->bindParam(':name', $name);
+                        $insertStmt->bindParam(':email', $email);
+                        $insertStmt->bindParam(':phone', $phone);
+                        $insertStmt->bindParam(':username', $username);
+                        $insertStmt->bindParam(':dob', $dob);
+                        $insertStmt->bindParam(':gender', $gender);
+                        $insertStmt->bindParam(':dateofjoin', $currentDate);
+                        $insertStmt->bindParam(':password', $hashedPassword);
+                        $insertStmt->execute();
 
-                    echo '<script>';
-                    echo 'document.getElementById("success").style.display="inline-block";';
-                    echo'document.getElementById("successMsg").innerText = "Account Created Successfully.";';
-                    echo '</script>';
+                        echo '<script>';
+                        echo 'document.getElementById("success").style.display="inline-block";';
+                        echo'document.getElementById("successMsg").innerText = "Account Created Successfully.";';
+                        echo '</script>';
+                    }
                 }
             }
+            
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -190,205 +320,5 @@ require_once('vendor/autoload.php');
 </body>
 </html>
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300&family=Poppins&family=Roboto:ital@1&family=Ubuntu:wght@400;500&display=swap');
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins' sans-serif;
-}
-body{
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    background: linear-gradient(135deg, #71b7e6, #9b59b6);
-}
-.container{
-    max-width: 700px;
-    width: 100%;
-    background-color: #fff;
-    padding: 25px 30px;
-    border-radius: 5px;
-}
-.container .wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.container .title{
-    font-size: 25px;
-    font-weight: 500;
-    position: relative;
-}
-.wrapper img,
-.wrapper .title{
-    margin: 0px 10px;
-}
-.container .title::before{
-    content: '';
-    height: 3px;
-    left: -40px;
-    bottom: -15px;
-    width: 60px;
-    align-items: center;
-    background: linear-gradient(135deg, #71b7e6, #9b59b6);
-    position: absolute;
-}
-.container form .user-details{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 20px 0 12px 0;
-}
-form .user-details .input-box{
-    margin-bottom: 15px;
-    margin: 20px 0 12px 0;
-    width: calc(100% / 2 - 20px);
-}
-.user-details .input-box .details{
-    display: block;
-    font-weight: 500;
-    margin-bottom: 5px;
-    font-family: 'Poppins' sans-serif;
-    font-size: 18px;
-}
-#genders{
-    display: flex;
-    margin-top: 20px;
-    position: absolute;
-}
-#genders input{
-    height: 15px;
-    width: 30px;
-    outline: none;
-    border: 1px solid #ccc;
-    padding: 15px;
-    font-size: 16px;
-    border-bottom-width: 2px;
-    transition: all 0.3s ease;
-    margin-left: 15px;
-}
-
-.user-details .input-box input{
-    height: 45px;
-    width: 100%;
-    outline: none;
-    border: 1px solid #ccc;
-    padding-left: 15px;
-    font-size: 16px;
-    border-bottom-width: 2px;
-    transition: all 0.3s ease;
-}
-.user-details .input-box input:focus,
-.user-details .input-box input:valid{
-    border-color: #9b59b6;
-}
-form .gender-details .gender-title{
-    font-size: 20px;
-    font-weight: 500;
-}
-form .gender-details .category{
-    width: 80%;
-}
-form .button{
-    height: 45px;
-    margin: 25px 0px;
-    box-shadow: 0px 5px 5px #888888;
-    border: none;
-}
-form .button input{
-    height: 100%;
-    width: 100%;
-    outline: none;
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    border-radius: 5px;
-    background: linear-gradient(135deg, #71b7e6, #9b59b6);
-}
-form .button input:hover{
-    background: linear-gradient(-135deg, #71b7e6, #9b59b6);
-}
-@media(max-width: 584){
-    .container{
-        max-width: 100%;
-
-    }
-    form .user-details .input-box{
-    margin-bottom: 15px;
-    margin: 20px 0 12px 0;
-    width: 100%;
-}
-}
-.back{
-    text-align: center;
-    color: #000;
-    font-size: 16px;
-    margin-top: 10px;
-
-}
-.back p a{
-    font-weight: 600;
-    text-decoration: none;
-}
-.danger{
-    width: 100%;
-    position: relative;
-    background: #f2dede;
-    padding: 10px;
-    color: #a94442;
-    height: 40px;
-}
-.success{
-    width: 100%;
-    position: relative;
-    background: #dff0d8;
-    padding: 10px;
-    color: #3c763d;
-    height: 40px;
-}
-#message, 
-#successMsg{
-    float: left;
-}
-.danger .close{
-    float: right;
-    cursor: pointer;
-    color: #e3bfbf;
-}
-.success .close{
-    float: right;
-    cursor: pointer;
-    color: #bed8b9;
-}
-
-
-#msgUsername{
-    position: absolute;
-    margin-left: 100px;
-}
-#chkBox{
-    display: flex;
-    left: 0;
-    bottom: 0;
-    font-size: 18px;
-}
-#chkBox input{
-    position: relative;
-    height: 15px;
-    width: 40px;
-    outline: none;
-    border: 1px solid #ccc;
-    padding-left: 15px;
-    border-bottom-width: 2px;
-    transition: all 0.3s ease;
-
-}
-</style>
 
 

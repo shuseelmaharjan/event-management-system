@@ -6,14 +6,11 @@ require_once('header.php');
 
 <link rel="stylesheet" href="css/main.css">
 </head>
+
+<body>
 <?php
 require_once('nav.php');
 ?>
-<body>
-<body>
-    <?php
-        require_once('login.php');
-    ?>
     <div class="container" margin-top="70px" background-color="#73000E">
         <div class="heading">
             <h1>Get in Touch with Us </h1>
