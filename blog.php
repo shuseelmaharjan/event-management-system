@@ -10,11 +10,7 @@ require_once('header.php');
 require_once('nav.php');
 ?>
 <body>
-<body>
-    <?php
-        require_once('login.php');
-        require_once('signup.php');
-    ?>
+
     <div class="container" >
         <div class="wrapper">
             <div class="heading" id="trending">

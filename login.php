@@ -1,47 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMS | Login</title>
+    <link rel="stylesheet" href="css/log.css">
+</head>
+<body>
+<div class="logContainer">
+        <div class="wrapper" id="logWrapper">
+            <a href="index.php">
+            <img src="images/logo.webp" width="130px" alt="logo">
+            </a>
+            <div class="title">Login</div>
+
+        </div>
+        <form action="" method="post">
+            <div class="user-details">
+                <div class="input-box" id="logInput">
+                    <span class="details">Email:</span>
+                    <input type="text" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="input-box" id="logInput">
+                    <span class="details">Password:</span>
+                    <input type="password" name="password" id="password" placeholder="Password">
+                </div>
+            </div>
+            <div class="input-box" id="chkBox">
+                <div class="left">
+                    <input type="checkbox" onclick="showHide()"><span id="hideShow"></span>
+                </div>
+                <div class="right">
+                    <span><a href="forgetpassword.php">Forgot Password?</a></span>
+                </div>
+                    
+            </div>
+
+                <div class="danger" id="danger">
+                    <p id="message"></p>
+                    <div class="close" onclick="closeBtn()"><i class="fa-solid fa-xmark"></i></div>
+                </div>
+                <div class="success" id="success">
+                    <p id="successMsg"></p>
+                    <div class="close" onclick="closeBtn()"><i class="fa-solid fa-xmark"></i></div>
+                </div>
+            
+            <div class="button">
+                <input type="submit" onclick="userVerify()" value="Login">
+            </div>
+        </form>
+       
+        <div class="back">
+            <p>Don't have an account? <a href="register.php">Signup here.</a></p>
+        </div>
+
+</div>
+<!--javascript code-->
+<script>
+         document.getElementById("danger").style.display = "none";
+        document.getElementById("success").style.display = "none";
+        
+        document.getElementById("hideShow").innerText = "Show Password";
+
+        //close footer alert btns
+        function closeBtn(){
+            document.getElementById("danger").style.display="none";
+            document.getElementById("success").style.display= 'none';
+        }
+
+        //show and hide password
+        function showHide(){
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+                document.getElementById("hideShow").innerText = "Hide Password";
+            } else {
+                x.type = "password";
+                document.getElementById("hideShow").innerText = "Show Password";
+
+            }
+        }
+</script>
+<!--php code-->
 <?php
+require_once('php/connection.php'); // Include your database connection
+require_once('php/authentication.php'); // Include the UserAuthentication class
 
-require_once ('php/connection.php');
-require_once('header.php');
+$auth = new UserAuthentication($conn);
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    if ($auth->login($email, $password)) {
+        // Redirect to the index page upon successful login
+        header('Location: index.php');
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("danger").style.display="inline-block";';
+        echo 'document.getElementById("message").innerText = "Invalid Credientials";';
+        echo '</script>';
+    }
+}
 ?>
 
-<!--start of pop-up login form-->
-<div class="popup-login" id="popup-login">
-        <div class="popup">
-            <div class="closeBtn">
-                <a href="#" onclick="login_close()"><i class="fa-solid fa-xmark"></i></a>
-            </div>
-            <h1>Log in</h1>
-            <form action="#" method="post">
-                <label for="username">Email or Username:</label>
-                <input type="text" placeholder="Username or Email" name="username"><br>
 
-                <label for="password">Password:</label>
-                <input type="password" placeholder="Password" name="password"><br>
-                <button>
-                    Log in
-                    <div class="arrow-wrapper">
-                        <div class="arrow"></div>
-                
-                    </div>
-                </button> <br>
-                <div class="loginOption">
-                    <span><a href="#">Forget Password</a></span>
-                    <span>Not a member? <a href="#popup-signup" onclick="signupBtn()"> <strong>Sign Up</strong> here.</a></span>
-    
-                </div> 
-            </form>
-        </div>
-    </div>
-    <!--end of pop-up login form-->
-    <script>
-         console.log("Hello");
-        function loginbtn(){
-            document.getElementById('popup-login').style.display='inline';
-            console.log("login");
-        }
-        function login_close(){
-            document.getElementById('popup-login').style.display="none";
-            console.log("closeBtn");
-        }
-    </script>
+<style>
+   form .user-details{
+    margin-top: 50px;
+   }
+   #danger,
+   #success{
+    margin-top: 20px;
+   }
+</style>
+</body>
+</html>

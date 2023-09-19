@@ -80,7 +80,10 @@ body {
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
 }
-  
+#sidebar .sidebar-list a{
+    text-decoration: none;
+    color: #e6e8ed;
+}  
 .sidebar-title {
     display: flex;
     justify-content: space-between;
@@ -88,7 +91,7 @@ body {
     padding: 20px 20px 20px 20px;
     margin-bottom: 30px;
 }
-  
+
 .sidebar-title > span {
     display: none;
 }
@@ -114,11 +117,10 @@ body {
     cursor: pointer;
 }
   
-.sidebar-list-item > a {
+#sidebar .sidebar-list a{
     text-decoration: none;
     color: #9799ab;
 }
-  
 .sidebar-responsive {
     display: inline !important;
     position: absolute;
