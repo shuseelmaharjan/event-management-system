@@ -84,54 +84,27 @@
 </script>
 <!--php code-->
 <?php
+require_once('php/connection.php'); // Include your database connection
+require_once('php/authentication.php'); // Include the UserAuthentication class
 
-$login = false;
+$auth = new UserAuthentication($conn);
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    include 'php/connection.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
-    $password =     $_POST["password"]; 
-    
-     
-    // $sql = "Select * from users where username='$username' AND password='$password'";
-    $sql = "Select * from tbl_users where email='$email'";
-    $result = mysqli_query($conn, $sql);
-    $num = mysqli_num_rows($result);
-    if ($num == 1){
-        while($row=mysqli_fetch_assoc($result)){
-            if (password_verify($password, $row['password'])){ 
-                $login = true;
-                session_start();
-                $_SESSION['loggedin'] = true;
-                $_SESSION['username'] = $row['username'];
-                $username = $_SESSION['username'];
-                echo"$username";
-                
+    $password = $_POST["password"];
 
-                echo '<script>';
-                echo 'document.getElementById("success").style.display="inline-block";';
-                echo'document.getElementById("successMsg").innerText = "Success";';
-                echo '</script>';
-                header('Location: index.php');
-            } 
-            else{
-                echo '<script>';
-                echo 'document.getElementById("danger").style.display="inline-block";';
-                echo'document.getElementById("message").innerText = "Password doesnot match";';
-                echo '</script>';
-            }
-        }
-        
-    } 
-    else{
+    if ($auth->login($email, $password)) {
+        // Redirect to the index page upon successful login
+        header('Location: index.php');
+    } else {
         echo '<script>';
         echo 'document.getElementById("danger").style.display="inline-block";';
-        echo'document.getElementById("message").innerText = "Invalid Credientials";';
+        echo 'document.getElementById("message").innerText = "Invalid Credientials";';
         echo '</script>';
     }
 }
-    
 ?>
+
 
 <style>
    form .user-details{

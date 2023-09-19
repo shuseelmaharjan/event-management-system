@@ -1,7 +1,7 @@
 <?php
 
 // Usage
-include '../../php/connection.php'; // Include your database connection file
+include '../../php/connection.php';
 include 'authentication.php';
 $userAuth = new UserAuthentication($conn);
 
@@ -14,56 +14,41 @@ if($userAuth->isUserLoggedIn()){
 }
 
 
-$id = $userInfo['id'];
-$name = $_POST["name"];
-$email = $_POST["email"];
-$phone = $_POST["phone"];
-$dob = $_POST["dob"];
-$gender = $_POST["gender"];
-$fatherName = $_POST["fatherName"];
-$motherName = $_POST["motherName"];
-$tmpAddress = $_POST["tmpAddress"];
-$perAddress = $_POST["perAddress"];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+    
 
+    // Validate and sanitize POST data
+    $name = isset($_POST["name"]) ? ($_POST["name"] == 'N/A' ? '' : $_POST["name"]) : '';
+    $phone = isset($_POST["phone"]) ? ($_POST["phone"] == 'N/A' ? '' : $_POST["phone"]) : '';
+    $dob = isset($_POST["dob"]) ? ($_POST["dob"] == 'N/A' ? '' : $_POST["dob"]) : '';
+    $gender = isset($_POST["gender"]) ? ($_POST["gender"] == 'N/A' ? '' : $_POST["gender"]) : '';
+    $fatherName = isset($_POST["fatherName"]) ? ($_POST["fatherName"] == 'N/A' ? '' : $_POST["fatherName"]) : '';
+    $motherName = isset($_POST["motherName"]) ? ($_POST["motherName"] == 'N/A' ? '' : $_POST["motherName"]) : '';
+    $tmpAddress = isset($_POST["tmpAddress"]) ? ($_POST["tmpAddress"] == 'N/A' ? '' : $_POST["tmpAddress"]) : '';
+    $perAddress = isset($_POST["perAddress"]) ? ($_POST["perAddress"] == 'N/A' ? '' : $_POST["perAddress"]) : '';
 
-// Prepare the SQL statement using a prepared statement
-$sql = "UPDATE tbl_users SET 
-    name = ?,
-    email = ?,
-    phone = ?,
-    dob = ?,
-    gender = ?,
-    fatherName = ?,
-    motherName = ?,
-    tmpAddress = ?,
-    perAddress = ?
-    WHERE id = ?";
-
-$stmt = mysqli_prepare($conn, $sql);
-
-if ($stmt) {
-    // Bind the parameters to the prepared statement
-    mysqli_stmt_bind_param($stmt, "sssssssssi", $name, $email, $phone, $dob, $gender, $fatherName, $motherName, $tmpAddress, $perAddress, $id);
-
-    // Execute the statement
-    $result = mysqli_stmt_execute($stmt);
-
-    if ($result) {
-        header('refresh:2; url=http://localhost/eveproject/profile/manage.php');
-    } else {
-        echo "Update failed: " . mysqli_error($conn);
+    $query = "UPDATE tbl_users  SET
+      name = '$name',
+      phone= '$phone',
+      dob='$dob',
+      gender ='$gender',
+      fatherName = '$fatherName',
+      motherName = '$motherName',
+      tmpAddress = '$tmpAddress',
+      perAddress = '$perAddress'
+      WHERE username = '$username'
+    ";
+    $result = mysqli_query($conn, $sql);
+    if($result){
+      echo("Success");
+    }else{
+      echo("Failed");
     }
-
-    // Close the statement
-    mysqli_stmt_close($stmt);
-} else {
-    echo "Prepared statement failed.";
 }
-
-// Close the database connection at the end, if necessary
-mysqli_close($conn);
-
 ?>
+
+
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -108,6 +93,9 @@ mysqli_close($conn);
       <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
         <i class="checkmark">✓</i>
       </div>
+        <?php
+var_dump($userInfo['username']);
+        ?>
         <h1>Success</h1> 
         <p>Your KYC has been updated successfully.</p>
       </div>

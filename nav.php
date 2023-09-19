@@ -1,195 +1,139 @@
-<?php
-session_start();
-
-// if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
-//     header("location: index.php");
-//     exit;
-// }
-
-if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){
-  $loggedin= true;
-}
-else{
-  $loggedin = false;
-}
-
-
-
-      if(!$loggedin){
-       
-      echo '
-      <nav class="navbars">
-              <div class="nav">
-                  <!--logo-->
-                  <div class="logo">
-                      <a class="navbar-brand" href="index.php"><img src="images/logo-white.webp" alt="logo"></a>
-                  </div>
-                  <div class="navbar-nav">
-                      <div class="hamburger">
-                          <div class="toggle" id="toggle">
-                          <i class="fa-solid fa-bars"></i>
-                          </div>
-                      </div>
-                      <ul class="navlist">
-                          <li><a href="index.php">Home</a></li>
-                          <li><a href="events.php">Events</a></li>
-                          <li><a href="services.php">Services</a></li>
-                          <li><a href="blog.php">Blog</a></li>
-                          <li><a href="contact.php">Contact</a></li>
-                      </ul>
-                      <!--navbar-login-->
-                      
-                  </div>
-                  <div class="login" id="login">
-                      <!-- <span id="login"><i class="fa-solid fa-user"></i> Login</span> -->
-                      <a href="login.php" class="login-btn" ><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-                      <a href="register.php" class="signup-btn"><i class="fa-solid fa-user"></i> Register</a>
-                  </div>
-              <!--navbar-->
-              </div>
-          </nav>';
-      }
-      if($loggedin){
-        $username = $_SESSION['username'];
-        ?>
-        <nav class="navbars">
-        <div class="nav">
-            <!--logo-->
-            <div class="logo">
-                <a class="navbar-brand" href="index.php"><img src="images/logo-white.webp" alt="logo"></a>
-            </div>
-            <div class="navbar-nav">
-                <div class="hamburger">
-                    <div class="toggle" id="toggle">
-                    <i class="fa-solid fa-bars"></i>
-                    </div>
-                </div>
-                <ul class="navlist">
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="events.php">Events</a></li>
-                    <li><a href="services.php">Services</a></li>
-                    <li><a href="blog.php">Blog</a></li>
-                    <li><a href="contact.php">Contact</a></li>
-                </ul>
-                <!--navbar-login-->
-                
-            </div>
-            <?php
-            
-            ?>
-            <!-- <div class="users" id="users">
-                <span id="user" onclick="user()"><i class="fa-solid fa-user"></i>Welcome, <?php echo($username);?></span>
-                <a href="" onclick="userAccount()" id="account" class="login-btn" >Welcome <?php echo($username);?></a>
-                <div id="dropdownUser" class="dropdownUser">
-                    <a href="#">Account Settings</a>
-                    <a href="#">Profile</a>
-                    <a href="logout.php">Log Out</a>
-                </div>
-
-            </div> -->
-            <div class="dropdown">
-            <!-- <button class="dropbtn">Dropdown</button> -->
-            <span class="dropbtn"><i class="fa-solid fa-user"></i>Welcome, <?php echo($username);?></span>
-            <div class="dropdown-content">
-                <a href="profile/manage.php"><i class="fa-regular fa-face-smile"></i> Manage my account</a>
-                <a href="#"><i class="fa-solid fa-calendar"></i> My Reservations</a>
-                <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
-            </div>
-            </div>
-        <!--navbar-->
+<nav class="navbars">
+    <div class="nav">
+        <!-- Logo -->
+        <div class="logo">
+            <a class="navbar-brand" href="index.php"><img src="images/logo-white.webp" alt="logo"></a>
         </div>
-    </nav>
-    <?php
-    }
-?>
+        <div class="navbar-nav">
+            <div class="hamburger">
+                <div class="toggle" id="toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+            <ul class="navlist">
+                <li><a href="index.php">Home</a></li>
+                <li><a href="events.php">Events</a></li>
+                <li><a href="services.php">Services</a></li>
+                <li><a href="blog.php">Blog</a></li>
+                <li><a href="contact.php">Contact</a></li>
+            </ul>
+        </div>
+        <div class="login" id="login">
+            <?php
+            require_once('php/connection.php');
+            require_once('php/authentication.php');
+            $userAuth = new UserAuthentication($conn);
+
+            // validate if the user is logged in
+            $userAuth->validateUserLogin();
+
+            if($userAuth->isUserLoggedIn()){
+                $userInfo = $userAuth->getUserInfo();
+           
+                ?>
+                
+                <div class="user-profile" id="user-profile">
+                    <ul>
+                        <li>
+                        <img src="profile/<?php echo($userInfo['image'])?>" width="70px" alt="profile">
+                        <span id="username"><?php echo($userInfo['username']);?></span>
+                        <ul>
+                            <li><a href="profile/manage.php">Manage</a></li>
+                            <li><a href="logout.php">Logout</a></li>
+                        </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <?php
+            } else {
+
+                ?>
+
+                <?php
+                echo '<a href="login.php" class="login-btn"><i class="fa-solid fa-right-to-bracket"></i> Login</a>';
+                echo '<a href="register.php" class="signup-btn"><i class="fa-solid fa-user"></i> Register</a>';
+            }
+            ?>
+        </div>
+    </div>
+</nav>
+
+
+    
 <style>
    
-  .users{
-    width: 10%;
-    display: inline-block;
-    margin-top: 35px;
-    color: #fff;
-    text-align: center;
-    }  
-    #user i{
-        padding: 0px 10px
-    }
-    #user {
+ 
+    .login .user-profile{
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
         position: relative;
-        display: inline;
+    }
+ 
+    .user-profile img{
+        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-top: -15px;
+    }
+    .user-profile span{
+        margin-left: 10px;
+        color: #fff;
+
+    }
+   
+    
+    #user-profile ul {
+        list-style: none;
+        margin-top: -20px;
+        padding-left: 0;
+    }
+
+    #user-profile li {
+        color: #fff;
+        display: block;
+        float: left;
+        padding: 1rem;
+        position: relative;
+        text-decoration: none;
+        transition-duration: 0.5s;
+    }
+    
+    #user-profile li a {
+    color: #fff;
+    }
+
+    #user-profile li:hover {
         cursor: pointer;
     }
-    #dropdownUser{
+
+    #user-profile ul li ul {
+        background: blueviolet;
+        visibility: hidden;
+        opacity: 0;
+        min-width: 5rem;
+        position: absolute;
+        transition: all 0.5s ease;
+        margin-top: 1rem;
+        left: 0;
         display: none;
-        margin-top: 20px;
-        background-color: #fff;
-        color: #000;
     }
-    #user:hover #dropdownUser{
-        background-color: yellow;
-    }
-    #dropdownUser ul{
-        padding: 10px 0px;
-    }
-    #dropdownUser ul li{
-        padding: 15px 0px;
-    }
-    #dropdownUser ul li a{
-        text-decoration: none;
-        font-size: 18px;
-    }
-    .dropdownUser a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
+
+    #user-profile ul li:hover > ul,
+    #user-profile ul li ul:hover {
+        visibility: visible;
+        opacity: 1;
         display: block;
-    }
-
- 
-    .dropbtn {
-        color: #fff;
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-    }
-    .dropbtn i{
-        padding: 0px 15px;
-    }
-    .dropdown {
-        position: relative;
-        display: inline-block;
-        padding: 33px 0px;
-        width: 20%;
-        text-align: center;
-    }
-
-    .dropdown-content {
-        display: none;
-        /* position: absolute; */
-        background-color: #f1f1f1;
-        width: 250px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-        margin: 20px auto 0px auto;
-        text-align: left;
-    }
-    .dropdown-content a i{
-        color: #a80b59;
-        padding: 0px 10px;
-    }
-    .dropdown-content a {
         color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-        font-size: 16px;
     }
 
-.dropdown-content a:hover {background-color: #ddd;}
-
-.dropdown:hover .dropdown-content {display: block;}
-
-</style>
-<script>
+    #user-profile ul li ul li {
+        clear: both;
+        width: 100%;
+    }
     
-</script>
+</style>
+

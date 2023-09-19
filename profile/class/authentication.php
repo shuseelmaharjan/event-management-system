@@ -12,7 +12,7 @@ class UserAuthentication {
     }
 
     public function redirectToLogin() {
-        header('Location: ../login.php'); // Replace 'login.php' with your login page URL
+        header('Location: ../login.php'); 
         exit();
     }
 

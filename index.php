@@ -1,7 +1,7 @@
 <?php
 
-require_once ('php/connection.php');
 require_once('header.php');
+
 require_once('nav.php');
 
 ?>

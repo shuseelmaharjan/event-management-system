@@ -21,13 +21,30 @@
         </div>
         <div class="dropdown">
             <?php
-            // Assuming $userAuth is an instance of UserAuthentication with validateUserLogin called.
-            if ($userAuth->isUserLoggedIn()) {
-                $userInfo = $userAuth->getUserInfo();
-                $username = isset($userInfo['username']) ? $userInfo['username'] : '';
-                echo '<span class="dropbtn"><i class="fa-solid fa-user"></i>Welcome, ' . htmlspecialchars($username) . '</span>';
-            }
+                if ($userAuth->isUserLoggedIn()) {
+                    $userInfo = $userAuth->getUserInfo();
+                    $username = isset($userInfo['username']) ? $userInfo['username'] : '';
+                    
+                    // default profile image path here
+                    $defaultProfileImagePath = 'class/uploads/default.png';
+
+                    $userImage = isset($userInfo['image']) ? $userInfo['image'] : $defaultProfileImagePath;
+
+                    // echo '<span class="dropbtn"><div class="profile">
+                    //     <img src="' . htmlspecialchars($userImage) . '">
+                    // </div>' . htmlspecialchars($username) . '</span>';
+                
+                    ?>
+                    <span class="dropbtn">
+                        <img src="<?php echo(htmlspecialchars($userImage)) ?>"  alt="profile">
+                        <p><?php echo(htmlspecialchars($username));?></p>
+                        
+
+                    </span>
+                    <?php
+                }
             ?>
+
         </div>
         <!--navbar-->
     </div>
@@ -79,23 +96,33 @@
     }
 
  
-    .dropbtn {
-        color: #fff;
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-    }
-    .dropbtn i{
-        padding: 0px 15px;
-    }
+   
     .dropdown {
         position: relative;
-        display: inline-block;
+        display: flex;
+        justify-content: center;
         padding: 33px 0px;
         width: 20%;
         text-align: center;
     }
-
+    .dropbtn {
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        display: flex;
+        cursor: pointer;
+    }
+    .dropbtn img{
+        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-top: -15px;
+    }
+    .dropbtn p{
+        margin-left: 10px;
+    }
     .dropdown-content {
         display: none;
         /* position: absolute; */

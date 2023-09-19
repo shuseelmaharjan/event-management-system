@@ -303,9 +303,14 @@
                         $insertStmt->execute();
 
                         echo '<script>';
-                        echo 'document.getElementById("success").style.display="inline-block";';
-                        echo'document.getElementById("successMsg").innerText = "Account Created Successfully.";';
+                        echo 'document.getElementById("success").style.display = "inline-block";';
+                        echo 'document.getElementById("successMsg").innerText = "Account Created Successfully.";';
+                        echo 'setTimeout(function () {';
+                        echo '    window.location.href = "http://localhost/eveproject/login.php";';
+                        echo '}, 3000);';
                         echo '</script>';
+
+                       
                     }
                 }
             }
