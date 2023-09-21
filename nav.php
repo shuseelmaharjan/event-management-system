@@ -19,7 +19,7 @@
             </ul>
         </div>
         <div class="login" id="login">
-            <?php
+        <?php
             require_once('php/connection.php');
             require_once('php/authentication.php');
             $userAuth = new UserAuthentication($conn);
@@ -27,34 +27,36 @@
             // validate if the user is logged in
             $userAuth->validateUserLogin();
 
-            if($userAuth->isUserLoggedIn()){
+            if ($userAuth->isUserLoggedIn()) {
                 $userInfo = $userAuth->getUserInfo();
-           
+
+                $imagePath = $userInfo['image'];
+                if (!file_exists($imagePath)) {
+                    // If the user's image doesn't exist, use a default image
+                    $imagePath = 'profile/uploads/default.png'; // Change this to the path of your default image
+                }
                 ?>
-                
+
                 <div class="user-profile" id="user-profile">
                     <ul>
                         <li>
-                        <img src="profile/<?php echo($userInfo['image'])?>" width="70px" alt="profile">
-                        <span id="username"><?php echo($userInfo['username']);?></span>
-                        <ul>
-                            <li><a href="profile/manage.php">Manage</a></li>
-                            <li><a href="logout.php">Logout</a></li>
-                        </ul>
+                            <img src="<?php echo ($imagePath); ?>" width="70px" alt="profile">
+                            <span id="username"><?php echo $userInfo['username']; ?></span>
+                            <ul>
+                                <li><a href="profile/manage.php">Manage</a></li>
+                                <li><a href="logout.php">Logout</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
 
                 <?php
             } else {
-
-                ?>
-
-                <?php
                 echo '<a href="login.php" class="login-btn"><i class="fa-solid fa-right-to-bracket"></i> Login</a>';
                 echo '<a href="register.php" class="signup-btn"><i class="fa-solid fa-user"></i> Register</a>';
             }
-            ?>
+        ?>
+
         </div>
     </div>
 </nav>
@@ -62,7 +64,79 @@
 
     
 <style>
-   
+    .navbars{
+        font-family: 'Ubuntu', sans-serif;
+        position: absolute;
+        z-index: 2;
+        font-size: 16px;
+        font-weight: 400;
+        width: 100%;
+        height: 70px;
+        border-bottom: 1px solid #ffffff62;
+
+    }
+    .navbars .nav{
+        width: 100%;
+        position: absolute;
+        display: flex;
+    }
+    /**************** start of logo *****************/
+    .navbars .logo{
+        width: 20%;
+        margin-left: 5%;
+        padding: 20px 0px 0px 0px;
+    }
+    .navbars a img{
+        width: 150px;
+        position: absolute;
+        align-items: center;
+    }
+    /**************** end of logo *****************/
+    /**************** start of navlist *****************/
+    .navbar-nav .hamburger{
+        display: none;
+    }
+    .navbars .navbar-nav{
+        width: 60%;
+        display: inline;
+        margin-top: 35px;
+    }
+    .navbars .navbar-nav ul{
+        float: right;
+    }
+    .navbars .navbar-nav ul li{
+        list-style: none;
+        float: left;
+        padding: 0px 20px;
+    }
+    .navbars .navbar-nav ul li a{
+        color: #fff;
+        text-decoration: none;
+    }
+    #login::before {
+        content: "";
+        background-color: #fff;
+        position: absolute;
+        width: 1px;
+        height: 25px;
+        top: 30px;
+        display: block;
+    }
+    /**************** end of navlist *****************/
+    /**************** start of account login/signup *****************/
+    .nav .login{
+        width: 20%;
+        display: inline;
+        margin-top: 35px;
+    }  
+    .nav .login a{
+        text-decoration: none;
+        color: #fff;
+        padding: 0px 20px;
+    }
+    .nav .login a i{
+        margin-right: 5px;
+    }
  
     .login .user-profile{
         display: flex;

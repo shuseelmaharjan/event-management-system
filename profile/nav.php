@@ -26,17 +26,30 @@
                     $username = isset($userInfo['username']) ? $userInfo['username'] : '';
                     
                     // default profile image path here
-                    $defaultProfileImagePath = 'class/uploads/default.png';
+                    $defaultProfileImagePath = 'uploads/default.png';
 
                     $userImage = isset($userInfo['image']) ? $userInfo['image'] : $defaultProfileImagePath;
 
-                    // echo '<span class="dropbtn"><div class="profile">
-                    //     <img src="' . htmlspecialchars($userImage) . '">
-                    // </div>' . htmlspecialchars($username) . '</span>';
+
                 
                     ?>
                     <span class="dropbtn">
-                        <img src="<?php echo(htmlspecialchars($userImage)) ?>"  alt="profile">
+                    <?php
+						if (!empty($userInfo["image"]) ) {
+							?>
+							<div class="exist">
+								<img src="<?php echo($userInfo["image"]);?>" alt="profile">
+							</div>
+							<?php
+						} else {
+							?>
+							<div class="default">
+								<img src="uploads/default.png"  alt="default img">
+							</div>
+							<?php
+						}
+					?>
+                        <!-- <img src="<?php echo(htmlspecialchars($userImage)) ?>"  alt="profile"> -->
                         <p><?php echo(htmlspecialchars($username));?></p>
                         
 

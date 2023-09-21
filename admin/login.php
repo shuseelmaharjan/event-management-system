@@ -1,5 +1,5 @@
 <?php
-include('../php/connection.php');
+require_once('../php/connection.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +32,7 @@ include('../php/connection.php');
             <div class="bg-white rounded-lg shadow-sm p-5">
               
                 <div id="nav-tab-card" class="tab-pane fade show active">
-                  <form role="form" action="php/validation.php" method="post" enctype="multipart/form-data">
+                  <form role="form" action="" method="post" enctype="multipart/form-data">
 
                   
                     <div class="form-group">
@@ -60,17 +60,36 @@ include('../php/connection.php');
                     <br>    
                     <div class="etc-login-form">
                         <p>Forgot your password? <a href="#">Click here</a></p>
+                        <p>Create an account <a href="signup.php">Signup</a></p>
                     </div>
-                
-                    <?php
-                    if(isset($_GET['error'])){?>
-                      <div id="error" class="alert alert-danger">
-                      <?php echo $_GET['error']?>
-                      <button type="button" class="close" id="closeBtn" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true" onclick="closeBtn()"><i class="fa-sharp fa-solid fa-xmark"></i></span>
-                      </button>
-                      </div>
-                    <?php } ?>                    
+                  </form>
+                  <?php
+                      require_once('php/authentication.php'); 
+
+                    
+
+                      // Create instances of the UserRepository and LoginService classes
+                      $userRepository = new UserRepository($conn);
+                      $loginService = new LoginService($userRepository);
+
+                      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        $username = $_POST["username"];
+                        $password = $_POST['password'];
+                    
+                        $loginService = new LoginService($userRepository);
+                        if ($loginService->login($username, $password)) {
+                            // Login successful, redirect to a page
+                            header('Location: index.php');
+                            exit();
+                        } else {
+                            // Login failed, display an error message
+                            echo "Invalid credentials";
+                        }
+                    }
+                    
+                      ?>
+                      <!-- Your HTML login form goes here -->
+                                                      
                   </div>
                 </div>
                 <!-- End -->

@@ -1,23 +1,19 @@
 <?php
-include('../php/connection.php');
-// Start session
-session_start();
-
-// Check do the person logged in
-if($_SESSION['username']==NULL){
-    // Haven't log in
-    echo('<script>alert("login first");</script>');
-    header('location: login.php');
-    exit;
-}
-
-include('header.php');
-include('sidebar.php');
-
+require_once('header.php');
+require_once('sidebar.php');
 ?>
-<!--start of container-->
-<div class="main-container">
-    <div class="main-title">
-        <p class="font-weight-bold">Settings</p>
-    </div>
+<div class="main">
+        <div class="main-header">
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class='bx bx-menu-alt-right'></i>
+            </div>
+            <div class="main-title">
+                Settings
+            </div>
+        </div>
+  
 </div>
+
+<?php
+require_once('footer.php');
+?>

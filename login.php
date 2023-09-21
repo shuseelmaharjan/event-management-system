@@ -82,10 +82,10 @@
             }
         }
 </script>
-<!--php code-->
+
 <?php
-require_once('php/connection.php'); // Include your database connection
-require_once('php/authentication.php'); // Include the UserAuthentication class
+require_once('php/connection.php'); 
+require_once('php/authentication.php'); 
 
 $auth = new UserAuthentication($conn);
 
@@ -94,7 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     if ($auth->login($email, $password)) {
-        // Redirect to the index page upon successful login
         header('Location: index.php');
     } else {
         echo '<script>';

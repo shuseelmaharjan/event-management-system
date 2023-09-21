@@ -1,23 +1,69 @@
 <?php
-include('../php/connection.php');
-// Start session
-session_start();
-
-// Check do the person logged in
-if($_SESSION['username']==NULL){
-    // Haven't log in
-    echo('<script>alert("login first");</script>');
-    header('location: login.php');
-    exit;
-}
-
-include('header.php');
-include('sidebar.php');
-
+require_once('header.php');
+require_once('sidebar.php');
 ?>
-<!--start of container-->
-<div class="main-container">
-    <div class="main-title">
-        <p class="font-weight-bold">Booking</p>
-    </div>
+<div class="main">
+        <div class="main-header">
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class='bx bx-menu-alt-right'></i>
+            </div>
+            <div class="main-title">
+                Booking
+            </div>
+        </div>
+        <div class="main-content">
+            
+            <div class="row">
+               
+                <div class="col-12">
+                    <!-- ORDERS TABLE -->
+                    <div class="box">
+                        <div class="box-header">
+                            Recent Events
+                        </div>
+                        <div class="box-body overflow-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Organizers</th>
+                                        <th>Venue</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Payment status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#2345</td>
+                                        <td>
+                                            <div class="order-owner">
+                                                <span>tuat tran anh</span>
+                                            </div>
+                                        </td>
+                                        <td>Lazimpath</td>
+                                        <td>2021-05-09</td>
+                                        <td>Concert</td>
+                                        <td>
+                                            <div class="payment-status payment-pending">
+                                                <div class="dot"></div>
+                                                <span>Pending</span>
+                                            </div>
+                                        </td>
+                                        <td><a href="#">View Details</a></td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- END ORDERS TABLE -->
+                </div>
+            </div>
+        </div>
 </div>
+
+<?php
+require_once('footer.php');
+?>
