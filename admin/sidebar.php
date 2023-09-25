@@ -2,13 +2,15 @@
 require_once('../php/connection.php');
 require_once('php/authentication.php');
 
-if (User::isLoggedIn()) {
-    // The user is logged in
-} else {
-    // The user is not logged in
-    echo("login first");
-}
+$userAuth = new UserAuthentication($conn);
+$userAuth->validateUserLogin();
 
+if($userAuth->isUserLoggedIn()){
+    $userInfo = $userAuth->getUserInfo();
+}else{
+    echo("Login First");
+    header("Location: login.php");
+}
 ?>
 
     <!-- SIDEBAR -->
@@ -19,19 +21,12 @@ if (User::isLoggedIn()) {
                 <i class='bx bx-left-arrow-alt'></i>
             </div>
         </div>
-        <div class="sidebar-user">
-            <div class="sidebar-user-info">
-                <img src="./images/user-image.jpg" alt="User picture" class="profile-image">
-                <div class="sidebar-user-name">
-                    Admin
-                </div>
-            </div>
-        </div>
+       
 
         <!-- SIDEBAR MENU -->
         <ul class="sidebar-menu" id="menu">
             <li>
-                <a href="index.php" class="active">
+                <a href="index.php">
                     <i class="fa-solid fa-house"></i>
                     <span>Dashboard</span>
                 </a>
@@ -153,3 +148,22 @@ if (User::isLoggedIn()) {
         <!-- END SIDEBAR MENU -->
     </div>
     <!-- END SIDEBAR -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const activePage = window.location.pathname;
+        console.log(activePage);
+         // Function to add the 'active' class to the appropriate menu item
+    function setActiveMenuItem() {
+        const links = document.querySelectorAll('.sidebar-menu a');
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            if (activePage === href) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // Call the function to set the active menu item
+    setActiveMenuItem();
+});
+    </script>

@@ -66,26 +66,23 @@ require_once('../php/connection.php');
                   <?php
                       require_once('php/authentication.php'); 
 
-                    
+                      $auth = new UserAuthentication($conn);
 
-                      // Create instances of the UserRepository and LoginService classes
-                      $userRepository = new UserRepository($conn);
-                      $loginService = new LoginService($userRepository);
-
-                      if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        $username = $_POST["username"];
+                      if($_SERVER["REQUEST_METHOD"] == "POST"){
+                        $username = $_POST['username'];
                         $password = $_POST['password'];
-                    
-                        $loginService = new LoginService($userRepository);
-                        if ($loginService->login($username, $password)) {
-                            // Login successful, redirect to a page
-                            header('Location: index.php');
-                            exit();
-                        } else {
-                            // Login failed, display an error message
-                            echo "Invalid credentials";
+
+                        if($auth->login($username, $password)){
+                          header('Location: index.php');
+                        }else{
+                          echo'Login First';
+                          header('login.php');
                         }
-                    }
+                      }
+
+                    
+
+                      
                     
                       ?>
                       <!-- Your HTML login form goes here -->

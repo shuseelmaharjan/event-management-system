@@ -1,87 +1,63 @@
 <?php
-class User {
-    private $id;
-    private $username;
-    private $password;
+class UserAuthentication {
+    private $conn;
 
-    public function __construct($id, $username, $password) {
-        $this->id = $id;
-        $this->username = $username;
-        $this->password = $password;
+    public function __construct($dbConnection) {
+        $this->conn = $dbConnection;
+        session_start();
     }
 
-    public function getId() {
-        return $this->id;
-    }
-
-    public function getUsername() {
-        return $this->username;
-    }
-
-    public function getPassword() {
-        return $this->password;
-    }
-    public static function isLoggedIn() {
-        return isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
-    }
-}
-
-
-class UserRepository {
-    private $db;
-
-    public function __construct($db) {
-        $this->db = $db;
-    }
-
-    public function getUserByUsername($username) {
-        $query = "SELECT id, username, password FROM tbl_admin WHERE username = ?";
-        $stmt = $this->db->prepare($query);
+    public function login($username, $password) {
+        $sql = "SELECT * FROM tbl_admin WHERE username = ?";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows == 1) {
+        if ($result->num_rows === 1) {
             $row = $result->fetch_assoc();
-            return new User($row['id'], $row['username'], $row['password']);
+            if (password_verify($password, $row['password'])) {
+                $_SESSION['loggedin'] = true;
+                $_SESSION['username'] = $row['username'];
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isUserLoggedIn() {
+        return isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+    }
+    public function redirectToLogin() {
+        header('Location: login.php'); 
+        exit();
+    }
+    
+
+    public function validateUserLogin() {
+        if (!$this->isUserLoggedIn()) {
+            
+        }
+    }
+
+
+    public function getUserInfo() {
+        if ($this->isUserLoggedIn()) {
+            $username = $_SESSION['username'];
+
+            $sql = "SELECT * FROM tbl_admin WHERE username = '$username'";
+            $result = mysqli_query($this->conn, $sql);
+            if($result && mysqli_num_rows($result) == 1){
+                return mysqli_fetch_assoc($result);
+            }else{
+                return false;
+            }
         } else {
             return null;
         }
     }
-    public function insertUser($username, $password) {
-        $query = "INSERT INTO tbl_admin (username, password) VALUES (?, ?)";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("ss", $username, $password);
-        
-        return $stmt->execute();
-    }
-    
 }
 
-
-class LoginService {
-    private $userRepository;
-
-    public function __construct($userRepository) {
-        $this->userRepository = $userRepository;
-    }
-
-    public function login($username, $password) {
-        // Get user data by username
-        $user = $this->userRepository->getUserByUsername($username);
-
-        if ($user !== null) {
-            // Verify the provided password against the stored password
-            if (password_verify($password, $user->getPassword())) {
-                $_SESSION['loggedin'] = true;
-                $_SESSION['username'] = $username;
-                return true; // Login successful
-            }
-        }
-
-        return false; // Login failed
-    }
-}
 
 
 class SignupService {
@@ -94,7 +70,7 @@ class SignupService {
     public function signup($username, $password) {
         // Check if the username is already taken
         if ($this->userRepository->getUserByUsername($username) !== null) {
-            return false; // Username is already in use
+            return false; 
         }
 
         // Hash the password before storing it in the database
@@ -111,20 +87,71 @@ class BlogPost {
     public function __construct($db) {
         $this->db = $db;
     }
-
-    public function insertBlogPost($title, $author, $publishDate, $description, $image) {
-        $query = "INSERT INTO tbl_blog (post_title, author_name, publish_date, description, image) VALUES (?, ?, ?, ?, ?)";
+    //for create
+    public function insertBlogPost($title, $author, $publishDate, $publish_time, $description, $image) {
+        $query = "INSERT INTO tbl_blog (post_title, author_name, publish_date, publish_time, description, image) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param("sssss", $title, $author, $publishDate, $description, $image);
-
+        if (!$stmt) {
+            die("Error in SQL query: " . $this->db->error);
+        }
+        $stmt->bind_param("ssssss", $title, $author, $publishDate, $publish_time, $description, $image);
+    
         if ($stmt->execute()) {
-            echo("data inserted sueecssfully");
-            return true; 
+            echo "Data inserted successfully";
+            return true;
         } else {
-            echo("failed to insert");
+            echo "Failed to insert data: " . $stmt->error;
             return false;
         }
     }
+    
+
+    //for read
+    public function getAllBlogPosts() {
+        $sql = "SELECT id, post_title, author_name, publish_date FROM tbl_blog";
+        $result = mysqli_query($this->db, $sql);
+
+        if (!$result) {
+            return false; 
+        }
+
+        $blogPosts = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $blogPosts[] = $row;
+        }
+
+        return $blogPosts;
+    }
+    //for update
+    public function updateBlogPost($id, $title, $author, $publishDate, $description, $image) {
+        $query = "UPDATE tbl_blog SET post_title=?, author_name=?, publish_date=?, description=?, image=? WHERE id=?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("sssssi", $title, $author, $publishDate, $description, $image, $id);
+    
+        if ($stmt->execute()) {
+            echo "Blog post updated successfully";
+            return true;
+        } else {
+            echo "Failed to update blog post";
+            return false;
+        }
+    }
+    //for delete
+    public function deleteBlogPost($id) {
+        $query = "DELETE FROM tbl_blog WHERE id=?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("i", $id);
+    
+        if ($stmt->execute()) {
+            echo "Blog post deleted successfully";
+            return true;
+        } else {
+            echo "Failed to delete blog post";
+            return false;
+        }
+    }
+    
+
 }
 
 ?>
