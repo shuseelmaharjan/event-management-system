@@ -1,15 +1,21 @@
 :root {
     --body-bg: #fafafb;
     --box-bg: #ffffff;
-    --main-color: #0652dd;
+    --main-color: #a10e55;
     --btn-edit: #1177aa;
     --btn-view: #06b47d;
     --btn-delete: #b90f0f;
     --text-color: #455560;
+    --tbl-thead: #1A0051;
     --text-second-color: #72849ab3;
-    --border-color: #e9e9e9;
-    --menu-item-active-bg: rgba(62, 121, 247, 0.1);
-
+    --sidebar-color: #061945b3;
+    --sidebar-active-color: #ffffff;
+    --sidebar-hover-color: #ffffff;
+    --sidebar-background-color: #22a613;
+    --border-color: #b1b1b1;
+    --menu-item-active-bg: rgba(201, 247, 62, 0.1);
+    --gradient-bg:linear-gradient(to right, #02266C , #1A0051);
+    --inversegradient-bg:linear-gradient(to right, #1A0051, #02266C );
     --box-border-radius: 15px;
     --sidebar-size: 300px;
     --sidebar-logo-img-size: 45px;
@@ -39,7 +45,7 @@ a{
 }
 
 .sidebar{
-    background-color: var(--box-bg);
+    background-image: linear-gradient(45deg, #02266C , #1A0051);
     position: fixed;
     top: 0;
     left: 0;
@@ -113,7 +119,6 @@ a{
     background-color: var(--main-color);
     color: #fff;
 }
-
 .sidebar-menu {
     padding: 10px 0;
     list-style-type: none;
@@ -129,16 +134,17 @@ a{
     font-weight: 400;
     text-transform: capitalize;
     transition: color 0.2s ease-in-out;
+    color: var(--border-color);
 }
 
 .sidebar-menu > li > a.active {
-    background-color: var(--menu-item-active-bg);
-    color: var(--main-color);
+    background-color: var(--sidebar-background-color);
+    color: var(--sidebar-active-color);
     border-right: 4px solid var(--main-color);
 }
 
 .sidebar-menu > li > a:hover {
-    color: var(--main-color);
+    color: var(--sidebar-hover-color);
 }
 
 .sidebar-menu li a i {
@@ -198,7 +204,7 @@ a{
 }
 
 .sidebar-menu > li > a:hover > .dropdown-icon {
-    --color: var(--main-color);
+    --color: var(--box-bg);
 }
 
 .sidebar-menu-dropdown-content {
@@ -304,6 +310,19 @@ a{
 .deleteData form .confirm{
     background: var(--btn-delete);
 }
+
+.popup .closeBtn{
+    z-index: 9999;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
+    font-size: 1.5rem;
+}
+.popup .closeBtn i{
+    margin: 30px;
+    cursor: pointer;
+}
 .popupForm form input{
     height: 45px;
     width: 100%;
@@ -389,6 +408,9 @@ a{
     padding: 20px;
     background-color: var(--box-bg);
     box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .mobile-toggle {
@@ -401,20 +423,29 @@ a{
 }
 
 .main-content {
-    padding: 20px;
+    padding: 10px 20px;
+    height: calc(100vh - var(--main-header-height));
+    overflow-y: auto;
 }
 
 .box {
     background-color: var(--box-bg);
-    padding: 20px;
-    border: 0.5px solid var(--border-color);
+    padding: 20px 20px 10px 20px;
+    border: none;
     border-radius: var(--box-border-radius);
+    margin: 10px 0px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 .box-hover:hover {
     border-color: var(--main-color);
 }
-
+#top-row{
+    padding: 0px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 0px;
+    border: none;
+}
 .counter-title {
     margin-bottom: 20px;
     text-transform: capitalize;
@@ -495,6 +526,12 @@ table {
     width: 100%;
     min-width: 1000px;
 }
+table thead{
+    background: var(--sidebar-background-color);
+    color: var(--body-bg);
+    border: 1px solid var(--border-color);
+
+}
 
 .order-owner {
     display: flex;
@@ -516,24 +553,36 @@ table thead tr {
 
 table th,
 table td {
+
     padding: 10px 0;
     border-bottom: 1px solid var(--border-color);
 }
 table td a{
     color: #fff;
-    padding: 10px;
+    padding: 5px;
     border: none;
     cursor: pointer;
+    margin: 0px 5px;
 }
 table td .view {
     background: var(--btn-view);
     border: none;
+
 }
 table td .edit {
     background: var(--btn-edit);
 }
 table td .delete {
     background-color: var(--btn-delete);
+
+}
+table thead .center,
+table tbody .center{
+    text-align: center;
+}
+table thead .left,
+table tbody .left{
+    padding-left: 20px;
 }
 .order-status {
     padding: 5px 15px;

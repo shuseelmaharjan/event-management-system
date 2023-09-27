@@ -154,4 +154,78 @@ class BlogPost {
 
 }
 
+class eventType{
+    private $db;
+    public function __construct($db){
+        $this->db = $db;
+    }
+
+    //data insertion
+    public function insertType($name){
+        $count = 0; 
+        $checkQuery = "SELECT COUNT(*) FROM tbl_types WHERE name = ?";
+        $checkStmt = $this->db->prepare($checkQuery);
+        if(!$checkStmt){
+            die("Error checking if Event Type already exists: " . $this->db->error);
+        }
+        $checkStmt->bind_param("s", $name);
+        $checkStmt->execute();
+        $checkStmt->bind_result($count);
+        $checkStmt->fetch();
+        $checkStmt->close();
+    
+        if ($count > 0) {
+            echo "This name already exist";
+            return false;
+        } else {
+            $insertQuery = "INSERT INTO tbl_types (name) VALUES(?)";
+            $insertStmt = $this->db->prepare($insertQuery);
+            if(!$insertStmt){
+                die("data already on database");
+            }
+            $insertStmt->bind_param("s", $name);
+            if($insertStmt->execute()){
+                return true;
+            }else{
+                echo "data not inserted.";
+                return false;
+            }
+        }
+    }
+    
+    //read
+    public function getallType(){
+        $query = "SELECT * FROM tbl_types ORDER BY name ASC";
+        $result = mysqli_query($this->db, $query);
+
+        if(!$result){
+            return false;
+        }
+        $getTypes = array();
+        while($row = mysqli_fetch_assoc($result)){
+            $getTypes[] = $row;
+        }
+        return $getTypes;
+
+    }
+    public function deleteType($typeID){
+        $query = "DELETE FROM tbl_types WHERE type_id = ?";
+        $stmt = $this->db->prepare($query);
+        
+        if(!$stmt){
+            die("Error preparing delete statement: " . $this->db->error);
+        }
+
+        $stmt->bind_param("i", $typeID);
+
+        if($stmt->execute()){
+            return true;
+            
+        }else{
+            echo "Data not deleted: ";
+            return false; 
+        }
+    }
+    
+}
 ?>

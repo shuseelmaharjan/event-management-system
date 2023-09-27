@@ -101,13 +101,13 @@ require_once('sidebar.php');
 
         var gridContainer = document.querySelector(".grid-container");
 
-        // Create the box-header (first row)
+        // create the box-header (first row)
         var boxHeader = document.createElement("div");
         boxHeader.classList.add("row", "box-header");
         boxHeader.innerHTML = '<div class="col">Package ' + packageCounter + '</div>';
         gridContainer.appendChild(boxHeader);
 
-        // Create the second row with three columns 
+        // create the second row with three columns 
         var packageRow = document.createElement("div");
         packageRow.classList.add("packages");
         
@@ -129,7 +129,7 @@ require_once('sidebar.php');
         packageRow.appendChild(col3);
         gridContainer.appendChild(packageRow);
 
-        // Create the third row with one column for textarea
+        // create the third row with one column for textarea
         var descriptionRow = document.createElement("div");
         descriptionRow.classList.add("package");
 
@@ -151,37 +151,46 @@ require_once('sidebar.php');
 
 require_once('../php/connection.php');
 
-$db=$conn;
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve data from the form
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["addservices"])) {
+    // Process the service data and insert into tbl_service
     $serviceName = $_POST["serviceName"];
     $serviceType = $_POST["serviceType"];
-    $banner = $_POST["banner"];
     $serviceDescription = $_POST["serviceDescription"];
 
-    // Insert data into tbl_services
-    $insertServiceSQL = "INSERT INTO tbl_services (name, type, image, description) VALUES (?, ?, ?, ?)";
-    $stmt = $db->prepare($insertServiceSQL);
-    $stmt->execute([$serviceName, $serviceType, $banner, $serviceDescription]);
+    // Handle the file upload (banner)
+    $uploadDir = "uploads/"; // Specify your upload directory
+    $bannerFileName = $_FILES["banner"]["name"];
+    $bannerFilePath = $uploadDir . $bannerFileName;
 
-    // Retrieve the auto-generated ID of the inserted service
-    $serviceId = $db->lastInsertId();
+    if (move_uploaded_file($_FILES["banner"]["tmp_name"], $bannerFilePath)) {
+        // Insert data into tbl_service
+        $sqlService = "INSERT INTO tbl_service (service_name, service_type, banner, description) VALUES (?, ?, ?, ?)";
+        $stmtService = mysqli_prepare($conn, $sqlService);
+        mysqli_stmt_bind_param($stmtService, "ssss", $serviceName, $serviceType, $bannerFilePath, $serviceDescription);
+        mysqli_stmt_execute($stmtService);
+        mysqli_stmt_close($stmtService);
 
-    // Insert data into tbl_packages (You need to adapt this part based on your form structure)
-    for ($i = 1; $i <= 4; $i++) {
-        $packageName = $_POST["name" . $i];
-        $packageCost = $_POST["cost" . $i];
-        $guestLimit = $_POST["guest" . $i];
-        $packageDescription = $_POST["description" . $i];
+        // Insert package data into tbl_packages (loop through packages)
+        for ($i = 1; $i <= 4; $i++) {
+            $packageName = $_POST["name$i"];
+            $packageCost = $_POST["cost$i"];
+            $guestLimit = $_POST["guest$i"];
+            $packageDescription = $_POST["description$i"];
 
-        $insertPackageSQL = "INSERT INTO tbl_packages (name, cost, guest, description, ser_id) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $db->prepare($insertPackageSQL);
-        $stmt->execute([$packageName, $packageCost, $guestLimit, $packageDescription, $serviceId]);
+            $sqlPackage = "INSERT INTO tbl_packages (package_name, package_cost, guest_limit, description) VALUES (?, ?, ?, ?)";
+            $stmtPackage = mysqli_prepare($conn, $sqlPackage);
+            mysqli_stmt_bind_param($stmtPackage, "siss", $packageName, $packageCost, $guestLimit, $packageDescription);
+            mysqli_stmt_execute($stmtPackage);
+            mysqli_stmt_close($stmtPackage);
+        }
+
+        // Redirect to a success page or perform other actions
+        header("Location: success.php");
+        exit;
+    } else {
+        echo "Error uploading the banner image.";
     }
-    
-    echo "Data inserted successfully!";
 }
-
 
 require_once('footer.php');
 ?>

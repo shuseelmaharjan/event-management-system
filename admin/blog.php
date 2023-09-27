@@ -92,94 +92,88 @@ require_once('sidebar.php');
                             All Posted Blogs
                         </div>
                         <div class="box-body overflow-scroll">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th>Date of Published</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <?php
-// Number of records per page
-$recordsPerPage = 10;
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Author</th>
+                                        <th>Date of Published</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <?php
+                                    // Number of records per page
+                                    $recordsPerPage = 10;
 
-// Get the current page number from the URL
-if (isset($_GET['page']) && is_numeric($_GET['page'])) {
-    $currentPage = $_GET['page'];
-} else {
-    $currentPage = 1;
-}
+                                    // Get the current page number from the URL
+                                    if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+                                        $currentPage = $_GET['page'];
+                                    } else {
+                                        $currentPage = 1;
+                                    }
 
-// Calculate the offset for the SQL query
-$offset = ($currentPage - 1) * $recordsPerPage;
+                                    // Calculate the offset for the SQL query
+                                    $offset = ($currentPage - 1) * $recordsPerPage;
 
-// Fetch total number of records
-$sqlCount = "SELECT COUNT(*) as total FROM tbl_blog";
-$resultCount = mysqli_query($conn, $sqlCount);
-$totalRecords = mysqli_fetch_assoc($resultCount)['total'];
+                                    // Fetch total number of records
+                                    $sqlCount = "SELECT COUNT(*) as total FROM tbl_blog";
+                                    $resultCount = mysqli_query($conn, $sqlCount);
+                                    $totalRecords = mysqli_fetch_assoc($resultCount)['total'];
 
-// Calculate the total number of pages
-$totalPages = ceil($totalRecords / $recordsPerPage);
-?>
+                                    // Calculate the total number of pages
+                                    $totalPages = ceil($totalRecords / $recordsPerPage);
+                                ?>
 
-<tbody>
-    <?php
-$sql = "SELECT id, post_title, author_name, publish_date FROM tbl_blog ORDER BY publish_date DESC LIMIT $offset, $recordsPerPage";
-$result = $conn->query($sql);
-    if (!$result) {
-        die("Query failed: " . $conn->error);
-    }
-    
-    // Calculate the starting serial number for the current page
-    $serialNumber = ($currentPage - 1) * $recordsPerPage + 1;
+                                <tbody>
+                                    <?php
+                                    $sql = "SELECT id, post_title, author_name, publish_date FROM tbl_blog ORDER BY publish_date DESC LIMIT $offset, $recordsPerPage";
+                                    $result = $conn->query($sql);
+                                    if (!$result) {
+                                        die("Query failed: " . $conn->error);
+                                    }
+                                    
+                                    // Calculate the starting serial number for the current page
+                                    $serialNumber = ($currentPage - 1) * $recordsPerPage + 1;
+                                    while ($row = $result->fetch_assoc()) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo($serialNumber); ?></td>
+                                            <td><?php echo($row['post_title']); ?></td>
+                                            <td><?php echo($row['author_name']); ?></td>
+                                            <td><?php echo($row['publish_date']); ?></td>
+                                            <td>
+                                                <a href="#" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
+                                                <a href="#" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
+                                                <a href="#" class="delete" onclick="deleteBtn()"><span><i class="fa-solid fa-trash"></i></span></a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                        $serialNumber++; // Increment the serial number for the next row
+                                    }
+                                    $result->close();
+                                    ?>
+                                </tbody>
+                            </table>
 
-    while ($row = $result->fetch_assoc()) {
-    ?>
-        <tr>
-            <td><?php echo($serialNumber); ?></td>
-            <td><?php echo($row['post_title']); ?></td>
-            <td><?php echo($row['author_name']); ?></td>
-            <td><?php echo($row['publish_date']); ?></td>
-            <td>
-                <a href="#" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
-                <a href="#" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
-                <a href="#" class="delete" onclick="deleteBtn()"><span><i class="fa-solid fa-trash"></i></span></a>
-            </td>
-        </tr>
-    <?php
-        $serialNumber++; // Increment the serial number for the next row
-    }
-    $result->close();
-    ?>
-</tbody>
-
-</table>
-
-<div class="pagination">
-    <?php if ($currentPage > 1): ?>
-        <a href="?page=<?php echo ($currentPage - 1); ?>"><i class="fa-solid fa-angles-left"></i> Previous</a>
-    <?php endif; ?>
-    
-    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-        <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-    <?php endfor; ?>
-
-    <?php if ($currentPage < $totalPages): ?>
-        <a href="?page=<?php echo ($currentPage + 1); ?>">Next <i class="fa-solid fa-angles-right"></i></a>
-    <?php endif; ?>
-</div>
-
-
+                            <div class="pagination">
+                                <?php if ($currentPage > 1): ?>
+                                    <a href="?page=<?php echo ($currentPage - 1); ?>"><i class="fa-solid fa-angles-left"></i> Previous</a>
+                                <?php endif; ?>
+                                
+                                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                    <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                <?php endfor; ?>
+                                <?php if ($currentPage < $totalPages): ?>
+                                    <a href="?page=<?php echo ($currentPage + 1); ?>">Next <i class="fa-solid fa-angles-right"></i></a>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
-                    <!-- END ORDERS TABLE -->
                 </div>
             </div>
         </div>
-  
+                                
 </div>
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 <script>
@@ -232,8 +226,6 @@ $result = $conn->query($sql);
                 deleteDataPopup.style.display = "none";
             }
         }
-
-    
 </script>
 
 <?php

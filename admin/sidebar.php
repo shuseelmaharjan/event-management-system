@@ -16,7 +16,7 @@ if($userAuth->isUserLoggedIn()){
     <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="sidebar-logo">
-            <img src="../images/logo.webp" alt="logo">
+            <img src="../images/logo-white.webp" alt="logo">
             <div class="sidebar-close" id="sidebar-close">
                 <i class='bx bx-left-arrow-alt'></i>
             </div>
@@ -31,63 +31,29 @@ if($userAuth->isUserLoggedIn()){
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="sidebar-submenu">
-                <a href="" class="sidebar-menu-dropdown">
+            <li>
+                <a href="events.php">
                     <i class="fa-solid fa-calendar"></i>
                     <span>Events</span>
-                    <div class="dropdown-icon"></div>
                 </a>
-                <ul class="sidebar-menu sidebar-menu-dropdown-content">
-                    <li>
-                        <a href="events.php">
-                            List
-                        </a>
-                    </li>
-                    <li>
-                        <a href="addevents.php">
-                            Add Event
-                        </a>
-                    </li>     
-                </ul>
             </li>
-
-            <li class="sidebar-submenu">
-                <a href="" class="sidebar-menu-dropdown">
+            <li>
+                <a href="services.php">
                     <i class="fa-solid fa-server"></i>
                     <span>Services</span>
-                    <div class="dropdown-icon"></div>
                 </a>
-                <ul class="sidebar-menu sidebar-menu-dropdown-content">
-                    <li>
-                        <a href="services.php">
-                            List
-                        </a>
-                    </li>
-                    <li>
-                        <a href="addservices.php">
-                            Add Service
-                        </a>
-                    </li>     
-                </ul>
             </li>
-            <li class="sidebar-submenu">
-                <a href="" class="sidebar-menu-dropdown">
+            <li>
+                <a href="blog.php">
                     <i class="fa-solid fa-blog"></i>
-                    <span>Blog</span>
-                    <div class="dropdown-icon"></div>
+                    <span>Blogs</span>
                 </a>
-                <ul class="sidebar-menu sidebar-menu-dropdown-content">
-                    <li>
-                        <a href="blog.php">
-                            List
-                        </a>
-                    </li>
-                    <li>
-                        <a href="addblog.php">
-                            Add Post
-                        </a>
-                    </li>     
-                </ul>
+            </li>
+            <li>
+                <a href="eventype.php">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Event Type</span>
+                </a>
             </li>
             <li>
                 <a href="booking.php">
@@ -149,21 +115,24 @@ if($userAuth->isUserLoggedIn()){
     </div>
     <!-- END SIDEBAR -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        const activePage = window.location.pathname;
-        console.log(activePage);
-         // Function to add the 'active' class to the appropriate menu item
-    function setActiveMenuItem() {
-        const links = document.querySelectorAll('.sidebar-menu a');
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            if (activePage === href) {
-                link.classList.add('active');
-            }
-        });
-    }
+        // JavaScript (script.js)
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the current page URL
+    var currentUrl = window.location.href;
 
-    // Call the function to set the active menu item
-    setActiveMenuItem();
+    // Get all the menu items
+    var menuItems = document.querySelectorAll(".sidebar-menu a");
+
+    // Iterate through menu items and add "active" class to the matching one
+    menuItems.forEach(function (menuItem) {
+        var menuItemUrl = menuItem.getAttribute("href");
+        
+        // Check if the current URL contains the menu item's URL
+        if (currentUrl.indexOf(menuItemUrl) !== -1) {
+            menuItem.classList.add("active");
+        }
+    });
 });
+
     </script>
+  

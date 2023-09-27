@@ -25,7 +25,7 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
                 try {
                     if ($blogPost->insertBlogPost($title, $author, $publishDate, $current_time, $description, $targetFilePath)) {
-                        header('Location: blog.php');
+                        
                         exit();
                     } else {
                         throw new Exception("Error: Blog post insertion failed.");
