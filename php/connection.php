@@ -9,3 +9,4 @@ $conn = mysqli_connect($hostname, $username, $password, $dbName);
 if(!$conn){
     echo('Database Not Connected');
 }
+?>

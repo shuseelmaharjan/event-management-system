@@ -122,10 +122,22 @@ class BlogPost {
 
         return $blogPosts;
     }
+
     //for update
     public function updateBlogPost($id, $title, $author, $publishDate, $description, $image) {
+        if (!$this->db) {
+            echo "Database connection is not established.";
+            return false;
+        }
+    
         $query = "UPDATE tbl_blog SET post_title=?, author_name=?, publish_date=?, description=?, image=? WHERE id=?";
         $stmt = $this->db->prepare($query);
+    
+        if (!$stmt) {
+            echo "Failed to prepare the SQL statement.";
+            return false;
+        }
+    
         $stmt->bind_param("sssssi", $title, $author, $publishDate, $description, $image, $id);
     
         if ($stmt->execute()) {
@@ -136,6 +148,7 @@ class BlogPost {
             return false;
         }
     }
+    
     //for delete
     public function deleteBlogPost($id) {
         $query = "DELETE FROM tbl_blog WHERE id=?";
@@ -208,12 +221,51 @@ class eventType{
         return $getTypes;
 
     }
+    // Update
+    public function updateType($typeID, $name){
+        $count = 0;
+        $checkQuery = "SELECT COUNT(*) FROM tbl_types WHERE name = ? AND type_id != ?";
+        $checkStmt = $this->db->prepare($checkQuery);
+        
+        if(!$checkStmt){
+            die("Error checking if Event Type already exists: " . $this->db->error);
+        }
+        
+        $checkStmt->bind_param("si", $name, $typeID);
+        $checkStmt->execute();
+        $checkStmt->bind_result($count);
+        $checkStmt->fetch();
+        $checkStmt->close();
+        
+        if ($count > 0) {
+            echo "This name already exists";
+            return false;
+        } else {
+            $updateQuery = "UPDATE tbl_types SET name = ? WHERE type_id = ?";
+            $updateStmt = $this->db->prepare($updateQuery);
+            
+            if(!$updateStmt){
+                die("Error preparing update statement: " . $this->db->error);
+            }
+            
+            $updateStmt->bind_param("si", $name, $typeID);
+            
+            if($updateStmt->execute()){
+                return true;
+            }else{
+                echo "Data not updated";
+                return false;
+            }
+        }
+    }
+
+    //delete
     public function deleteType($typeID){
         $query = "DELETE FROM tbl_types WHERE type_id = ?";
         $stmt = $this->db->prepare($query);
         
         if(!$stmt){
-            die("Error preparing delete statement: " . $this->db->error);
+            die("Error preparing delete statement: ");
         }
 
         $stmt->bind_param("i", $typeID);
@@ -228,4 +280,49 @@ class eventType{
     }
     
 }
+class event {
+    private $db;
+
+    public function __construct($db){
+        $this->db = $db;
+    }
+
+    // Data insertion
+    public function insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName){
+        $stmt = $this->db->prepare("INSERT INTO tbl_events (eventName, dateofStart, dateofEnd, eventType, venue,eventOrganizer, description, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssss", $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //update
+    public function updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $id){
+        $stmt = $this->db->prepare("UPDATE tbl_events SET eventName=?, dateofStart=?, dateofEnd=?, eventType=?, venue=?, eventOrganizer=?, description=?, image=? WHERE id=?");
+        $stmt->bind_param("ssssssssi", $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //delete
+    public function deleteEvent($id){
+        $stmt = $this->db->prepare("DELETE FROM tbl_events WHERE id = ?");
+        $stmt->bind_param("i", $id);
+    
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+}
+
+
 ?>

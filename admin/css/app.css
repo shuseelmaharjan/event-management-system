@@ -12,6 +12,9 @@
     --sidebar-active-color: #ffffff;
     --sidebar-hover-color: #ffffff;
     --sidebar-background-color: #22a613;
+    --success-color: #d4edda;
+    --success-color-border: #28a745;
+    --danger-color: #f8d7da;
     --border-color: #b1b1b1;
     --menu-item-active-bg: rgba(201, 247, 62, 0.1);
     --gradient-bg:linear-gradient(to right, #02266C , #1A0051);
@@ -397,15 +400,15 @@ a{
 .main {
     padding-left: var(--sidebar-size);
     display: block;
+    margin: 0;
 }
 
 
 .main-header {
-    height: var(--main-header-height);
     display: flex;
     width: 100%;
     justify-content: space-between;
-    padding: 20px;
+    padding: 15px 20px;
     background-color: var(--box-bg);
     box-shadow: var(--shadow);
     position: sticky;
@@ -420,8 +423,23 @@ a{
 .main-title {
     text-transform: capitalize;
     font-size: 1.5rem;
-}
 
+}
+.main-header .last-title .user-details{
+    display: flex;
+    padding: 0px 30px;
+    align-items: center;
+    justify-content: center;
+}
+.main-header .last-title .user-details img{
+    width: 40px;
+    border-radius: 25%;
+    
+}
+.main-header .last-title .user-details h1{
+    font-size: 1rem;
+    padding: 0px 10px;
+}
 .main-content {
     padding: 10px 20px;
     height: calc(100vh - var(--main-header-height));
@@ -445,6 +463,46 @@ a{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 0px;
     border: none;
+}
+#alert-msg-success{
+    padding: 0;
+    border-radius: 0;
+    background-color: var(--success-color);
+    border: none;
+    display: none;
+    justify-content: space-between;
+}
+#alert-msg-success p{
+    padding: 10px 20px;
+    color: var(--success-color-border);
+}
+#closeAlertBtn{
+    cursor: pointer;
+}
+#alert-msg-danger{
+    padding: 0;
+    border-radius: 0;
+    background-color: var(--danger-color);
+    border: none;
+    display: none;
+    justify-content: space-between;
+}
+#alert-msg-danger p{
+    padding: 10px 20px;
+    color: var(--danger-color-border);
+}
+#addBtn{
+    background-color: none;
+    padding: 10px;
+    right: 0;    
+    display: flex;
+    justify-content: flex-end;
+}
+#addBtn a{
+    background-color: var(--sidebar-background-color);
+    color: var(--body-bg);
+    font-weight: 600;
+    padding: 10px 15px;
 }
 .counter-title {
     margin-bottom: 20px;
@@ -559,7 +617,7 @@ table td {
 }
 table td a{
     color: #fff;
-    padding: 5px;
+    padding: 5px 10px;
     border: none;
     cursor: pointer;
     margin: 0px 5px;
@@ -583,6 +641,7 @@ table tbody .center{
 table thead .left,
 table tbody .left{
     padding-left: 20px;
+    text-transform: capitalize;
 }
 .order-status {
     padding: 5px 15px;
@@ -645,6 +704,7 @@ table tbody .left{
     background: var(--btn-edit);
     color: var(--body-bg);
 }
+
 
 @media only screen and (max-width: 1280px) {
     .sidebar {

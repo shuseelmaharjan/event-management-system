@@ -20,13 +20,13 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         $uniqueFileName = uniqid() . '.' . $imageFileType;
         $targetFilePath = $uploadDir . $uniqueFileName;
 
-        // Check file type
         if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
                 try {
                     if ($blogPost->insertBlogPost($title, $author, $publishDate, $current_time, $description, $targetFilePath)) {
-                        
+                        echo("data inserted successfully now redirecting to blog.php");
                         exit();
+                       
                     } else {
                         throw new Exception("Error: Blog post insertion failed.");
                     }
@@ -58,6 +58,7 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
     }
     .box form .col-2{
         width: 75%;
+        display: block;
     }
     .col-2 .input-box input,
     .col-2 .input-box textarea{
@@ -75,7 +76,7 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         height: auto !important;
         padding: 15px;
     }
-    .col-2 .input-box label{
+    .col-2 label{
         display: block;
         font-weight: 500;
         margin-bottom: 5px;
@@ -83,44 +84,47 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         font-size: 18px;
     }
     .row-1{
-        padding: 0;
+        display: grid;
+        align-content: start;
+        grid-template-columns: 1fr 1fr;
+        margin: 10px 0px;
+        grid-gap: 50px;
     }
     
-    .box form .col-2 label{
-        display: block;
-
+    .row-1 .col-3{
+        padding: 0;
+        width: 100%;
     }
+    .row-1 .col-3 .input-box{
+        width: 100%;
+       
+    }
+
     .col-2 button{
-        color: #ccc;
-        background: blue;
+        color: #fafafb;
+        background:  #1177aa;
         height: 45px;
         width: 100%;
         outline: none;
         border: 1px solid #ccc;
         padding-left: 15px;
         font-size: 16px;
+        font-weight: 600;
         border-bottom-width: 2px;
         transition: all 0.3s ease;
         margin-top: 15px;
-    }
-    .row-1{
-        display: flex;
-        margin-top: 15px;
- 
     }
     
 </style>
 <div class="main">
         <div class="main-header">
-            
             <div class="main-title">
-                Add Blogs
+                Add Blog Post
             </div>
-
-            <div class="sidebar-user-info">
-                <img src="./images/user-image.jpg" alt="User picture" class="profile-image">
-                <div class="sidebar-user-name">
-                    Admin
+            <div class="last-title">
+                <div class="user-details">
+                <img src="../profile/uploads/default.png" width="50px" alt="image">
+                <h1>User Admin</h1>
                 </div>
             </div>
         </div>
@@ -136,34 +140,37 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
                                 <input type="file" name="image">
                             </div>
                             <div class="col-2">
+                                <label for="title">Blog Title:</label>
                                 <div class="input-box">
-                                    <label for="title">Blog Title:</label>
                                     <input type="text" name="title" placeholder="Title" required>
                                 </div>
                                 
                                 <div class="row-1">
                                     <div class="col-3">
+                                        <label for="author">Author:</label>
+
                                         <div class="input-box">
-                                            <label for="suthor">Author:</label>
                                             <input type="text" name="author" placeholder="Author" required>
                                         </div>
                                     </div>
                                     <div class="col-3">
+                                        <label for="datePublish">Publish Date:</label>
                                         <div class="input-box">
-                                            <label for="datePublish">Publish Date:</label>
                                             <input type="text" name="pdate" readonly value="<?php echo date('Y-m-d'); ?>"><br>
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="form-group">
-                                    <label for="content">Content</label>
-                                    <!-- <textare id="editor" name="description" cols="30" rows="10"></textarea> -->
-                                    <textarea name="description" width="100%" id="" cols="90" rows="20"></textarea>
+                                    <label for="description">Description</label>
+                                    <div class="input-box">
+                                        <textarea name="description" id="editor" width="100%" id="" cols="90" rows="20"></textarea>
+                                    </div>
                                 </div>
 
                                 
                                 <button>Post</button>
+                                
                             </div>
                         </form>
                                               
@@ -176,10 +183,27 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 <script>
  ClassicEditor
-        .create( document.querySelector( '#editor' ) )
-        .catch( error => {
-            console.error( error );
-        } );
+        .create(document.querySelector('#editor'), {
+
+        toolbar: {
+            items: [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'link',
+                '|',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'undo',
+                'redo'
+            ]
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
 </script>
 <?php
 require_once('footer.php');

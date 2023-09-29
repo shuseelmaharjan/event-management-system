@@ -86,7 +86,7 @@ if($userAuth->isUserLoggedIn()){
                 </a>
             </li>
             <li class="sidebar-submenu">
-                <a href="#" class="sidebar-menu-dropdown">
+                <a class="sidebar-menu-dropdown">
                     <i class="fa-solid fa-user"></i>
                     <span>account</span>
                     <div class="dropdown-icon"></div>
@@ -115,24 +115,19 @@ if($userAuth->isUserLoggedIn()){
     </div>
     <!-- END SIDEBAR -->
     <script>
-        // JavaScript (script.js)
-document.addEventListener("DOMContentLoaded", function () {
-    // Get the current page URL
-    var currentUrl = window.location.href;
+    document.addEventListener("DOMContentLoaded", function () {
+        var currentUrl = window.location.href;
 
-    // Get all the menu items
-    var menuItems = document.querySelectorAll(".sidebar-menu a");
+        var menuItems = document.querySelectorAll(".sidebar-menu a");
 
-    // Iterate through menu items and add "active" class to the matching one
-    menuItems.forEach(function (menuItem) {
-        var menuItemUrl = menuItem.getAttribute("href");
-        
-        // Check if the current URL contains the menu item's URL
-        if (currentUrl.indexOf(menuItemUrl) !== -1) {
-            menuItem.classList.add("active");
-        }
+        menuItems.forEach(function (menuItem) {
+            var menuItemUrl = menuItem.getAttribute("href");
+            
+            if (currentUrl.indexOf(menuItemUrl) !== -1) {
+                menuItem.classList.add("active");
+            }
+        });
     });
-});
 
     </script>
   

@@ -111,34 +111,48 @@ if (isset($_GET['criteria'])) {
     $typeID = $_GET['criteria'];
     
     if ($deletedata->deleteType($typeID)) {
-        echo "Data deleted";
+    
     } else {
         echo "Deletion failed:" ; 
     }
 }
 //update data
+$eventType = new eventType($conn);
+if (isset($_POST['updateType'])) {
+    $typeID = $_POST['typeID']; 
+    $newName = $_POST['name'];
 
+    if ($eventType->updateType($typeID, $newName)) {
 
+        
+    } else {
+        echo "Event Type update failed.";
+    }
+}
 ?>
 <div class="popup">
-<span id="closeFormBtn" class="closeBtn" onclick="closeBtn()"><i class="fa-solid fa-xmark"></i></span>
-
+    <span id="closeFormBtn" class="closeBtn" onclick="closeBtn()"><i class="fa-solid fa-xmark"></i></span>
     <div class="eventType">
         <h1>Edit Event Type</h1>
-        <form action="">
+        <form action="" method="post">
+            <input type="hidden" name="typeID" id="editTypeID" value="">
             <label for="name">Your event type was:</label>
-            <input type="text" name="name" placeholder="Event Type name">
-            <input type="button" name="updateType" id="updateBtn" value="Update">
+            <input type="text" name="name" id="editTypeName" placeholder="Event Type name">
+            <input type="submit" name="updateType" id="updateBtn" value="Update">
         </form>
     </div>
 </div>
+
 <div class="main">
         <div class="main-header">
-            <div class="mobile-toggle" id="mobile-toggle">
-                <i class='bx bx-menu-alt-right'></i>
-            </div>
             <div class="main-title">
                 Event Types
+            </div>
+            <div class="last-title">
+                <div class="user-details">
+                <img src="../profile/uploads/default.png" width="50px" alt="image">
+                <h1>User Admin</h1>
+                </div>
             </div>
         </div>
         
@@ -159,6 +173,14 @@ if (isset($_GET['criteria'])) {
                             </div>
                             
                         </div>
+                    </div>
+                    <div class="box" id="alert-msg-success">
+                        <p id="successMsg"></p>
+                        <p id="closeAlertBtn" onclick="closeSuccess()"><i class="fa-solid fa-xmark"></i></p>
+                    </div>
+                    <div class="box" id="alert-msg-danger">
+                        <p id="successMsg">This is danger msg.</p>
+                        <p id="closeAlertBtn" onclick="closeDanger()"><i class="fa-solid fa-xmark"></i></p>
                     </div>
                     <!-- ORDERS TABLE -->
                     <div class="box">
@@ -208,9 +230,8 @@ if (isset($_GET['criteria'])) {
                                                 <td class="center"><?php echo $serialNumber; ?>.</td>
                                                 <td class="left"><?php echo $row['name']; ?></td>
                                                 <td class="center">
-                                                    <a onclick="editBtn()" href="" class="edit" ><span><i class="fa-solid fa-pen-to-square"></i> Edit</span></a>
+                                                    <a onclick="editBtn('<?php echo $row['name']; ?>', '<?php echo $row['type_id']; ?>')" class="edit" href="#"><span><i class="fa-solid fa-pen-to-square"></i> Edit</span></a>
                                                     <a onclick="sureDelete()" href="eventype.php?criteria=<?= $row['type_id']; ?>" class="delete" ><span><i class="fa-solid fa-trash"></i> Delete</span></a>
-
                                                 </td>
                                             </tr>
                                             <?php
@@ -245,19 +266,23 @@ if (isset($_GET['criteria'])) {
         </div>
 </div>
 <script>
-    function editBtn(){
-        document.getElementById("popup").style.display="flex";
-        console.log("test");
+    
+    function editBtn(name, typeID) {
+        var popup = document.querySelector('.popup');
+        popup.style.display = 'flex';
 
+        var typeNameInput = document.getElementById('editTypeName');
+        typeNameInput.value = name;
+        
+        var typeIDInput = document.getElementById('editTypeID');
+        typeIDInput.value = typeID;
     }
-    function closeBtn(){
-        document.getElementById("popup").style.display="none";
 
 
-    }
-    function sureDelete(){
-        alert("Are you sure?");
-        console.log("data deleted");
+    function closeBtn() {
+        // Close the popup div when the close button (x) is clicked
+        var popup = document.querySelector('.popup');
+        popup.style.display = 'none';
     }
 </script>
 
