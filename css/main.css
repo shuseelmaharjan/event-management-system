@@ -4,32 +4,38 @@
     padding: 0;
 }
 /*************start of navbar css********************/
-body .navbars{
+body .navbars {
     font-family: 'Ubuntu', sans-serif;
-    position: relative;
-    background-image: linear-gradient(to right, #02266C , #1A0051);
+    position: absolute;
+    top: 0;
+    background-image: linear-gradient(to right, #02266C, #1A0051);
     font-size: 16px;
     font-weight: 400;
     width: 100%;
     height: 70px;
+    z-index: 99;
     border-bottom: 1px solid #ffffff62;
+}
 
-}
-body .navbars .nav{
+body .navbars .nav {
     width: 100%;
-    position: absolute;
     display: flex;
+    justify-content: space-between; 
+    align-items: center; 
 }
-/**************** start of logo *****************/
-.navbars .logo{
+
+
+.navbars .logo {
     width: 20%;
-    margin-left: 5%;
-    padding: 20px 0px 0px 0px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
 }
-.navbars a img{
+
+.navbars a img {
     width: 150px;
-    position: absolute;
     align-items: center;
+    position: relative;
 }
 /**************** end of logo *****************/
 /**************** start of navlist *****************/
@@ -39,7 +45,8 @@ body .navbars .nav{
 .navbars .navbar-nav{
     width: 60%;
     display: inline;
-    margin-top: 35px;
+    margin-top: 20px;
+    
 }
 .navbars .navbar-nav ul{
     float: right;
@@ -67,7 +74,7 @@ body .navbars .nav{
 .nav .login{
     width: 20%;
     display: inline;
-    margin-top: 35px;
+    margin-top: 20px;
 }  
 .nav .login a{
     text-decoration: none;
@@ -79,179 +86,62 @@ body .navbars .nav{
 }
 /**************** end of account login/signup *****************/
 /**************** end of navbar css *****************/
-
-/**************** start of popup login form *****************/
-.popup-login{
-    z-index: 999;
-    position: absolute;
-    background: #000;
-    opacity: 0.9;
-    width: 100%;
-    height: 100vh;
+.popup {
+    z-index: 9999;
+    position: fixed;
     display: none;
-    transition: 0.5s ease;
-}
-.popup-login .popup{
-    width: 30%;
-    margin-left: 34%;
-    height: 380px;
-    background: #dadeea;
-    margin-top: 15vh;
-    padding: 30px;
-    display: block;
-}
-.popup-login .popup h1,
-.popup-signup .signup h1{
-    color: #000;
-    text-align: center;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 35px;
-    font-weight: 400;
-}
-.popup-login .popup form,
-.popup-signup .signup form{
-    padding: 20px;
-    font-family: 'Ubuntu', sans-serif;    
-}
-.popup-login .popup .closeBtn,
-.popup-signup .signup .closeBtn{
-    float: right;
-}
-.closeBtn a i{
-    font-size: 24px;
-    z-index: 2;
-    align-items: right;
-    text-align: right;
-    color: #000;
-}
-.popup form label,
-.signup form label{
-    color: #000;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-.popup-login .popup form input,
-.popup-signup .signup form input{
-    display: block;
-    width: 100%;
-    padding: 5px;
-    font-size: 14px;
-    background: transparent;
-    height: 35px;
-    border: none;
-    border-bottom: 1px #000 solid;
-    outline: none;
-    color: #000;
-}
-
-.popup-login .popup form input::placeholder,
-.popup-signup .signup form input::placeholder{
-    color: #656565;
-}
-.popup-login .popup form button,
-.popup-signup .signup form button{
-    --primary-color: #a80b59;
-    --secondary-color: #fff;
-    --hover-color: #111;
-    --arrow-width: 10px;
-    --arrow-stroke: 2px;
-    box-sizing: border-box;
-    border: 0;
-    border-radius: 20px;
-    color: var(--secondary-color);
-    padding: 1em 1.8em;
-    background: var(--primary-color);
-    display: flex;
-    transition: 0.3s background;
     align-items: center;
-    gap: 0.6em;
-    margin-top: 20px;
-    font-weight: bold;
-}
-  
-.popup-login .popup form button .arrow-wrapper, 
-.popup-signup .signup form button .arrow-wrapper{
-    display: flex;
     justify-content: center;
-    align-items: center;
-}
-  
-.popup-login .popup form button .arrow,
-.popup-signup .signup form button .arrow {
-    margin-top: 1px;
-    width: var(--arrow-width);
-    background: var(--primary-color);
-    height: var(--arrow-stroke);
-    position: relative;
-    transition: 0.2s;
-}
-  
-.popup-login .popup form button .arrow::before,
-.popup-signup .signup form button .arrow::before {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    border: solid var(--secondary-color);
-    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
-    display: inline-block;
-    top: -3px;
-    right: 3px;
-    transition: 0.2s;
-    padding: 3px;
-    transform: rotate(-45deg);
-}
-  
-.popup-login .popup form button:hover,
-.popup-signup .signup form button:hover {
-    background-color: var(--hover-color);
-}
-  
-.popup-login .popup form button:hover .arrow,
-.popup-signup .signup form button:hover .arrow {
-    background: var(--secondary-color);
-}
-  
-.popup-login .popup form button:hover .arrow:before,
-.popup-signup .signup form button:hover .arrow::before {
-    right: 0;
-  }
-.loginOption{
-    color: #000;
-    font-size: 14px;
-    display: inline;
-}
-.loginOption span{
-    display: flex;
-    position: relative;
-    margin-top: 15px;
-}
-.loginOption a{
-    color: #000;
-    font-size: 14px;
-    text-decoration: none;
-    margin-left: 5px;
-}
-/**************** end of popup login form *****************/
-/**************** start of sign up form *****************/
-.popup-signup{
+    height: 600px;
     width: 100%;
     height: 100vh;
-    z-index: 999;
+    background-color: #000000b7;
+}
+.popup .close{
+    top: 0;
+    right: 0;
     position: absolute;
-    background: #000;
-    opacity: 0.9;
-    display: none;
+    z-index: 1111;
 }
-.popup-signup .signup{
-    width: 40%;
-    height: 75vh;
-    margin-left: 30%;
-    background: #fff;
-    margin-top: 10vh;
-    padding: 30px;
+.popup .close i{
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 20px;
+    cursor: pointer;
+
 }
-/**************** end of sign up form *****************/
-.container{
-    font-family: 'Ubuntu' sans-serif;
+.details{
+    width: 50%;
+    background-color: #fff;
+    padding: 25px;
 }
+.btns{
+    width: 100%;
+    height: auto;
+    margin: 20px auto 0px auto;
+    padding: 10px;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    outline: none;
+    font-family: 'Ubuntu', sans-serif;
+}
+.btns .book{
+    width: 100%;
+}
+.btns .book label{
+    width: 100%;
+    display: block;
+    margin-top: 10px 0px;
+}
+.btns .book input,
+.btns .book select{
+    width: 90%;
+    padding: 10px;
+}
+#submit input{
+    width: 100%;
+
+    padding: 10px 20px;
+}
+

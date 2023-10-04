@@ -445,6 +445,12 @@ a{
     height: calc(100vh - var(--main-header-height));
     overflow-y: auto;
 }
+.main-content .row .col-12 .breadcum{
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
 
 .box {
     background-color: var(--box-bg);
@@ -499,10 +505,11 @@ a{
     justify-content: flex-end;
 }
 #addBtn a{
-    background-color: var(--sidebar-background-color);
+    background-color: var(--btn-edit);
     color: var(--body-bg);
     font-weight: 600;
     padding: 10px 15px;
+    border-radius: 10px;
 }
 .counter-title {
     margin-bottom: 20px;

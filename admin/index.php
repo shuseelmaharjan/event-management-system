@@ -15,6 +15,12 @@
             <div class="main-title">
                 Dashboard
             </div>
+            <div class="last-title">
+                <div class="user-details">
+                <img src="../profile/uploads/default.png" width="50px" alt="image">
+                <h1>User Admin</h1>
+                </div>
+            </div>
         </div>
         <div class="main-content">
             <div class="row">
@@ -23,7 +29,7 @@
                         <!-- COUNTER -->
                         <div class="counter">
                             <div class="counter-title">
-                                total order
+                                Total Users
                             </div>
                             <div class="counter-info">
                                 <div class="counter-count">
@@ -40,11 +46,11 @@
                         <!-- COUNTER -->
                         <div class="counter">
                             <div class="counter-title">
-                                conversion rate
+                                Total Services
                             </div>
                             <div class="counter-info">
                                 <div class="counter-count">
-                                    30.5%
+                                    30.5
                                 </div>
                                 <i class='bx bx-chat'></i>
                             </div>

@@ -122,6 +122,22 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         width: 600px;
         height: 400px;
     }
+    .two-columns{
+        grid-column: span 2;
+    }
+    #description label{
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    #my-textarea {
+        width: 100%;
+        min-height: 200px;
+        resize: none;
+        padding: 10px;
+        font-size: 1rem;
+        font-weight: 400;
+        margin: 10px 0px;
+    }
 </style>
 <!--popup view data-->
 <div class="wrapper" id="wrapper">
@@ -178,11 +194,9 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
                                     </div>
 
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <div class="input-box">
-                                        <textarea name="description" id="editor" width="100%" id="" cols="90" rows="20" value="hero"></textarea>
-                                    </div>
+                                <div id="description" class="two-columns">
+                                    <label for="">Description</label>
+                                    <textarea id="my-textarea" name="description"><?=$formData['description'];?> </textarea>
                                 </div>
 
                                 

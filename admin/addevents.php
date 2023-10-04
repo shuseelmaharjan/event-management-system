@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $image = $_FILES['image']['name'];
         $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
 
-        $uploadDir = "eventImages/";
+        $uploadDir = "../eventUploads/";
         $uniqueFileName = uniqid() . '.' . $imageFileType;
         $targetFilePath = $uploadDir . $uniqueFileName;
 
@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 <div class="main">
         <div class="main-header">
             <div class="main-title">
-                Events
+                Add Event Program
             </div>
             <div class="last-title">
                 <div class="user-details">
@@ -161,6 +161,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <div class="row">
                
                 <div class="col-12">
+                    <div class="breadcum">
+                        <a href="events.php">Events</a> > <a href="addevents.php">Add Event Program</a>
+                    </div>
                     <div class="box">
                         
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
@@ -181,14 +184,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                 <div class="input-box">
                                     <label for="">Event Type</label>
                                     <?php
-                                    $mysqli = new mysqli("localhost", "root", "", "eventmgmt");
-
-                                    if ($mysqli->connect_error) {
-                                        die("Connection failed: " . $mysqli->connect_error);
-                                    }
+                                    
                                     
                                     $sql = "SELECT type_id, name FROM tbl_types";
-                                    $result = $mysqli->query($sql);
+                                    $result = $conn->query($sql);
 
                                     if ($result->num_rows > 0) {
                                     ?>
@@ -226,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                         <label for="">Select Image</label>
                                         <input type="file" name="image" id="selectFile" accept="image/*">
                                         <label for="selectFile" id="file-2-preview">
-                                            <img id="previewImage" src="https://bit.ly/3ubuq5o" alt="">
+                                            <img id="previewImage" src="eventImages/default.jpg" alt="Thumbnail">
                                             <div>
                                                 <span>+</span>
                                             </div>

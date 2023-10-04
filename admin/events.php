@@ -62,8 +62,6 @@ if(isset($_GET['criteria'])){
                                     LEFT JOIN tbl_types AS t ON e.eventType = t.type_id
                                     LIMIT $offset, $recordsPerPage";
                             $result = mysqli_query($conn, $sql);
-
-
                         ?>
                             <table>
                                 <thead>
@@ -91,10 +89,10 @@ if(isset($_GET['criteria'])){
                                                 <td class="center"><?php echo $row['name']; ?></td>
                                                 <td class="center"><?php echo $row['venue']; ?></td>
                                                 <td class="center">
-                                                <a href="#" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
-                                                <a href="updateevent.php?criteria=<?=$row['id'];?>" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
-                                                <a href="events.php?criteria=<?= $row['id']; ?>" onclick="confirm('Are yuu sure');" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>
-                                            </td>
+                                                    <a href="#" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
+                                                    <a href="updateevent.php?criteria=<?=$row['id'];?>" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
+                                                    <a href="events.php?criteria=<?= $row['id']; ?>" onclick="confirm('Are yuu sure');" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>
+                                                </td>
                                             </tr>
                                             <?php
                                             $serialNumber++; 

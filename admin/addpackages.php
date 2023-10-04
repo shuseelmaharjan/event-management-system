@@ -7,7 +7,7 @@ require_once('php/authentication.php');
    .box form{
         display: grid;
         grid-gap: 10px;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         outline: none;
     }
     .box form .input-box,
@@ -33,7 +33,7 @@ require_once('php/authentication.php');
         border-radius: 4px;
     }
     .two-columns{
-        grid-column: span 2;
+        grid-column: span 4;
     }
     #description label{
         font-size: 1rem;
@@ -49,7 +49,7 @@ require_once('php/authentication.php');
         margin: 10px 0px;
     }
     #button{
-        grid-column: 3;
+        grid-column: 4;
         margin-bottom: 20px;
     }
     #button button{
@@ -67,87 +67,32 @@ require_once('php/authentication.php');
         margin-top: 15px;
         cursor: pointer;
     }
-    #banner{
-        grid-row: span 2;
-    }
-    #banner .input-box input[type="file"] {
-        position: absolute;
-        opacity: 0;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        cursor: pointer;
-    }
-    #banner .input-box input {
-        display:none;
-    }
-    #banner .input-box img {
-        width:100%;
-        height: 250px;
-        object-fit:cover;
-        cursor: pointer;
-        box-shadow:0px 0px 20px 5px rgba(100,100,100,0.1);
-    }
-    #banner .input-box div {
-        position:relative;
-        height:40px;
-        margin-top:-40px;
-        background:rgba(0,0,0,0.5);
-        text-align:center;
-        line-height:40px;
-        font-size:13px;
-        color:#f5f5f5;
-        cursor: pointer;
-        font-weight:600;
-    }
-    #banner div span {
-        font-size:40px;
-    }
-    
 </style>
 <?php 
-$addService = new service($conn);
+$addPackage = new package($conn);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    echo "Event Type: " . $_POST['eventType'];
-    if ($_FILES['image']['error'] == 0) {
-        $serviceName = $_POST['serviceName'];//1
-        $eventType = $_POST['eventType'];//2
-        $description = $_POST['description'];//3
-        $image = $_FILES['image']['name'];
-        $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));//4
+    $serviceId = $_POST['serviceId']; // Assuming serviceId is an integer
+    $packageName = $_POST['packageName'];
+    $packageCost = $_POST['packageCost'];
+    $packageGuest = $_POST['packageGuest'];
+    $packageDescription = $_POST['packageDescription'];
 
-        $uploadDir = "../serviceUploads/";
-        $uniqueFileName = uniqid() . '.' . $imageFileType;
-        $targetFilePath = $uploadDir . $uniqueFileName; 
+    $result = $addPackage->insertService($serviceId, $packageName, $packageCost, $packageGuest, $packageDescription);
 
-        if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
-              
-                    if ($addService->insertService($serviceName, $eventType, $description, $uniqueFileName)) {
-                        echo("Data inserted Successfully. Data inserted Successfully. Data inserted Successfully. Data inserted Successfully. ");
-                        exit();
-                    } else {
-                        echo("failed");
-                    }
-                
-            } else {
-                echo "Error uploading the image.";
-            }
-        } else {
-            echo "Error: Only jpg, jpeg, and png file types are allowed.";
-        }
+    if ($result) {
+        echo "Data inserted successfully Data inserted successfully Data inserted successfully Data inserted successfully Data inserted successfully";
     } else {
-        echo "File upload error: " . $_FILES["image"]["error"];
+        echo "Data not inserted";
     }
 }
+
 
 ?>
 <div class="main">
         <div class="main-header">
             <div class="main-title">
-                Add Service
+                Add Packages
             </div>
             <div class="last-title">
                 <div class="user-details">
@@ -162,35 +107,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                
                 <div class="col-12">
                     <div class="breadcum">
-                        <a href="services.php">Services</a> > <a href="addservices.php">Add Service</a>
+                        <a href="services.php">Services</a> > <a href="addpackages.php">Add Packages</a>
                     </div>
                     <div class="box">
                         
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
-                                <div class="input-box" id="block">
-                                    <label for="">Service Name:</label>
-                                    <input type="text" Name="serviceName" placeholder="Service Name">
 
-                                </div>
-                                
-                                <div class="input-box">
-                                    <label for="">Event Type</label>
+                            <div class="input-box">
+                                    <label for="">Select Package For:</label>
                                     <?php
                                     
                                     
-                                    $sql = "SELECT type_id, name FROM tbl_types";
+                                    $sql = "SELECT ser_id, ser_name FROM tbl_service";
                                     $result = $conn->query($sql);
 
                                     if ($result->num_rows > 0) {
                                     ?>
-                                    <select name="eventType" id="type">
-                                        <option value="" selected disabled>Select Event Type</option>
+                                    <select name="serviceId" id="type">
+                                        <option value="" selected disabled>Select Package For</option>
                                         <?php
                                         while ($row = $result->fetch_assoc()) {
-                                            $typeId = $row['type_id'];
-                                            $typeName = $row['name'];
+                                            $ser_id = $row['ser_id'];
+                                            $serName = $row['ser_name'];
                                             ?>
-                                            <option value="<?= $typeId ?>"><?= $typeName ?></option>
+                                            <option value="<?= $ser_id ?>"><?= $serName ?></option>
                                         <?php }?>
                                     </select>
                                     <?php } else {
@@ -199,27 +139,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                     ?>
                                 </div>
 
-
-                                <div class="banner" id="banner">
-                                    <div class="input-box">
-                                        <label for="">Select Image</label>
-                                        <input type="file" name="image" id="selectFile" accept="image/*">
-                                        <label for="selectFile" id="file-2-preview">
-                                            <img id="previewImage" src="eventImages/default.jpg" alt="Thumbnail">
-                                            <div>
-                                                <span>+</span>
-                                            </div>
-                                        </label>
-                                    </div>
+                                <div class="input-box" id="block">
+                                    <label for="">Package Name:</label>
+                                    <input type="text" name="packageName" placeholder="Package Name">
                                 </div>
-                               
+
+                                <div class="input-box" id="block">
+                                    <label for="">Package Cost:</label>
+                                    <input type="number" name="packageCost" placeholder="Package Cost">
+                                </div>
+
+                                <div class="input-box" id="block">
+                                    <label for="">Number of Guests</label>
+                                    <input type="number" name="packageGuest" placeholder="Number of Guests">
+                                </div>
+                                
+                                
+
+
                                 <div id="description" class="two-columns">
                                     <label for="">Description</label>
-                                    <textarea id="my-textarea" name="description"></textarea>
+                                    <textarea id="my-textarea" name="packageDescription"></textarea>
                                 </div>
                                 
                                 <div class="input-box" id="button">
-                                    <button type="submit" name="submit">Add Events</button>
+                                    <button type="submit" name="submit">Add Package</button>
                                 </div>
                         </form>
                     </div>

@@ -5,279 +5,133 @@ require_once('header.php');
 
 
 <link rel="stylesheet" href="css/main.css">
-</head>
-<?php
-require_once('nav.php');
-?>
-<body>   
-    <div class="container">
-        <div class="wrapper">
-            <h1>Our Packages</h1>
-            <h2>Search your Package</h2>
-            <div class="form">
-                <form action="#">
-                    <div class="col">
-                        <label for="destination">Destination:</label><br>
-                        <input type="text" name="destination" placeholder="Type your destination.">
-                    </div>
-
-                    <div class="col">
-                        <label for="date">Date:</label><br>
-                        <input type="date" name="data">
-                    </div>
-
-                    <div class="col">
-                        <label for="eventType">Event Type</label><br>
-                        <select name="type" id="type">
-                            <option value="marriage">Marriage</option>
-                            <option value="music">Music</option>
-                            <option value="music">Cultural</option>
-                            <option value="music">Dance</option>
-                            <option value="music">Food</option>
-                        </select>
-                    </div>
-
-                    <div class="button">
-                        <button>Search <i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
-                    
-                </form>
-            </div>
-        </div>
-        <div class="heading">
-                <h1>Our Packages</h1>
-            </div>
-        <div class="packages">
-            
-            <div class="row">
-                <div class="col">
-                    <img src="images/service-1.jpg" alt="image">
-                    <h1>Wedding Event</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum corporis quos veritatis sunt quo dolor doloremque sint, laborum voluptatum quaerat, ad libero recusandae cumque nihil itaque, saepe enim. Modi, quia!</p>
-                    <div class="btn">
-                        <button>Details</button>
-                    </div>
-
-                </div>
-
-                <div class="col">
-                    <img src="images/service-3.jpg" alt="image">
-                    <h1>Seminar</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum corporis quos veritatis sunt quo dolor doloremque sint, laborum voluptatum quaerat, ad libero recusandae cumque nihil itaque, saepe enim. Modi, quia!</p>
-                    <div class="btn">
-                        <button>Details</button>
-                    </div>
-
-                </div>
-
-                <div class="col">
-                    <img src="images/service-5.jpg" alt="image">
-                    <h1>Culture</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum corporis quos veritatis sunt quo dolor doloremque sint, laborum voluptatum quaerat, ad libero recusandae cumque nihil itaque, saepe enim. Modi, quia!</p>
-                    <div class="btn">
-                        <button>Details</button>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <img src="images/service-6.jpg" alt="image">
-                    <h1>Music</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum corporis quos veritatis sunt quo dolor doloremque sint, laborum voluptatum quaerat, ad libero recusandae cumque nihil itaque, saepe enim. Modi, quia!</p>
-                    <div class="btn">
-                        <button>Details</button>
-                    </div>
-
-                </div>
-
-                <div class="col">
-                    <img src="images/service-8.avif" alt="image">
-                    <h1>Food Festival</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum corporis quos veritatis sunt quo dolor doloremque sint, laborum voluptatum quaerat, ad libero recusandae cumque nihil itaque, saepe enim. Modi, quia!</p>
-                    <div class="btn">
-                        <button>Details</button>
-                    </div>
-
-                </div>
-
-                <div class="col">
-                    <img src="images/services-7.webp" alt="image">
-                    <h1>Dance</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum corporis quos veritatis sunt quo dolor doloremque sint, laborum voluptatum quaerat, ad libero recusandae cumque nihil itaque, saepe enim. Modi, quia!</p>
-                    <div class="btn">
-                        <button>Details</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-
-<?php
-    require_once('footer.php');
-?>
 <style>
     .container{
         width: 100%;
         background-color: #E9E9E9;    
-        height: 100%;
+        height: auto;
+        padding-bottom: 40px;
+      
         
     }
     .container .wrapper{
         width: 100%;
         background: url(images/services.jpg);
         object-fit: cover;
-        height: 400px;
+        min-height: 200px;
+        line-height: 200px;
         background-repeat: no-repeat;
+        z-index: -99;
     }
     .wrapper h1{
         font-size:36px ;
         color: #fff;
         font-family: 'Ubuntu', sans-serif;
         font-weight: 400;
+        padding: 20px;
+        vertical-align: middle;
+        display: inline-block;
         margin-left: 15%;
-        padding: 20px;
     }
-    .wrapper h2{
-        font-size: 36px;
-        color: #fff;
-        font-family: 'Ubuntu', sans-serif;
-        font-weight: 400;
-        margin-left: 15%;
-        padding: 20px;
-    }
-    .form{
-        width: 70%;
-        border: none;
-        background-color: #fff;
-        margin-left: 15%;
-        padding: 20px;
-        border-radius: 20px;
-        box-shadow: 10px 10px 10px #3e3e3e;
-        height: 100px;
-        margin-top: 20px;
-    }
-    .form form{
-        display: flex;
-        width: 100%;
-        justify-content: space-around;
-        height: 100%;
-        position: relative;
-    }
-    .form form col{
-        display: block;
-        width: 30%;
-        padding: 20px;
-    }
-    form label{
+    .row {
+        width: 80%;
+        height: auto;
+        margin: 20px auto 0px auto;
         padding: 10px;
-        font-size: 18px;
+        display: grid;
+        grid-gap: 30px;
+        grid-template-columns: repeat(3, 1fr);
+        outline: none;
         font-family: 'Ubuntu', sans-serif;
     }
-    form input,
-    form select{
-       margin-top: 20px;
-       position: relative;
-       width: 300px;
-       padding: 10px 25px;
-       border: none;
-       background: #efefef;
-       border-radius: 20px;
-       color: #3e3e3e;
-       font-size: 16px;
-    }
-    .button{
-        z-index: 2;
-        position: absolute;
-        left: 0;
-        bottom: -60px;
-        align-items: center;
+    .col {
         display: flex;
-        justify-content: space-around;
-        width: 100%;
-    }
-    .button button{
-        --arrow-width: 10px;
-        --arrow-stroke: 2px;
-        box-sizing: border-box;
-        border: 0;
-        border-radius: 20px;
-        color: #fff;
-        padding: 1em 2.8em;
-        background: #a80b59;
-        display: flex;
-        transition: 0.3s background;
+        flex-direction: column;
         align-items: center;
-        gap: 0.6em;
-        margin-top: 20px;
-        font-weight: bold;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-    .packages{
-        width: 90%;
-        margin-left: 5%;
-        padding: 30px;
-       
-    }
-    .heading h1{
-        font-size: 36px;
-        color: #000;
-        font-family: 'Ubuntu', sans-serif;
-        font-weight: 400;
-        margin-left: 10%;
-        margin-top: 30px;
-    }
-    .packages .row{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 30px;
-    }
-    .row .col{
-        width: 30%;
-        text-align: left;
-        font-family: 'Ubuntu', sans-serif;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         background-color: #fff;
-        box-shadow: 0px 0px 15px #616161;
+        border-radius: 15px;
     }
-    .col img{
+    .row .col img{
         width: 100%;
         height: 250px;
+        object-fit: cover;
     }
-    .col h1{
+    .box{
         padding: 20px;
-        font-size: 29px;
-        font-family: 'Ubuntu', sans-serif;
-        font-weight: 600;
-        padding: 10px 20px;
     }
-    .col p{
-        padding: 20px;
-        font-size: 14px;
-        font-family: 'Ubuntu', sans-serif;
+    .col .truncate {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; 
+        -webkit-box-orient: vertical;
+        margin-bottom: 10px; 
+        font-size: 1rem;
         font-weight: 400;
-        padding: 0px 20px;
+        text-align: left;
+        margin: 10px 0px;
+        bottom: 0;
     }
-    .col .btn{
-        padding: 30px;
-    }
-    .col .btn button{
-        box-sizing: border-box;
-        border: 0;
-        border-radius: 20px;
-        color: #fff;
-        padding: 1em 1.8em;
-        background: #02266C;
-        text-align: center;
-        font-weight: bold;
+    .col .btns{
+        display: flex;
         width: 100%;
     }
-
+    .col .btns a{
+        padding: 10px 20px;
+        background: black;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 15px;
+        width: 100%;
+    }
+    
+    
    
-
-
 </style>
+</head>
+<?php
+require_once('nav.php');
+?>
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <h1>Our Packages</h1>
+        </div>
+        <div class="row">
+            <?php
+            $sql = "SELECT ser_id, ser_name, description, image FROM tbl_service";
+            $result = mysqli_query($conn, $sql);
+
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+            ?>
+                    <div class="col">
+                        <img src="serviceUploads/<?php echo $row['image']; ?>" alt="image">
+                        <div class="box">
+                            <h1><?php echo $row['ser_name']; ?></h1>
+                            <p class="truncate"><?php echo $row['description']; ?></p>
+                            <div class="btns">
+                                <a href="view_packages.php?criteria=<?=$row['ser_id'];?>" onclick="viewDetails()">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+            <?php
+                }
+            } else {
+                echo "No services found.";
+            }
+
+            mysqli_close($conn);
+            ?>
+        </div>
+    </div>
+    
+</body>
+
+
+<?php
+    require_once('footer.php');
+?>
+

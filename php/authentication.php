@@ -4,7 +4,7 @@ class UserAuthentication {
 
     public function __construct($dbConnection) {
         $this->conn = $dbConnection;
-        session_start();
+        // session_start();
     }
 
     public function login($email, $password) {

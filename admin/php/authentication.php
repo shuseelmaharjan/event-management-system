@@ -323,6 +323,56 @@ class event {
     }
     
 }
+class service {
+    private $db;
 
+    public function __construct($db){
+        $this->db = $db;
+    }
 
+    // Data insertion
+    public function insertService($serviceName, $eventType, $description, $uniqueFileName){
+        $stmt = $this->db->prepare("INSERT INTO tbl_service (ser_name, type, description, image) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $serviceName, $eventType, $description, $uniqueFileName);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+//for package
+class package{
+    private $db;
+    public function __construct($db){
+        $this->db = $db;
+    }
+    // data insertion
+    // public function insertService($serviceId, $packageName, $packageCost, $packageGuest, $packageDescription){
+    //     $stmt = $this->db->prepare("INSERT INTO tbl_package(pkg_name, pkg_cost, pkg_guest, pkg_descrition, service_id) VALUES (?, ?, ?, ?, ?)");
+    //     $stmt->bind_param("sssss", $packageName, $packageCost, $packageGuest, $packageDescription, $serviceId);
+    
+    //     if ($stmt->execute()) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+    public function insertService($serviceId, $packageName, $packageCost, $packageGuest, $packageDescription){
+        $stmt = $this->db->prepare("INSERT INTO tbl_packages(pkg_name, pkg_cost, pkg_guest, pkg_description, service_id) VALUES (?, ?, ?, ?, ?)");
+    
+        $stmt->bind_param("sssss", $packageName, $packageCost, $packageGuest, $packageDescription, $serviceId);
+    
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    
+}
 ?>
+

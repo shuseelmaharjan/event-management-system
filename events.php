@@ -10,165 +10,6 @@ require_once('header.php');
 require_once('nav.php');
 ?>
 <body>
-    
-    <div class="container" margin-top="70px" background-color="#73000E">
-        <div class="heading">
-            <h1>UP COMMING EVENTS</h1>
-            <div class="wrapper">
-                <div class="row">
-                    <div class="col1">
-                        <!--image-->
-                        <img src="images/art.png" alt="image">
-                    </div>
-                    <div class="col2">
-                        <p>2023-04-05</p>
-                        <p>to</p>
-                        <p>2023-04-10</p>
-                    </div>
-                    <div class="col3">
-                        <p>Art Exhibition</p>
-                    </div>
-                    <div class="col4">
-                        <p><strong>Location: </strong> Baneshwor, Kathmandu</p>
-                    </div>
-                    <div class="col5">
-                        <button>View Details</button>
-                    </div>
-                    <div class="col6">
-                        <button>Join this Event</button>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col1">
-                        <!--image-->
-                        <img src="images/newari.jpg" alt="image">
-                    </div>
-                    <div class="col2">
-                        <p>2023-04-05</p>
-                        <p>to</p>
-                        <p>2023-04-10</p>
-                    </div>
-                    <div class="col3">
-                        <p>Cultural Festival</p>
-                    </div>
-                    <div class="col4">
-                        <p><strong>Location: </strong>Kathmandu</p>
-                    </div>
-                    <div class="col5">
-                        <button>View Details</button>
-                    </div>
-                    <div class="col6">
-                        <button>Free Entry</button>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col1">
-                        <!--image-->
-                        <img src="images/art.png" alt="image">
-                    </div>
-                    <div class="col2">
-                        <p>2023-04-05</p>
-                        <p>to</p>
-                        <p>2023-04-10</p>
-                    </div>
-                    <div class="col3">
-                        <p>Type</p>
-                    </div>
-                    <div class="col4">
-                        <p><strong>Location: </strong>Lokanthali, Ktm</p>
-                    </div>
-                    <div class="col5">
-                        <button>View Details</button>
-                    </div>
-                    <div class="col6">
-                        <button>Join this Event</button>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col1">
-                        <!--image-->
-                        <img src="images/art.png" alt="image">
-                    </div>
-                    <div class="col2">
-                        <p>2023-04-05</p>
-                        <p>to</p>
-                        <p>2023-04-10</p>
-                    </div>
-                    <div class="col3">
-                        <p>Art Exhibition</p>
-                    </div>
-                    <div class="col4">
-                        <p><strong>Location: </strong> Baneshwor, Kathmandu</p>
-                    </div>
-                    <div class="col5">
-                        <button>View Details</button>
-                    </div>
-                    <div class="col6">
-                        <button>Join this Event</button>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col1">
-                        <!--image-->
-                        <img src="images/newari.jpg" alt="image">
-                    </div>
-                    <div class="col2">
-                        <p>2023-04-05</p>
-                        <p>to</p>
-                        <p>2023-04-10</p>
-                    </div>
-                    <div class="col3">
-                        <p>Cultural Festival</p>
-                    </div>
-                    <div class="col4">
-                        <p><strong>Location: </strong>Kathmandu</p>
-                    </div>
-                    <div class="col5">
-                        <button>View Details</button>
-                    </div>
-                    <div class="col6">
-                        <button>Join this Event</button>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col1">
-                        <!--image-->
-                        <img src="images/art.png" alt="image">
-                    </div>
-                    <div class="col2">
-                        <p>2023-04-05</p>
-                        <p>to</p>
-                        <p>2023-04-10</p>
-                    </div>
-                    <div class="col3">
-                        <p>Type</p>
-                    </div>
-                    <div class="col4">
-                        <p><strong>Location: </strong>Lokanthali, Ktm</p>
-                    </div>
-                    <div class="col5">
-                        <button>View Details</button>
-                    </div>
-                    <div class="col6">
-                        <button>Join this Event</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-</body>
-
 <style>
     .container{
         width: 100%;
@@ -178,6 +19,7 @@ require_once('nav.php');
     }
     .container .wrapper{
         padding: 40px;
+        display: block;
     }
 
     .container .heading h1{
@@ -189,73 +31,149 @@ require_once('nav.php');
     }
     .container .row{
         width: 80%;
+        margin: 20px auto;
         background-color: #fff;
-        text-align: center;
-        margin-left: 10%;
-        box-shadow: 10px 10px 15px #aaaaaa;    
-        padding: 10px;
-        height: 220px;
-        border-radius: 20px;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        margin-top: 30px;
-    }
-    .container .row .col1{
-        width: 15%;
-        padding: 10px;
+        padding: 20px;
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(5, 1fr);
+        outline: none;
+        border-radius: 10px;
+        box-shadow: 0px 5px 15px #888888;
     }
     .container .row .col1 img{
-        width: 150px;
-        
+        width: 300px;
+        height: 180px;
+        object-fit: cover;
     }
-    .container .row .col2,
-    .container .row .col3, 
-    .container .row .col4{
-        width: 15%;
+    .row .col-2{
+        margin: auto;
         text-align: center;
-        vertical-align: middle;
-        font-size: 18px;
-        font-family: 'Ubuntu', sans-serif;
+        font-size: 1.2rem;
     }
-    .container .row .col5{
-        width: 15%;
-        padding: 0px 5px;
-
-    }
-    .container .row .col6{
-        width: 25%;
-        padding: 0px 5px;
-    }
-    .container .row .col5 button,
-    .container .row .col6 button{
-        width: 80%;
-        font-family: "Ubuntu", sans-serif;
-        font-size: 14px;
-        font-weight: 400;
-        background: #006a07;
-        padding: 20px;
-        text-align: center;
+    .row .col-2 a{
         text-decoration: none;
-        text-transform: uppercase;
-        color: #fff;
-        border-radius: 5px;
         cursor: pointer;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        -webkit-transition-duration: 0.3s;
-        transition-duration: 0.3s;
-        -webkit-transition-property:  box-shadow, transform;
-        transition-property:   box-shadow, transform;
-        border: none;
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        background-color: #02266C;
+        color: #fff;
+        border-radius: 15px;
+        font-size: 600;
     }
-    .container .row .col5 button:hover,
-    .container .row .col6 button:hover{
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
+    .events{
+        width: 50%;
+        height: auto;
+        background-color: #E9E9E9;
+        padding: 20px;
+    }
+    .events img{
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+    }
+    .events .row{
+        width: 100%;
+        display: grid;
+        vertical-align: auto;
+        grid-template-columns: repeat(3, 1fr);
+        outline: none;
 
     }
+
 </style>
+    <!--popup container-->
+    <div class="popup" id="viewDetails">
+        <div class="close" onclick="closePopup()">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="events">
+            <img src="eventUploads/6518147fc0cc6.jpg" alt="image">
+            <h1 id="title"></h1>
+            <div class="row">
+                <p><strong>Event Date:</strong><span id="dateofStart"></span> to <span id="dateofEnd"></span></p>
+                <p><strong>Venue:</strong> <span id="venue"></span></p> <!-- Corrected ID here -->
+                <p><strong>Organizer:</strong> <span id="eventOrganizer"></span></p>
+            </div>
+            <div class="des">
+                <p id="desp"></p>
+            </div>
+        </div>
+    </div>
+    <!--body container-->
+    <div class="container">
+        <div class="heading">
+            <h1>UPCOMING EVENTS</h1>
+            <div class="wrapper">
+    <?php
+    $sql = "SELECT e.*, t.name AS event_type_name
+            FROM tbl_events e
+            LEFT JOIN tbl_types t ON e.eventType = t.type_id";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $rowCount = 0;
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rowCount++;
+
+            $rowClass = ($rowCount > 1) ? 'row with-gap' : 'row';
+
+            ?>
+            <div class="<?php echo $rowClass; ?>">
+            <?php 
+            $title = $row['eventName'];
+            $des = $row['description'];
+            $venue = $row['venue'];
+            $dos = $row['dateofStart'];
+            $doe = $row['dateofEnd'];
+            $organizer = $row['eventOrganizer'];
+            ?>
+                <div class="col1">
+                    <img src="eventUploads/<?php echo $row['image']; ?>" alt="Event Image">
+                </div>
+                <div class="col-2">
+                    <p><?php echo $dos?></p>
+                    <p>to</p>
+                    <p><?php echo $doe;?></p>
+                </div>
+                <div class="col-2">
+                    <p><strong><?php echo $title?></strong></p>
+                </div>
+                <div class="col-2">
+                    <p><strong>Venue: </strong><?php echo $venue; ?></p>
+                </div>
+                <div class="col-2">
+                    <a href="view-event.php?criteria=<?= $row['id']?>">View Details</a>
+                </div>
+
+            </div>
+
+            <?php
+        }
+    } else {
+        echo "No upcoming events found.";
+    }
+    ?>
+</div>
+        </div>
+    </div>
+
+<script>
+    function openPopup(description) {
+        console.log("checking");
+        document.getElementById("viewDetails").style.display = "flex";
+        document.getElementById("desp").innerText = description;
+    }
+
+    function closePopup() {
+        document.getElementById("viewDetails").style.display = "none";
+    }
+</script>
+    
+</body>
+
+
 <?php
     require_once('footer.php');
 ?>

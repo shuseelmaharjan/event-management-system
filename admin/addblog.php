@@ -16,7 +16,7 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         $imageFileName = $_FILES["image"]["name"];
         $imageFileType = strtolower(pathinfo($imageFileName, PATHINFO_EXTENSION));
 
-        $uploadDir = "blogImages/";
+        $uploadDir = "../blogUploads/";
         $uniqueFileName = uniqid() . '.' . $imageFileType;
         $targetFilePath = $uploadDir . $uniqueFileName;
 
@@ -76,7 +76,8 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         height: auto !important;
         padding: 15px;
     }
-    .col-2 label{
+    .col-2 label,
+    .col .banner .input-box{
         display: block;
         font-weight: 500;
         margin-bottom: 5px;
@@ -114,6 +115,57 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         transition: all 0.3s ease;
         margin-top: 15px;
     }
+    #banner .input-box input[type="file"] {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+    #banner .input-box input {
+        display:none;
+    }
+    #banner .input-box img {
+        width:100%;
+        height: 180px;
+        object-fit:cover;
+        cursor: pointer;
+        box-shadow:0px 0px 20px 5px rgba(100,100,100,0.1);
+        margin: 20px 0px;
+    }
+    #banner .input-box div {
+        position:relative;
+        height:40px;
+        margin-top:-40px;
+        background:rgba(0,0,0,0.5);
+        text-align:center;
+        line-height:40px;
+        font-size:13px;
+        color:#f5f5f5;
+        cursor: pointer;
+        font-weight:600;
+    }
+    #banner div span {
+        font-size:40px;
+    }
+    .two-columns{
+        grid-column: span 2;
+    }
+    #description label{
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    #my-textarea {
+        width: 100%;
+        min-height: 200px;
+        resize: none;
+        padding: 10px;
+        font-size: 1rem;
+        font-weight: 400;
+        margin: 10px 0px;
+    }
     
 </style>
 <div class="main">
@@ -136,8 +188,18 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
                     <div class="box">
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="col" id="contentImg">
-                                <label for="chooseimg">Choose Image</label>
-                                <input type="file" name="image">
+                                <div class="banner" id="banner">
+                                    <div class="input-box">
+                                        <label for="">Select Image</label>
+                                        <input type="file" name="image" id="selectFile" accept="image/*">
+                                        <label for="selectFile" id="file-2-preview">
+                                            <img id="previewImage" src="eventImages/default.jpg" alt="Thumbnail">
+                                            <div>
+                                                <span>+</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-2">
                                 <label for="title">Blog Title:</label>
@@ -161,13 +223,10 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
                                     </div>
 
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <div class="input-box">
-                                        <textarea name="description" id="editor" width="100%" id="" cols="90" rows="20"></textarea>
-                                    </div>
+                                <div id="description" class="two-columns">
+                                    <label for="">Description</label>
+                                    <textarea id="my-textarea" name="description"></textarea>
                                 </div>
-
                                 
                                 <button>Post</button>
                                 
@@ -204,6 +263,19 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
     .catch(error => {
         console.error(error);
     });
+
+    function previewBeforeUpload(id) {
+    document.querySelector("#" + id).addEventListener("change", function (e) {
+        if (e.target.files.length == 0) {
+            return;
+        }
+        let file = e.target.files[0];
+        let url = URL.createObjectURL(file);
+        document.querySelector("#previewImage").src = url;
+    });
+}
+
+previewBeforeUpload("selectFile");
 </script>
 <?php
 require_once('footer.php');

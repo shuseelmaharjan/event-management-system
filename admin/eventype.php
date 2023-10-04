@@ -280,7 +280,6 @@ if (isset($_POST['updateType'])) {
 
 
     function closeBtn() {
-        // Close the popup div when the close button (x) is clicked
         var popup = document.querySelector('.popup');
         popup.style.display = 'none';
     }

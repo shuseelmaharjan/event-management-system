@@ -6,253 +6,180 @@ require_once('header.php');
 
 <link rel="stylesheet" href="css/main.css">
 </head>
+<style>
+    .container {
+        width: 100%;
+        position: relative;
+        padding-top: 70px;
+    }
+
+    .row {
+        width: 80%;
+        height: auto;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 10px;
+        display: grid;
+        grid-gap: 30px;
+        grid-template-columns: repeat(3, 1fr);
+        outline: none;
+    }
+    .row h1{
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 2rem;
+
+    }
+   
+    .col {
+        background-color: #efefef;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        cursor: pointer;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+    }
+
+    .col img {
+        width: 100%;
+        max-width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    .col .content{
+        padding: 10px 20px;
+        display: block;
+        font-family: 'Poppins', sans-serif;
+    }
+    .col .content h1{
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: left;
+        margin-top: 10px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .col .content .truncate {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; 
+        -webkit-box-orient: vertical;
+        margin-bottom: 10px; 
+        font-size: 1rem;
+        font-weight: 400;
+        text-align: left;
+        margin: 10px 0px;
+        bottom: 0;
+
+    }
+
+
+    .col .content a{
+        text-decoration: none;
+        color: #fff; 
+        cursor: pointer;
+        margin-bottom: 40px;
+        display: block; 
+        padding: 10px 0; 
+        background-color: green;
+        width: 100%;
+        border-radius: 5px; 
+        text-align: center; 
+        bottom: 0;
+    }
+
+    .col .content .postDate {
+        position: absolute;
+        bottom: 15px;
+        right: 20px;
+    }
+    .popup{
+        top: 0;
+    }
+    .news{
+        width: 60%;
+        background-color: #efefef;
+        display: inline;
+        padding: 20px;
+    }
+    
+    .news h1 {
+      color: green;
+      font-size: 3rem;
+      font-weight: 600;
+    }
+  
+    .news img {
+      float: left;
+      margin: 5px;
+      padding-right: 10px;
+    }
+  
+    .news p {
+      text-align: justify;
+      font-size: 1rem;
+    }
+    .news .ref{
+        display: flex;
+        font-weight: 600;
+        margin-top: 20px;
+        justify-content: flex-end;
+    }
+    .news .ref span{
+        font-weight: 400;
+    }
+    .news .ref p{
+        margin-left: auto;
+    }
+    
+    
+</style>
 <?php
 require_once('nav.php');
 ?>
-<body>
 
-    <div class="container" >
-        <div class="wrapper">
-            <div class="heading" id="trending">
-                <h1>Trending</h1>
-            </div>
-            <div class="highlights">
-                <div class="row">
-                    <div class="col">
-                        <a href="#">
-                        <img src="" alt="">
-                        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam quos ex ullam sunt? Porro officia, </p>
-                        <p id="date"><i class="fa-solid fa-calendar"></i> June 2, 2023</p>
-                        </a>
-                        
-                    </div>
-
-                    <div class="col">
-                        <a href="#">
-                        <img src="" alt="">
-                        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam quos ex ullam sunt? Porro officia, </p>
-                        <p id="date"><i class="fa-solid fa-calendar"></i> June 2, 2023</p>
-                        </a>
-                        
-                    </div>
-
-                    <div class="col">
-                        <a href="#">
-                        <img src="" alt="">
-                        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam quos ex ullam sunt? Porro officia, </p>
-                        <p id="date"><i class="fa-solid fa-calendar"></i> June 2, 2023</p>
-                        </a>
-                        
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="heading" id="news">
-                <h1>News</h1>
-            </div>
-
-
-
-            <div class="otherBlogs">
-                <div class="row">
-                    <div class="col">
-                        <a href="#">
-                        <div class="image">
-                            <img src="" alt="">
-                        </div>
-                        <div class="title">
-                            <h1>Ipsum Dolor Sit Amet Consectetur Adipisicing Elit.</h1>
-                            <p id="date"><i class="fa-solid fa-calendar"></i> June 2, 2023</p>
-                        </div>
-                        </a>
-                    </div>
-
-                    <div class="col">
-                        <a href="#">
-                        <div class="image">
-                            <img src="" alt="">
-                        </div>
-                        <div class="title">
-                            <h1>Ipsum Dolor Sit Amet Consectetur Adipisicing Elit.</h1>
-                            <p id="date"><i class="fa-solid fa-calendar"></i> June 2, 2023</p>
-                        </div>
-                        </a>
-                    </div>
-
-                </div>
-
-
-                <div class="row">
-                    <div class="col">
-                        <a href="#">
-                        <div class="image">
-                            <img src="" alt="">
-                        </div>
-                        <div class="title">
-                            <h1>Ipsum Dolor Sit Amet Consectetur Adipisicing Elit.</h1>
-                            <p id="date"><i class="fa-solid fa-calendar"></i> June 2, 2023</p>
-                        </div>
-                        </a>
-                    </div>
-
-                    <div class="col">
-                        <a href="#">
-                        <div class="image">
-                            <img src="" alt="">
-                        </div>
-                        <div class="title">
-                            <h1>Ipsum Dolor Sit Amet Consectetur Adipisicing Elit.</h1>
-                            <p id="date"><i class="fa-solid fa-calendar"></i> June 2, 2023</p>
-                        </div>
-                        </a>
-                    </div>
-
-                </div>
-
-
-
-                <div class="row">
-                    <div class="col">
-                        <a href="#">
-                        <div class="image">
-                            <img src="" alt="">
-                        </div>
-                        <div class="title">
-                            <h1>Ipsum Dolor Sit Amet Consectetur Adipisicing Elit.</h1>
-                            <p id="date"><i class="fa-solid fa-calendar"></i> June 2, 2023</p>
-                        </div>
-                        </a>
-                    </div>
-
-                    <div class="col">
-                        <a href="#">
-                        <div class="image">
-                            <img src="" alt="">
-                        </div>
-                        <div class="title">
-                            <h1>Ipsum Dolor Sit Amet Consectetur Adipisicing Elit.</h1>
-                            <p id="date"><i class="fa-solid fa-calendar"></i> June 2, 2023</p>
-                        </div>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-
-
-        </div>
-       
+<div class="container">
+    <div class="row">
+        <h1>Updates</h1>
     </div>
-</body>
-<style>
-    .container{
-        width: 100%;
-        background-color: #E9E9E9;    
-        height: 100%;
-        
-    }
-    .container .wrapper{
-        padding: 40px;
-        width: 80%;
-        margin-left: 10%;
-    }
+    <div class="row">
+        <?php
+        $sql = "SELECT id, post_title, publish_date, publish_time, description, image 
+        FROM tbl_blog ORDER BY publish_date DESC, publish_time DESC";
+        $result = mysqli_query($conn, $sql);
 
-    .container .heading h1{
-        font-size: 32px;
-        font-family: 'Ubuntu', sans-serif;
-        font-weight: bold;
-        color:#000 ;
-    }
-    #trending{
-        padding: 0px 0px 20px 0px;
-    }
-    #news{
-        padding: 40px 0px 0px 0px;
-    }
-    .container .highlights .row{
-        display: flex;
-        justify-content: space-between;
-    }
-    .container .row a{
-        text-decoration: none;
-    }
-    .container .highlights .row .col{
-        width: 30%;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background: #fff;
+        if(!$result){
+            echo"connection error";
+        }
+        if(mysqli_num_rows($result)>0){
+            while ($row=mysqli_fetch_assoc($result)){
+        ?>
+            <div class="col">
+                    <img src="blogUploads/<?php echo $row['image']; ?>" alt="image">
 
-    }
-    .highlights .row .col img{
-        width: 100%;
-        background-color: #3e3e3e;
-        height: 200px;
+                    <div class="content">
+                        <h1><?php echo $row['post_title']; ?></h1>
+                        <p class="truncate"><?php echo $row['description']; ?></p>
+                        <!-- <a href="#" class="btn">View Details</a> -->
 
-    }
-    .highlights .row .col h1{
-        font-size: 18px;
-        font-weight: bold;
-        color: #000;
-        font-family: 'Ubuntu', sans-serif;
-        padding: 10px 0px;
-        width: 100%;
-    }
-    .highlights .row .col p{
-        line-height: normal!important;
-        color: #000;
-        font-size: 12px;
-        padding: 10px 0px;
-    }
-    #date{
-        text-align: right;
-    }
-    .otherBlogs{
-        margin-top: 40px;
-    }
-    .otherBlogs .row{
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-    }
-    .otherBlogs .row .col{
-        width: 45%;
-        padding: 30px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background: #fff;
-        display: flex;
-        justify-content: space-between;
-    }
-    .otherBlogs .row .col .image{
-        width: 20%;
-        position: relative;
-        float: left;
-        padding: 10px 0px;
-    }
-    .otherBlogs .row .col .image img{
-        width: 100%;
-        background-color: #3e3e3e;
-        height: 80px;
-    }
-    .otherBlogs .row .col .title{
-        width: 80%;
-        position: relative;
-        float: right;
-    }
-    .otherBlogs .row .col .title h1{
-        padding: 10px;
-        color: #000;
-        font-family: 'Ubuntu', sans-serif;
-        
-    }
-    .otherBlogs .row .col .title p{
-        font-size: 14px;
-        color: #000;
-    }
-</style>
+                        <a href="view_details.php?id=<?php echo $row['id']; ?>">View Details</a>
+
+                        <p class="postDate"><i class="fa-solid fa-calendar"></i> <?php echo $row['publish_date']; ?></p>
+                    </div>
+                </div>
+        <?php
+            }
+        }
+        ?>
+    </div>
+
+</div>
+
+
+
+
 <?php
 
 require_once('footer.php');
