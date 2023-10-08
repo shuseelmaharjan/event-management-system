@@ -10,6 +10,11 @@ require_once('php/authentication.php');
         grid-template-columns: repeat(3, 1fr);
         outline: none;
     }
+    .col-2{
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(4, 1fr);
+    }
     .box form .input-box,
     #banner,
     #description{
@@ -34,6 +39,7 @@ require_once('php/authentication.php');
     }
     .two-columns{
         grid-column: span 2;
+        grid-row: span 2;
     }
     #description label{
         font-size: 1rem;
@@ -41,7 +47,7 @@ require_once('php/authentication.php');
     }
     #my-textarea {
         width: 100%;
-        min-height: 200px;
+        min-height: 300px;
         resize: none;
         padding: 10px;
         font-size: 1rem;
@@ -101,6 +107,23 @@ require_once('php/authentication.php');
     #banner div span {
         font-size:40px;
     }
+    #days{
+        display: flex;
+    }
+    #days button{
+        width: 150px;
+    }
+    #days button{
+        color: #fff;
+        border: #a10e55;
+        background-color: #a10e55;
+        cursor: pointer;
+    }
+    .infoMsg p{
+        font-size: 0.7rem;
+        font-style: italic;
+        color: red;
+    }
     
 </style>
 <?php 
@@ -116,18 +139,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $eventOrganizer = $_POST['eventOrganizer'];
         $description = $_POST['description'];
         $image = $_FILES['image']['name'];
+        $eventDays = $_POST['eventDays'];
+        $eventAddedTime = date('H:i:s'); 
+        $eventAddedDate = date('Y-m-d');
+        $status = 'active';
         $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
 
         $uploadDir = "../eventUploads/";
         $uniqueFileName = uniqid() . '.' . $imageFileType;
         $targetFilePath = $uploadDir . $uniqueFileName;
 
-        if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
+        if (in_array($imageFileType, array('jpg', 'jpeg', 'png', 'webp'))) {
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
               
-                    if ($addEvent->insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName)) {
-                        echo("data inserted successfully now redirecting to blog.php");
-                        exit();
+                    if ($addEvent->insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedDate, $eventAddedTime, $status)) {
+                        echo'<script>';
+                        echo'window.location.href = "http://localhost/eveproject/admin/events.php";';
+                        echo'</script>';
                     } else {
                         echo("failed");
                     }
@@ -151,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             </div>
             <div class="last-title">
                 <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
+                <img src="images/default-1.png" width="50px" alt="image">
                 <h1>User Admin</h1>
                 </div>
             </div>
@@ -161,24 +189,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <div class="row">
                
                 <div class="col-12">
-                    <div class="breadcum">
-                        <a href="events.php">Events</a> > <a href="addevents.php">Add Event Program</a>
-                    </div>
+                    <a href="events.php">
+                        <div class="breadcum">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </a>
                     <div class="box">
                         
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
                                 <div class="input-box" id="block">
                                     <label for="">Event Name:</label>
-                                    <input type="text" Name="eventName" placeholder="Event Name">
-
-                                </div>
-                                <div class="input-box block">
-                                    <label for="">Event Starting Date:</label>
-                                    <input type="date" Name="dateofStart">
-                                </div>
-                                <div class="input-box">
-                                    <label for="">Event Ending Date</label>
-                                    <input type="date" Name="dateofEnd">
+                                    <input type="text" Name="eventName" placeholder="Event Name" required>
 
                                 </div>
                                 <div class="input-box">
@@ -191,7 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
                                     if ($result->num_rows > 0) {
                                     ?>
-                                    <select name="eventType" id="type">
+                                    <select name="eventType" id="type" required>
                                         <option value="" selected disabled>Select Event Type</option>
                                         <?php
                                         while ($row = $result->fetch_assoc()) {
@@ -206,24 +227,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                     }
                                     ?>
                                 </div>
-
-
                                 <div class="input-box">
                                     <label for="">Venue</label>
-                                    <input type="text" name="venue" placeholder="Venue">
+                                    <input type="text" name="venue" placeholder="Venue" required>
                                 </div>
-                                <div class="input-box">
-                                    <label for="">Organizer</label>
-                                    <input type="text" name="eventOrganizer" placeholder="Organizer Name">
-                                </div>
-                                <div id="description" class="two-columns">
-                                    <label for="">Description</label>
-                                    <textarea id="my-textarea" name="description"></textarea>
-                                </div>
+                                
+
+                                    <div class="input-box">
+                                        <div class="days">
+                                            <label for="eventDays">Number of Days</label>
+                                            <span id="days">
+                                                <button type="button" id="decrement"><i class="fa-solid fa-minus"></i></button>
+                                                <input type="number" id="value" name="eventDays" value="1" min="1">
+                                                <button type="button" id="increment"><i class="fa-solid fa-plus"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="input-box">
+                                        <label for="dateofStart">Event Starting Date:</label>
+                                        <input type="date" id="dateofStart" name="dateofStart" required>
+                                    </div>
+
+                                    <div class="input-box">
+                                        <label for="dateofEnd">Event Ending Date</label>
+                                        <input type="date" id="dateofEnd" name="dateofEnd" readonly>
+                                    </div>
+                                    
+
+
+                                    
+                                    <div class="input-box">
+                                        <label for="">Organizer</label>
+                                        <input type="text" name="eventOrganizer" placeholder="Organizer Name" required>
+                                    </div>
+                                    
+                                    <div id="description" class="two-columns">
+                                        <label for="">Description</label>
+                                        <textarea id="my-textarea" name="description" required></textarea>
+                                    </div>
                                 <div class="banner" id="banner">
                                     <div class="input-box">
-                                        <label for="">Select Image</label>
-                                        <input type="file" name="image" id="selectFile" accept="image/*">
+                                        <span class="infoMsg"><label for="">Select Image</label><p>* Image type must be jpg, jpeg or png and aspect ratio must be  16:9</p></span>
+                                        <input type="file" name="image" id="selectFile" accept="image/*" required>
                                         <label for="selectFile" id="file-2-preview">
                                             <img id="previewImage" src="eventImages/default.jpg" alt="Thumbnail">
                                             <div>
@@ -244,26 +289,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
   
 </div>
 <script>
+    //for date piker
+    var currentDate = new Date().toISOString().split('T')[0];
+
+    document.getElementById("dateofStart").setAttribute("min", currentDate);
+
+
+    //for textarea
     const textarea = document.getElementById('my-textarea');
     textarea.addEventListener('input', resizeTextarea);
     function resizeTextarea() {
-  const textarea = document.getElementById('my-textarea');
-  textarea.style.height = 'auto';
-  textarea.style.height = `${textarea.scrollHeight}px`;
-}
+    const textarea = document.getElementById('my-textarea');
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+    }
 
-function previewBeforeUpload(id) {
-    document.querySelector("#" + id).addEventListener("change", function (e) {
-        if (e.target.files.length == 0) {
-            return;
+    //file preview
+    function previewBeforeUpload(id) {
+        document.querySelector("#" + id).addEventListener("change", function (e) {
+            if (e.target.files.length == 0) {
+                return;
+            }
+            let file = e.target.files[0];
+            let url = URL.createObjectURL(file);
+            document.querySelector("#previewImage").src = url;
+        });
+    }
+
+    previewBeforeUpload("selectFile");
+
+
+    //increament and decrement of number of days and calendar
+    const decrementButton = document.getElementById("decrement");
+    const incrementButton = document.getElementById("increment");
+    const valueInput = document.getElementById("value");
+    const dateofStartInput = document.getElementById("dateofStart");
+    const dateofEndInput = document.getElementById("dateofEnd");
+
+    function calculateEndDate() {
+        const numDays = parseInt(valueInput.value);
+        if (!isNaN(numDays)) {
+            const startDate = new Date(dateofStartInput.value);
+            if (!isNaN(startDate.getTime())) {
+                if (numDays === 1) {
+                    dateofEndInput.value = dateofStartInput.value; 
+                    dateofEndInput.setAttribute("disabled", "disabled"); 
+                } else {
+                    const endDate = new Date(startDate);
+                    endDate.setDate(startDate.getDate() + numDays);
+                    dateofEndInput.value = endDate.toISOString().split('T')[0];
+                    dateofEndInput.removeAttribute("disabled"); 
+                }
+            }
         }
-        let file = e.target.files[0];
-        let url = URL.createObjectURL(file);
-        document.querySelector("#previewImage").src = url;
-    });
-}
+    }
 
-previewBeforeUpload("selectFile");
+    decrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(valueInput.value);
+        if (currentValue > 1) {
+            currentValue--;
+            valueInput.value = currentValue;
+            calculateEndDate(); 
+        }
+    });
+
+    incrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(valueInput.value);
+        currentValue++;
+        valueInput.value = currentValue;
+        calculateEndDate();
+    });
+
+    dateofStartInput.addEventListener("change", calculateEndDate);
+
+    calculateEndDate();
+
 
 </script>
 

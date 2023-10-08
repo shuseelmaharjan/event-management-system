@@ -3,17 +3,37 @@ require_once('header.php');
 require_once('sidebar.php');
 
 
-$deleteData = new event($conn);
-if(isset($_GET['criteria'])){
+if (isset($_GET['criteria'])) {
     $id = $_GET['criteria'];
+    $deleteData = new event($conn);
 
-    if($deleteData->deleteEvent($id)){
-        exit();
-    }else{
-        echo"Deletion failed";
+    if ($deleteData->deleteEvent($id)) {
+        // Successful deletion, you can redirect or display a success message
+        // header("Location: events.php");
+        // exit();
+        echo'<script>';
+        echo'window.location.href = "http://localhost/eveproject/admin/events.php";';
+        echo'</script>';
+    } else {
+        echo "Deletion failed";
     }
 }
 ?>
+<style>
+     #btns{
+        display: flex;
+        justify-content: flex-end;
+    }
+</style>
+<div class="deleteConfirmation" id="deleteConfirmation">
+    <div class="deleteMsg">
+        <h1>Are you sure?</h1>
+        <div class="btns">
+            <a href="#" class="confirm">Confirm</a>
+            <a onclick="closeDeleteConfirmation()" class="cancel">Cancel</a>
+        </div>
+    </div>
+</div>
 <div class="main">
         <div class="main-header">
             <div class="main-title">
@@ -21,7 +41,7 @@ if(isset($_GET['criteria'])){
             </div>
             <div class="last-title">
                 <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
+                <img src="images/default-1.png" width="50px" alt="image">
                 <h1>User Admin</h1>
                 </div>
             </div>
@@ -31,10 +51,15 @@ if(isset($_GET['criteria'])){
             <div class="row">
                
                 <div class="col-12">
-                    <!-- ORDERS TABLE -->
-                    <div id="addBtn">
-                        <a href="addevents.php">Add Event Post</a>
+                    <div class="btns" id="btns">
+                        <div id="addBtn">
+                            <a href="eventhistory.php">View History</a>
+                        </div>
+                        <div id="addBtn">
+                            <a href="addevents.php">Add Event Post</a>
+                        </div>
                     </div>
+                    
                     <div class="box">
                         <div class="box-header">
                             All Events
@@ -56,11 +81,14 @@ if(isset($_GET['criteria'])){
                             $totalRecords = mysqli_fetch_assoc($resultCount)['total'];
 
                             $totalPages = ceil($totalRecords / $recordsPerPage);
-
                             $sql = "SELECT e.*, t.name AS name
-                                    FROM tbl_events AS e
-                                    LEFT JOIN tbl_types AS t ON e.eventType = t.type_id
-                                    LIMIT $offset, $recordsPerPage";
+                                FROM tbl_events AS e
+                                LEFT JOIN tbl_types AS t ON e.eventType = t.type_id
+                                WHERE e.ad_status = 'active'
+                                ORDER BY e.adPostedDate DESC, e.adPostedTime DESC
+                                LIMIT $offset, $recordsPerPage";
+
+
                             $result = mysqli_query($conn, $sql);
                         ?>
                             <table>
@@ -70,7 +98,7 @@ if(isset($_GET['criteria'])){
                                         <th class="left">Title</th>
                                         <th class="center">Event Start on</th>
                                         <th class="center">Type</th>
-                                        <th class="center">Venue</th>
+                                        <th class="left">Venue</th>
                                         <th class="center">Action</th>
                                     </tr>
                                 </thead>
@@ -87,12 +115,12 @@ if(isset($_GET['criteria'])){
                                                 <td class="left"><?php echo $row['eventName']; ?></td>
                                                 <td class="center"><?php echo $row['dateofStart']; ?></td>
                                                 <td class="center"><?php echo $row['name']; ?></td>
-                                                <td class="center"><?php echo $row['venue']; ?></td>
+                                                <td class="left"><?php echo $row['venue']; ?></td>
                                                 <td class="center">
-                                                    <a href="#" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
+                                                    <a href="viewevents.php?criteria=<?=$row['id'];?>" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
                                                     <a href="updateevent.php?criteria=<?=$row['id'];?>" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
-                                                    <a href="events.php?criteria=<?= $row['id']; ?>" onclick="confirm('Are yuu sure');" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>
-                                                </td>
+                                                    <!-- <button onclick="deleteConfirmation()" data-id="<?=$row['id']?>" class="delete"><i class="fa-solid fa-trash"></i></button> -->
+                                                    <a href="events.php?criteria=<?=$row['id']?>" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>                                                </td>
                                             </tr>
                                             <?php
                                             $serialNumber++; 
@@ -121,7 +149,14 @@ if(isset($_GET['criteria'])){
         </div>
   
 </div>
-
+<script>
+    function deleteConfirmation(){
+        document.getElementById("deleteConfirmation").style.display="flex";
+    }
+    function closeDeleteConfirmation(){
+        document.getElementById("deleteConfirmation").style.display="none";
+    }
+</script>
 <?php
 require_once('footer.php');
 ?> 

@@ -20,28 +20,34 @@
         </div>
         <div class="login" id="login">
         <?php
-            require_once('php/connection.php');
-            require_once('php/authentication.php');
-            $userAuth = new UserAuthentication($conn);
+            session_start();
 
-            // validate if the user is logged in
-            $userAuth->validateUserLogin();
+            if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+                $username = $_SESSION['username'];
 
-            if ($userAuth->isUserLoggedIn()) {
-                $userInfo = $userAuth->getUserInfo();
+                $imagePath = 'default.png';
 
-                $imagePath = $userInfo['image'];
-                if (!file_exists($imagePath)) {
-                    $imagePath = 'profile/uploads/default.png'; 
+                $sql = "SELECT id, image FROM tbl_users WHERE username = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("s", $username);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows === 1) {
+                    $row = $result->fetch_assoc();
+                    $imagePath = $row['image'];
                 }
+                // var_dump($imagePath);
                 ?>
-
                 <div class="user-profile" id="user-profile">
                     <ul>
                         <li>
-                            <img src="<?php echo ($imagePath); ?>" width="70px" alt="profile">
-                            <span id="username"><?php echo $userInfo['username']; ?></span>
-                            <ul>
+                            <div class="profile-info">
+                                <img src="profile/<?=$imagePath?>" alt="profile">
+                                <span id="username"><?=$username?></span>
+                            </div>
+                            <ul id="dropdown">
+                                <li><a href="reservation.php">My Reservation</a></li>
                                 <li><a href="profile/manage.php">Manage</a></li>
                                 <li><a href="logout.php">Logout</a></li>
                             </ul>
@@ -55,10 +61,48 @@
                 echo '<a href="register.php" class="signup-btn"><i class="fa-solid fa-user"></i> Register</a>';
             }
         ?>
-
         </div>
     </div>
 </nav>
+<style>
+.profile-info {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 30px;
+}
 
+.profile-info img {
+    width: 40px;
+    height: 40px; 
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+#username{
+    color: #fff;
+}
 
-    
+#dropdown {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    background-color: #fff; 
+    border: 1px solid #ccc; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); 
+}
+
+#dropdown li {
+    padding: 10px;
+}
+#dropdown li a{
+    color: #000;
+}
+
+#user-profile:hover #dropdown {
+    display: block;
+}
+
+</style>

@@ -288,9 +288,9 @@ class event {
     }
 
     // Data insertion
-    public function insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName){
-        $stmt = $this->db->prepare("INSERT INTO tbl_events (eventName, dateofStart, dateofEnd, eventType, venue,eventOrganizer, description, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssss", $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName);
+    public function insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedDate, $eventAddedTime, $status){
+        $stmt = $this->db->prepare("INSERT INTO tbl_events (eventName, dateofStart, dateofEnd, eventType, venue, eventOrganizer, description, image, event_days, adPostedDate, adPostedTime, ad_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssssssss", $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedDate, $eventAddedTime, $status);
 
         if ($stmt->execute()) {
             return true;
@@ -300,16 +300,31 @@ class event {
     }
 
     //update
-    public function updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $id){
-        $stmt = $this->db->prepare("UPDATE tbl_events SET eventName=?, dateofStart=?, dateofEnd=?, eventType=?, venue=?, eventOrganizer=?, description=?, image=? WHERE id=?");
-        $stmt->bind_param("ssssssssi", $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $id);
-
-        if ($stmt->execute()) {
-            return true;
+    public function updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $status, $id){
+        if ($status == 'expired') {
+            $expiredDate = date('Y-m-d');
+            $query = "UPDATE tbl_events SET eventName=?, dateofStart=?, dateofEnd=?, eventType=?, venue=?, eventOrganizer=?, description=?, image=?, event_days=?, ad_status=?, ad_expired_date=? WHERE id=?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param("sssssssssssi", $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $status, $expiredDate, $id);
+            
+            
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            $stmt = $this->db->prepare("UPDATE tbl_events SET eventName=?, dateofStart=?, dateofEnd=?, eventType=?, venue=?, eventOrganizer=?, description=?, image=?, event_days=?, ad_status=? WHERE id=?");
+            $stmt->bind_param("ssssssssssi", $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $status, $id);
+    
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
+    
     //delete
     public function deleteEvent($id){
         $stmt = $this->db->prepare("DELETE FROM tbl_events WHERE id = ?");

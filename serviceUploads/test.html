@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Increment and Decrement</title>
+    <style>
+        .container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Increment and Decrement</h1>
+        <button id="decrement">-</button>
+        <input type="number" id="value" value="1" min="1">
+        <button id="increment">+</button>
+    </div>
+
+    <script>
+        // Get references to the HTML elements
+        const decrementButton = document.getElementById("decrement");
+        const incrementButton = document.getElementById("increment");
+        const valueInput = document.getElementById("value");
+
+        // Add event listener for the decrement button
+        decrementButton.addEventListener("click", function () {
+            // Get the current value from the input field
+            let currentValue = parseInt(valueInput.value);
+
+            // Ensure the value is at least 1 before decrementing
+            if (currentValue > 1) {
+                currentValue--;
+                valueInput.value = currentValue;
+            }
+        });
+
+        // Add event listener for the increment button
+        incrementButton.addEventListener("click", function () {
+            // Get the current value from the input field
+            let currentValue = parseInt(valueInput.value);
+
+            // Increment the value
+            currentValue++;
+            valueInput.value = currentValue;
+        });
+    </script>
+</body>
+</html>

@@ -1,48 +1,4 @@
 <?php
-// session_start();
-// require_once('vendor/autoload.php');
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\SMTP;
-// use PHPMailer\PHPMailer\Exception;
-
-// // Function to generate a random OTP
-// function generateOTP() {
-//     return strval(rand(1000, 9999)); 
-// }
-
-// // Function to send OTP to a user's email
-// function sendOTP($email, $otp) {
-//     $mail = new PHPMailer(true);
-
-//     try {
-//         // Configure PHPMailer as shown in previous responses
-
-//         // Sender and recipient information
-//         $mail->setFrom('otp@ems.com', 'Event Management System');
-//         $mail->addAddress($email);
-
-//         // Email content
-//         $mail->isHTML(true);
-//         $mail->Subject = 'Your OTP Code';
-//         $mail->Body = "Your OTP code is: $otp";
-
-//         // Send the email
-//         $mail->send();
-//         return true; // Email sent successfully
-//     } catch (Exception $e) {
-//         return false; // Email could not be sent
-//     }
-// }
-
-// // Example usage:
-// $newUserEmail = $_SESSION['email'];
-// $otp = generateOTP();
-
-// if (sendOTP($newUserEmail, $otp)) {
-//     echo "OTP sent successfully to $newUserEmail";
-// } else {
-//     echo "OTP could not be sent to $newUserEmail";
-// }
 
 
 ?>
@@ -58,6 +14,9 @@
     <link rel="stylesheet" href="css/log.css">
 </head>
 <body>
+    <style>
+
+    </style>
     <div class="verification"n id="verify">
         <!--header section start here -->
         <div class="center">
@@ -215,7 +174,7 @@
                 input.value = "";
                 }
 
-                const key = event.key; // const {key} = event; ES6+
+                const key = event.key;
                 if (key === "Backspace" || key === "Delete") {
                 const prev = input.previousElementSibling;
                 if (prev) prev.focus();

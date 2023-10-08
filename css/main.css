@@ -6,7 +6,7 @@
 /*************start of navbar css********************/
 body .navbars {
     font-family: 'Ubuntu', sans-serif;
-    position: absolute;
+    position: fixed;
     top: 0;
     background-image: linear-gradient(to right, #02266C, #1A0051);
     font-size: 16px;
@@ -45,7 +45,7 @@ body .navbars .nav {
 .navbars .navbar-nav{
     width: 60%;
     display: inline;
-    margin-top: 20px;
+    margin-top: 10px;
     
 }
 .navbars .navbar-nav ul{

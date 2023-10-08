@@ -239,30 +239,8 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         </div>
   
 </div>
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 <script>
- ClassicEditor
-        .create(document.querySelector('#editor'), {
 
-        toolbar: {
-            items: [
-                'heading',
-                '|',
-                'bold',
-                'italic',
-                'link',
-                '|',
-                'bulletedList',
-                'numberedList',
-                '|',
-                'undo',
-                'redo'
-            ]
-        }
-    })
-    .catch(error => {
-        console.error(error);
-    });
 
     function previewBeforeUpload(id) {
     document.querySelector("#" + id).addEventListener("change", function (e) {

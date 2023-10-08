@@ -1,241 +1,204 @@
-<!DOCTYPE html>
+<?php
+require_once('php/connection.php');
+
+?>
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Management System</title>
-    <link rel="stylesheet" type="text/css" href="css/home.css" />
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css'><link rel="stylesheet" href="./style.css">
-    <style>
-  
-    .navbars{
-        font-family: 'Ubuntu', sans-serif;
-        position: absolute;
-        z-index: 2;
-        font-size: 16px;
-        font-weight: 400;
-        width: 100%;
-        height: 70px;
-        border-bottom: 1px solid #ffffff62;
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="Owlmin.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
 
-    }
-    .navbars .nav{
-        width: 100%;
-        position: absolute;
-        display: flex;
-    }
-    /**************** start of logo *****************/
-    .navbars .logo{
-        width: 20%;
-        margin-left: 5%;
-        padding: 20px 0px 0px 0px;
-    }
-    .navbars a img{
-        width: 150px;
-        position: absolute;
-        align-items: center;
-    }
-    /**************** end of logo *****************/
-    /**************** start of navlist *****************/
-    .navbar-nav .hamburger{
-        display: none;
-    }
-    .navbars .navbar-nav{
-        width: 60%;
-        display: inline;
-        margin-top: 35px;
-    }
-    .navbars .navbar-nav ul{
-        float: right;
-    }
-    .navbars .navbar-nav ul li{
-        list-style: none;
-        float: left;
-        padding: 0px 20px;
-    }
-    .navbars .navbar-nav ul li a{
-        color: #fff;
-        text-decoration: none;
-    }
-    #login::before {
-        content: "";
-        background-color: #fff;
-        position: absolute;
-        width: 1px;
-        height: 25px;
-        top: 30px;
-        display: block;
-    }
-    /**************** end of navlist *****************/
-    /**************** start of account login/signup *****************/
-    .nav .login{
-        width: 20%;
-        display: inline;
-        margin-top: 35px;
-    }  
-    .nav .login a{
-        text-decoration: none;
-        color: #fff;
-        padding: 0px 20px;
-    }
-    .nav .login a i{
-        margin-right: 5px;
-    }
- 
-    .login .user-profile{
-        display: flex;
-        justify-content: center;
-        flex-direction: row;
-        position: relative;
-    }
- 
-    .user-profile img{
-        vertical-align: middle;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-top: -15px;
-    }
-    .user-profile span{
-        margin-left: 10px;
-        color: #fff;
+    <link href="Bootstrapmin.css" rel="stylesheet" id="bootstrap-css">
 
-    }
-   
-    
-    #user-profile ul {
-        list-style: none;
-        margin-top: -20px;
-        padding-left: 0;
-    }
-
-    #user-profile li {
-        color: #fff;
-        display: block;
-        float: left;
-        padding: 1rem;
-        position: relative;
-        text-decoration: none;
-        transition-duration: 0.5s;
-    }
-    
-    #user-profile li a {
-    color: #fff;
-    }
-
-    #user-profile li:hover {
-        cursor: pointer;
-    }
-
-    #user-profile ul li ul {
-        background: blueviolet;
-        visibility: hidden;
-        opacity: 0;
-        min-width: 5rem;
-        position: absolute;
-        transition: all 0.5s ease;
-        margin-top: 1rem;
-        left: 0;
-        display: none;
-    }
-
-    #user-profile ul li:hover > ul,
-    #user-profile ul li ul:hover {
-        visibility: visible;
-        opacity: 1;
-        display: block;
-        color: black;
-    }
-
-    #user-profile ul li ul li {
-        clear: both;
-        width: 100%;
-    }
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!--font awesome cdn-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 
 
-    </style>
 </head>
 <body>
-    <!-- HEADER SECTION STARTS -->
-    <?php
-      require_once('nav.php');
-    ?>
-    <!-- HEADER SECTION ENDS -->
-    <!-- INFORMATION SECTION STARTS -->
-    <main>
-        <div>
-            <span>Discover</span>
-            <h1>Event Management</h1>
-            <hr>
-            <p color="#fff">Beauty" and mystery are hidden under the sea. Explore with our application to know about Aquatic Animals.</p>
-            <a href="#">download app</a>
-        </div>
-    <!-- INFORMATION SECTION ENDS -->
+    <style>
+        .nav .login{
+            margin-top: 0px;
+        }
+    </style>
 
-    <!-- ANIMATED SLIDER SECTION STARTS -->
-    <div class="swiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide swiper-slide--one">
-                <div>
-                    <h2>Art</h2>
-                    <p>Jellyf"ish and sea jellies are the informal common names give to the medusa-phase of certain gelatinous members of the subphylum Medusozoa, a major part of the phylum Cnidaria.</p>
-                    <a href="#" target="_blank">explore</a>
+        
+        <nav class="navbars">
+                <div class="nav">
+                    <div class="logo">
+                        <a class="navbar-brand" href="index.php"><img src="images/logo-white.webp" alt="logo"></a>
+                    </div>
+                    <div class="navbar-nav">
+                        <div class="hamburger">
+                            <div class="toggle" id="toggle">
+                                <i class="fa-solid fa-bars"></i>
+                            </div>
+                        </div>
+                        <ul class="navlist">
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="events.php">Events</a></li>
+                            <li><a href="services.php">Services</a></li>
+                            <li><a href="blog.php">Blog</a></li>
+                            <li><a href="contact.php">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="login" id="login">
+                    <?php
+                    
+                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+                            $username = $_SESSION['username'];
+
+                            $imagePath = 'path_to_default_image.png';
+
+                            $sql = "SELECT id, image FROM tbl_users WHERE username = ?";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("s", $username);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            
+                            if ($result->num_rows === 1) {
+                                $row = $result->fetch_assoc();
+                                $imagePath = $row['image'];
+                            }
+                            ?>
+                            <div class="user-profile" id="user-profile">
+                                <ul>
+                                    <li>
+                                        <div class="profile-info">
+                                            <img src="profile/<?=$imagePath?>" alt="profile">
+                                            <span id="username"><?=$username?></span>
+                                        </div>
+                                        <ul id="dropdown">
+                                            <li><a href="reservation.php">My Reservation</a></li>
+                                            <li><a href="profile/manage.php">Manage</a></li>
+                                            <li><a href="logout.php">Logout</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <?php
+                        } else {
+                            echo '<a href="login.php" class="login-btn"><i class="fa-solid fa-right-to-bracket"></i> Login</a>';
+                            echo '<a href="register.php" class="signup-btn"><i class="fa-solid fa-user"></i> Register</a>';
+                        }
+                    ?>
+                    </div>
                 </div>
+            </nav>
+
+
+
+        <div class="owl-slider" >
+           
+            <?php
+            $sql = "SELECT image FROM tbl_events";
+            $result = mysqli_query($conn, $sql);
+
+            if ($result) {
+                ?>
+                <div id="carousel" class="owl-carousel">
+                    <?php
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $imageUrl = $row['image'];
+                        ?>
+                        <div class="item">
+                        <img width="300px" height="300px" style="object-fit: cover;" src="eventUploads/<?php echo $imageUrl; ?>" alt="">
+                        </div>
+                        <?php
+                                }
+                            ?>
+                        
+                </div>
+                <?php
+            } else {
+                echo "Error: " . mysqli_error($conn);
+            }
+
+            ?>
+        </div>
+
+    <section style="font-size: 2em; text-align: center; margin-bottom: 3%; margin-top: 2%;">
+        Upcoming Events
+    </section>  
+        <?php 
+
+        $sql = "SELECT id, image, eventName, venue FROM tbl_events WHERE ad_status='active' LIMIT 3";
+
+        $result = mysqli_query($conn, $sql);
+
+        if (!$result) {
+            // Query failed; handle the error
+            die("Error executing the query: " . mysqli_error($conn));
+        }
+        ?>
+        <div class="container">
+            <div class="row">
+                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <div class="col-md-4">
+                        <div class="card card-01 height-fix">
+                            <a href="view-event.php?criteria=<?php echo$row['id']?>">
+                                <img class="card-img-top" width="200px" height="400px" style="object-fit: cover;" src="eventUploads/<?php echo $row['image']; ?>" alt="Card image cap">
+                                <div class="card-img-overlay">
+                                    <h4 class="card-title"><strong><?php echo $row['eventName']; ?></strong></h4>
+                                    <p class="card-text">Venue: <?php echo $row['venue']; ?></p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
-
-            <div class="swiper-slide swiper-slide--two">
-                <div>
-                  <h2>Convocation</h2>
-                  <p>
-                    Seahorses are mainly found in shallow tropical and temperate salt water throughout the world. They live in sheltered areas such as seagrass beds, estuaries, coral reefs, and mangroves. Four species are found in Pacific waters from North America to South America.
-                  </p>
-                  <a href="" target="_blank">explore</a>
-                </div>
-              </div>
-        
-              <div class="swiper-slide swiper-slide--three">
-        
-                <div>
-                  <h2>Seminar</h2>
-                  <p>
-                    Octopuses inhabit various regions of the ocean, including coral reefs, pelagic waters, and the seabed; some live in the intertidal zone and others at abyssal depths. Most species grow quickly, mature early, and are short-lived.
-                  </p>
-                  <a href="" target="_blank">explore</a>
-                </div>
-              </div>
-        
-              <div class="swiper-slide swiper-slide--four">
-        
-                <div>
-                  <h2>Concert</h2>
-                  <p>
-                    Sharks are a group of elasmobranch fish characterized by a cartilaginous skeleton, five to seven gill slits on the sides of the head, and pectoral fins that are not fused to the head.
-                  </p>
-                  <a href="" target="_blank">explore</a>
-                </div>
-              </div>
-   
-              <div class="swiper-slide swiper-slide--five">
-        
-                <div>
-                  <h2>Art Gallery</h2>
-                  <p>
-                    Dolphins are widespread. Most species prefer the warm waters of the tropic zones, but some, such as the right whale dolphin, prefer colder climates. Dolphins feed largely on fish and squid, but a few, such as the orca, feed on large mammals such as seals.
-                  </p>
-                  <a href="" target="_blank">explore</a>
-                </div>
-              </div>
         </div>
-        <div class="swiper-pagination"></div>
-    </div>
-       
-    </main>
-    
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js'></script><script  src="./script.js"></script>
-    <script src="./script.js"></script>
-    
+    </section>
+
+
+        
+
+        <script src="Jquery.js"></script>
+        <script src="Owlmin.js"></script>
+            <script>
+                jQuery("#carousel").owlCarousel({
+            autoplay: true,
+            rewind: true, /* use rewind if you don't want loop */
+            margin: 20,
+             /*
+            animateOut: 'fadeOut',
+            animateIn: 'fadeIn',
+            */
+            responsiveClass: true,
+            autoHeight: true,
+            autoplayTimeout: 7000,
+            smartSpeed: 800,
+            nav: true,
+            responsive: {
+              0: {
+                items: 1
+              },
+          
+              600: {
+                items: 3
+              },
+          
+              1024: {
+                items: 4
+              },
+          
+              1366: {
+                items: 4
+              }
+            }
+          });
+            </script>
 </body>
 </html>
+
+<?php
+    require_once('footer.php');
+?>

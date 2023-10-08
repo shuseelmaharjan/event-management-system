@@ -67,6 +67,9 @@ require_once('php/authentication.php');
         margin-top: 15px;
         cursor: pointer;
     }
+    #banner{
+        grid-row: span 2;
+    }
     #banner .input-box input[type="file"] {
         position: absolute;
         opacity: 0;
@@ -101,9 +104,35 @@ require_once('php/authentication.php');
     #banner div span {
         font-size:40px;
     }
-    
+    #days{
+        display: flex;
+    }
+    #days button{
+        width: 150px;
+    }
+    #days button{
+        color: #fff;
+        border: #a10e55;
+        background-color: #a10e55;
+        cursor: pointer;
+    }
+    .infoMsg p{
+        font-size: 0.7rem;
+        font-style: italic;
+        color: red;
+    }
+    #adStatus.active {
+        color: green;
+        border: green 1px solid;
+    }
+
+    #adStatus.expired {
+        color: red;
+        border: 1px solid red;
+    }
+
 </style>
-<?php 
+<?php
 $id = $_GET['criteria'];
 $sql = "SELECT e.*, t.name AS name
         FROM tbl_events AS e
@@ -113,48 +142,62 @@ $formData = mysqli_fetch_assoc($result);
 $update = new event($conn);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
-        $eventName = $_POST['eventName'];
-        $dateofStart = $_POST['dateofStart'];
-        $dateofEnd = $_POST['dateofEnd'];
-        $eventType = $_POST['eventType'];
-        $venue = $_POST['venue'];
-        $eventOrganizer = $_POST['eventOrganizer'];
-        $description = $_POST['description'];
-        $image = $_FILES['image']['name'];
-        $id = $_GET['criteria'];
-        $uniqueFileName = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+    $eventName = $_POST['eventName'];
+    $dateofStart = $_POST['dateofStart'];
+    $dateofEnd = $_POST['dateofEnd'];
+    $eventType = $_POST['eventType'];
+    $venue = $_POST['venue'];
+    $eventOrganizer = $_POST['eventOrganizer'];
+    $description = $_POST['description'];
+    $image = $_FILES['image']['name'];
+    $status = $_POST['adStatus'];
+    $eventDays = $_POST['eventDays'];
+    $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
 
-        if (!empty($_FILES["image"]["tmp_name"])) {
-            $target_dir = "eventImages/";  
-            $target_file = $target_dir . basename($_FILES["image"]["name"]);
-    
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                $image = $target_file;
-            } else {
-                echo "Failed to upload image.";
-                exit();
-            }
+$imageUploaded = !empty($_FILES["image"]["tmp_name"]);
+$existingImage = isset($_POST["existingImage"]) ? $_POST["existingImage"] : "";
+
+if ($imageUploaded && in_array($imageFileType, array('jpg', 'jpeg', 'png', 'webp'))) {
+    $uploadDir = "../eventUploads/";
+    $uniqueFileName = uniqid() . '.' . $imageFileType;
+    $targetFilePath = $uploadDir . $uniqueFileName;
+
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+        if ($update->updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $status, $id)) {
+            echo'<script>';
+            echo'window.location.href = "http://localhost/eveproject/admin/events.php";';
+            echo'</script>';
         } else {
-            $image = 'defalut.jpg'; 
+            echo "Data could not be updated. Please try again later.";
         }
-        if ($update->updateEvent($id, $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName)) {
-            echo("Date Updated Successfully");
-            exit();
-        } else {
-            echo("Data cannot be update");
-        }
-   
+    } else {
+        echo "Error occurred while uploading the image.";
+    }
+} elseif (!$imageUploaded) {
+    if ($update->updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $existingImage, $eventDays, $status, $id)) {
+        echo'<script>';
+        echo'window.location.href = "http://localhost/eveproject/admin/events.php";';
+        echo'</script>';
+    } else {
+        echo "Data could not be updated. Please try again later.";
+    }
+} else {
+    echo "Invalid image file type. Please choose a valid image (jpg, jpeg, png, webp).";
+}
+
+
 }
 
 ?>
+
 <div class="main">
         <div class="main-header">
             <div class="main-title">
-                Events
+                Update Event
             </div>
             <div class="last-title">
                 <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
+                <img src="images/default-1.png" width="50px" alt="image">
                 <h1>User Admin</h1>
                 </div>
             </div>
@@ -164,80 +207,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             <div class="row">
                
                 <div class="col-12">
-                <div class="breadcum">
-                        <a href="events.php">Events</a> > Update Event Program
+                    <a href="events.php">
+                        <div class="breadcum">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </a>
+                   
+                    <div class="alertMessage" id="alertMessage">
+                        <p id="alertMsg"></p>
+                        <p><a href="#"><i class="fa-solid fa-xmark"></i></a></p>
                     </div>
                     <div class="box">
-                        
-                    <form action="" method="post" enctype="multipart/form-data">
+                    <form method="post" action="updateevent.php?criteria=<?=$id?>" enctype="multipart/form-data">
                                 <div class="input-box" id="block">
                                     <label for="">Event Name:</label>
-                                    <input type="text" Name="eventName" placeholder="Event Name" value="<?=$formData['eventName']?>">
-
-                                </div>
-                                <div class="input-box block">
-                                    <label for="">Event Starting Date:</label>
-                                    <input type="date" Name="dateofStart" value="<?=$formData['dateofStart']?>">
-                                </div>
-                                <div class="input-box">
-                                    <label for="">Event Ending Date</label>
-                                    <input type="date" Name="dateofEnd" value="<?=$formData['dateofEnd']?>">
+                                    <input type="text" Name="eventName" placeholder="Event Name" value="<?=$formData['eventName']?>" required>
 
                                 </div>
                                 <div class="input-box">
-                                <label for="">Event Type</label>
-                                <?php
-                                $sql = "SELECT type_id, name FROM tbl_types";
-                                $result = $conn->query($sql);
-
-                                if ($result->num_rows > 0) {
-                                ?>
-                                <select name="eventType" id="type">
-                                    <option value="" selected disabled>Select Event Type</option>
+                                    <label for="">Event Type</label>
                                     <?php
-                                    while ($row = $result->fetch_assoc()) {
-                                        $typeId = $row['type_id'];
-                                        $typeName = $row['name'];
-                                        $selected = ($typeId == $formData['eventType']) ? 'selected' : '';
-                                        ?>
-                                        <option value="<?= $typeId ?>" <?= $selected ?>><?= $typeName ?></option>
-                                    <?php }?>
-                                </select>
-                                <?php } else {
-                                    echo 'No data found.';
-                                }
-                                ?>
-                            </div>
+                                    $sql = "SELECT type_id, name FROM tbl_types";
+                                    $result = $conn->query($sql);
 
-
+                                    if ($result->num_rows > 0) {
+                                    ?>
+                                    <select name="eventType" id="type">
+                                        <option value="" selected disabled>Select Event Type</option>
+                                        <?php
+                                        while ($row = $result->fetch_assoc()) {
+                                            $typeId = $row['type_id'];
+                                            $typeName = $row['name'];
+                                            $selected = ($typeId == $formData['eventType']) ? 'selected' : '';
+                                            ?>
+                                            <option value="<?= $typeId ?>" <?= $selected ?>><?= $typeName ?></option>
+                                        <?php }?>
+                                    </select>
+                                    <?php } else {
+                                        echo 'No data found.';
+                                    }
+                                    ?>
+                                </div>
                                 <div class="input-box">
                                     <label for="">Venue</label>
                                     <input type="text" name="venue" placeholder="Venue" value="<?=$formData['venue']?>">
                                 </div>
+                                
+
+                                <div class="input-box">
+                                    <div class="days">
+                                        <label for="eventDays">Number of Days</label>
+                                        <span id="days">
+                                            <button type="button" id="decrement"><i class="fa-solid fa-minus"></i></button>
+                                            <input type="number" id="value" name="eventDays" value="<?= $formData['event_days'] ?>" min="1">
+                                            <button type="button" id="increment"><i class="fa-solid fa-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="input-box">
+                                    <label for="dateofStart">Event Starting Date:</label>
+                                    <input type="date" id="dateofStart" name="dateofStart" value="<?= $formData['dateofStart'] ?>" required>
+                                </div>
+
+                                <div class="input-box">
+                                    <label for="dateofEnd">Event Ending Date</label>
+                                    <input type="date" id="dateofEnd" name="dateofEnd" value="<?= $formData['dateofEnd'] ?>" readonly>
+                                </div>
+ 
+
+
+                                    
                                 <div class="input-box">
                                     <label for="">Organizer</label>
                                     <input type="text" name="eventOrganizer" placeholder="Organizer Name" value="<?=$formData['eventOrganizer']?>">
                                 </div>
-                                <div id="description" class="two-columns">
-                                    <label for="">Description</label>
-                                    <textarea id="my-textarea" name="description"><?=$formData['description']?></textarea>
+                                <div class="input-box">
+                                    <label for="">Ad Status:</label>
+                                    <select name="adStatus" id="adStatus" class="<?= ($formData['ad_status'] == 'active') ? 'active' : 'expired' ?>">
+                                        <option value="active" <?= ($formData['ad_status'] == 'active') ? 'selected' : '' ?>>Active</option>
+                                        <option value="expired" <?= ($formData['ad_status'] == 'expired') ? 'selected' : '' ?>>Expired</option>
+                                    </select>
                                 </div>
+
+
+                                    
                                 <div class="banner" id="banner">
                                     <div class="input-box">
                                         <label for="">Select Image</label>
                                         <input type="file" name="image" id="selectFile" accept="image/*">
+                                        <input type="hidden" name="existingImage" value="<?=$formData['image']?>">
                                         <label for="selectFile" id="file-2-preview">
-                                            <img id="previewImage" src="eventImages/<?php echo isset($formData['image']) ? $formData['image'] : 'path_to_default_image.jpg'; ?>" alt="">
+                                            <?php if (!empty($formData['image'])) : ?>
+                                                <img id="previewImage" src="../eventUploads/<?=$formData['image']?>" alt="images">
+                                            <?php else : ?>
+                                                <img id="previewImage" src="eventImages/default.jpg" alt="Default Image">
+                                            <?php endif; ?>
                                             <div>
                                                 <span>+</span>
                                             </div>
                                         </label>
                                     </div>
                                 </div>
+
+
+                                <div id="description" class="two-columns">
+                                    <label for="">Description</label>
+                                    <textarea id="my-textarea" name="description"><?=$formData['description']?></textarea>
+                                </div>
+                               
                                 <div class="input-box" id="button">
                                     <button type="submit" name="update">Update Details</button>
                                 </div>
-                            </form>
+                        </form>
                     </div>
                    
                 </div>
@@ -246,29 +327,91 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
   
 </div>
 <script>
+    //for date piker
+    var currentDate = new Date().toISOString().split('T')[0];
+
+    document.getElementById("dateofStart").setAttribute("min", currentDate);
+
+
+    //for textarea
     const textarea = document.getElementById('my-textarea');
     textarea.addEventListener('input', resizeTextarea);
     function resizeTextarea() {
-  const textarea = document.getElementById('my-textarea');
-  textarea.style.height = 'auto';
-  textarea.style.height = `${textarea.scrollHeight}px`;
-}
+    const textarea = document.getElementById('my-textarea');
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+    }
 
-function previewBeforeUpload(id) {
-    document.querySelector("#" + id).addEventListener("change", function (e) {
-        if (e.target.files.length == 0) {
-            return;
+    //file preview
+    function previewBeforeUpload(id) {
+        document.querySelector("#" + id).addEventListener("change", function (e) {
+            if (e.target.files.length == 0) {
+                return;
+            }
+            let file = e.target.files[0];
+            let url = URL.createObjectURL(file);
+            document.querySelector("#previewImage").src = url;
+        });
+    }
+
+    previewBeforeUpload("selectFile");
+
+    //num days increament and decreament
+    const decrementButton = document.getElementById("decrement");
+    const incrementButton = document.getElementById("increment");
+    const valueInput = document.getElementById("value");
+    const dateofStartInput = document.getElementById("dateofStart");
+    const dateofEndInput = document.getElementById("dateofEnd");
+
+    function calculateEndDate() {
+        const numDays = parseInt(valueInput.value);
+        if (!isNaN(numDays)) {
+            const startDate = new Date(dateofStartInput.value);
+            if (!isNaN(startDate.getTime())) {
+                if (numDays === 1) {
+                    dateofEndInput.value = dateofStartInput.value; 
+                    dateofEndInput.setAttribute("disabled", "disabled"); 
+                } else {
+                    const endDate = new Date(startDate);
+                    endDate.setDate(startDate.getDate() + numDays);
+                    dateofEndInput.value = endDate.toISOString().split('T')[0];
+                    dateofEndInput.removeAttribute("disabled");
+                }
+            }
         }
-        let file = e.target.files[0];
-        let url = URL.createObjectURL(file);
-        document.querySelector("#previewImage").src = url;
-    });
-}
+    }
 
-previewBeforeUpload("selectFile");
+    decrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(valueInput.value);
+        if (currentValue > 1) {
+            currentValue--;
+            valueInput.value = currentValue;
+            calculateEndDate();
+        }
+    });
+
+    incrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(valueInput.value);
+        currentValue++;
+        valueInput.value = currentValue;
+        calculateEndDate();
+    });
+
+    dateofStartInput.addEventListener("change", calculateEndDate);
+
+    calculateEndDate();
+    var currentPage = window.location.href;
+
+    var eventsLink = document.querySelector('a[href="events.php"]');
+
+    if (currentPage.includes("updateevent.php")) {
+        eventsLink.classList.add("active");
+    }
+
 
 </script>
 
 <?php
+
 require_once('footer.php');
 ?> 

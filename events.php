@@ -106,9 +106,10 @@ require_once('nav.php');
             <h1>UPCOMING EVENTS</h1>
             <div class="wrapper">
     <?php
+  
     $sql = "SELECT e.*, t.name AS event_type_name
             FROM tbl_events e
-            LEFT JOIN tbl_types t ON e.eventType = t.type_id";
+            LEFT JOIN tbl_types t ON e.eventType = t.type_id WHERE e.ad_status = 'active'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {

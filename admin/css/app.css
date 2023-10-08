@@ -449,9 +449,14 @@ a{
     padding: 10px;
     font-size: 16px;
     font-weight: 600;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    text-align: center;
 }
-
-
+.main-content .row .col-12 .breadcum:hover{
+    background: #ccc;
+}
 .box {
     background-color: var(--box-bg);
     padding: 20px 20px 10px 20px;
@@ -460,7 +465,36 @@ a{
     margin: 10px 0px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
-
+.box h1{
+    font-size: 3rem;
+    text-align: center;
+    margin: 10px 0px;
+    color: var(--btn-edit);
+}
+.box img{
+    width: 100%;
+}
+.box .eveInfo{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px;
+}
+.box .eveInfo h2{
+    font-size: 1rem;
+    color: var(--btn-edit);
+}
+.box .eveInfo span{
+    color: #000;
+}
+.box .addInfor h1{
+    font-size: 18px;
+    text-align: left;
+    color: var(--btn-edit);
+}
+.box .addInfor .addinfo{
+    display: flex;
+    justify-content: space-between;
+}
 .box-hover:hover {
     border-color: var(--main-color);
 }
@@ -469,6 +503,11 @@ a{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 0px;
     border: none;
+}
+.row .col-12 .alertMessage{
+    display: none;
+    justify-content: space-between;
+    padding: 10px;
 }
 #alert-msg-success{
     padding: 0;
@@ -628,6 +667,7 @@ table td a{
     border: none;
     cursor: pointer;
     margin: 0px 5px;
+    background-color: var(--btn-view);
 }
 table td .view {
     background: var(--btn-view);
@@ -649,6 +689,10 @@ table thead .left,
 table tbody .left{
     padding-left: 20px;
     text-transform: capitalize;
+}
+.table tbody #forwarder a{
+    color: #000;
+    background: var(--btn-view);
 }
 .order-status {
     padding: 5px 15px;
@@ -742,4 +786,41 @@ table tbody .left{
         position: absolute;
         right: -15px;
     }
+}
+.deleteConfirmation{
+    z-index: 999;
+    position: fixed;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+    justify-content: center; 
+    align-items: center;
+}
+.deleteMsg{
+    width:300px;
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+.deleteMsg .btns{
+    display: flex;
+    justify-content: space-between;
+}
+.deleteMsg a{
+    padding: 5px 20px;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px;
+    
+}
+.deleteMsg .confirm{
+    background-color: var(--btn-delete);
+    color: #fff;
+}
+.deleteMsg .cancel{
+    background-color: var(--btn-view);
+    color: #fff;
 }

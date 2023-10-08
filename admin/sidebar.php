@@ -55,12 +55,7 @@ if($userAuth->isUserLoggedIn()){
                     <span>Event Type</span>
                 </a>
             </li>
-            <li>
-                <a href="booking.php">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span>Booking</span>
-                </a>
-            </li>
+            
             <li>
                 <a href="billing.php">
                     <i class="fa-solid fa-money-check"></i>
@@ -79,12 +74,7 @@ if($userAuth->isUserLoggedIn()){
                     <span>Messages</span>
                 </a>
             </li>
-            <li>
-                <a href="settings.php">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
-                </a>
-            </li>
+            
             <li class="sidebar-submenu">
                 <a class="sidebar-menu-dropdown">
                     <i class="fa-solid fa-user"></i>
@@ -96,12 +86,12 @@ if($userAuth->isUserLoggedIn()){
                         <a href="editprofile.php">
                             edit profile
                         </a>
-                    </li>
+                    </li>  
                     <li>
-                        <a href="accountSettings.php">
-                            account settings
+                        <a href="changepassword.php">
+                            Change Password
                         </a>
-                    </li>     
+                    </li>   
                 </ul>
             </li>
             <li class="sidebar-submenu">

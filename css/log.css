@@ -194,15 +194,14 @@ body{
     margin-top: 20px;
 }
 .container form .user-details{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     margin: 20px 0 12px 0;
+    position: relative;
+    grid-gap: 10px;
 }
 form .user-details .input-box{
-    margin-bottom: 15px;
-    margin: 20px 0 12px 0;
-    width: calc(100% / 2 - 20px);
+    width: 100%;
 }
 .user-details .input-box .details{
     display: block;

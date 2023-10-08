@@ -89,7 +89,7 @@ body {
 	width: 280px;
 	height: 91vh;
 	background: var(--light);
-	z-index: 998;
+	/* z-index: 998; */
 	font-family: var(--lato);
 	transition: .3s ease;
 	overflow-x: hidden;
@@ -171,7 +171,7 @@ body {
 .container{
 	display: flex;
 	flex-direction: row;
-
+	margin-top: 50px;
 }
 
 /* CONTENT */
@@ -487,20 +487,22 @@ body {
 	margin-bottom: 10px;
 }
 .user-details{
-	display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 0px;
+	display: grid;
+	width: 100%;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 30px;
+ 
 }
 .user-details .input-box{
-    width: calc(100% / 2 - 20px);
+	width: 100%;
+	height: 70px;
 }
 .user-details .input-box .details{
     display: block;
     font-weight: 500;
-    margin-bottom: 5px;
     font-family: 'Poppins' sans-serif;
     font-size: 18px;
+	height: 30px;
 }
 
 #genders{
@@ -578,6 +580,8 @@ body {
 	font-style: normal;
 	width: 100%;
 	border-width: 1px 1px 3px;
+	margin-top: 50px;
+	
 }
 
 /****change password styling ****/
@@ -596,6 +600,7 @@ body {
     margin-bottom: 5px;
     font-family: 'Poppins' sans-serif;
     font-size: 16px;
+	width: 100%;
 }
 
 .user-details .input-box input{

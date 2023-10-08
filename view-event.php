@@ -99,7 +99,6 @@ $id = $_GET['criteria'];
 $sql = "SELECT * FROM tbl_events WHERE id = '$id'";
 $result = mysqli_query($conn, $sql);
 $output = mysqli_fetch_assoc($result);
-echo $output['description'];
 ?>
 <div class="container">
     <div class="col">
