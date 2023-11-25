@@ -1,385 +1,324 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Ubuntu:wght@400;500&display=swap');
-*{
-    margin: 0;
-    padding: 0;
-}
-/*************start of navbar css********************/
-/**************** end of account login/signup *****************/
-/**************** end of navbar css *****************/
+/*universal*/
+:root{
 
-/**************** start of box-container *****************/
-
-
-/**************** start of landing page *****************/
-.hero{
-    margin: 0;
-    padding: 0;
+    --bg-success: #dff0d8;
+    --bg-danger: #f2dede;
+    --success: #3c763d;
+    --danger: #a94442;
+    --danger-outline: #ebccd1;
+    --success-outline: #d6e9c6;
+}
+.container{
     width: 100%;
-    height: 100vh;
-    /* position: absolute; */
-    display: flex;
-    /* align-items: flex-end; */
-    background-image: url(../images/edge-band.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-} 
-.hero .overlay{
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-}
-.wrapper{
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-}
-.wrapper .content{
-    width: 40%;
-    position: relative;
-    color: #fff;
-    padding: 40px;
-}
-.wrapper .content .texts{
-    position: relative;   
-    font-family: 'Ubuntu', sans-serif;
-    text-align: center;
-    align-items: center;
-    margin-top: 250px;
-}
-.texts h1{
-    font-size: 32px;
-    font-weight: 400;
-}
-.texts h2{
-    font-size: 72px;
-    font-weight: 400;
-    padding: 20px 0px;
-}
-.wrapper .content .texts .eventDetails{
-    text-align: left;
-    margin-top: 30px;
-    margin-left: 100px;
-}
-.wrapper .content .eventDetails p{
-    padding: 20px 0px;
-    font-size: 18px;
-}
-.wrapper .content .eventDetails p i{
-    width: 30px;
-}
-.content .texts button{
-    margin-top: 30px;
-    border-radius: 20px;
-}
-.box{
-    width: 60%;
-    position: relative;
-}
-.box .row{
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    top: 60vh;
-    font-family: 'Ubuntu', sans-serif;
-    font-weight: 200;
-}
-
-.box .card{
-    padding: 10px;
-    width: 140px;
-    min-height: 200px;
-    display: inline-block;
-    position: relative;
-}
-.card .text-box{
-    position: absolute;
-    z-index: 2;
-    height: 70px;
-    width: 100%;
-    text-align: center;  
-    background-color: #0000009b;  
-    bottom: 0;
-    left: 0;
-}
-.card .text-box:before {
-    content: '';
-    display: inline-block;
+    background-color: #E9E9E9;    
     height: 100%;
-    vertical-align: middle;
- }
-.card .text-box h1 {
-    display: inline-block;
-    font-size: 16px; 
-    font-weight: 200;
-    color: #FFF;   
- }
-.card img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
-
-.sliders{
-    height: 30px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    z-index: 5;
-    display: inline;
-}
-.sliders .arrows{
-    text-align: center;
-    align-items: center;
-    bottom: 40px;
-}
-.sliders .arrows ul{
-    list-style: none;
     
 }
-.sliders .arrows ul li{
-    padding: 10px;
-    transition:.6s ease all ;
-    font-size: 22px;
-    list-style: none;
-    display: inline-block;
-    margin: 15px;
-    height: 24px;
-    width: 24px;
-    border-radius: 50%;
-    border: #fff 2px solid;
+.container .wrapper{
+    padding: 0px 40px 40px 40px;
+    display: block;
 }
-.sliders .arrows ul li a{
-    color: #fff;
-    text-decoration: none;
-}
-.sliders .number{
-    z-index: 2;
-    position: absolute;
-    display: inline;
-    background-color: #02266C;
-    text-align: end;
-}
-.sliders .number p{
-    font-size: 32px;
-    color: #fff;
-}
-/**************** start of landing page *****************/
-/**************** start of services container *****************/
-.containerP{
-    width: 100%;
-
-}
-.services{
-    width: 100%;
-    position: relative;
-    background-color: #DADEEA;
-}
-.container .services .heading{
-    padding: 40px;
+.container .heading{
+    margin-top: 70px;
     text-align: center;
+
 }
 .container .heading h1{
-    font-size: 40px;
-    color: #a80b59;
+    font-size: 32px;
     font-family: 'Ubuntu', sans-serif;
-    font-weight: 300;
-
+    font-weight: 400;
+    padding: 20px 0px;
+    text-transform: uppercase;
 }
-.container .row {
+.container .row{
     width: 80%;
-    margin-left: 10%;
-    display: flex;
-    font-family: 'Ubuntu', sans-serif;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 40px 20px;
+    display: grid;
+    grid-gap: 10px;
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px #888888;
 }
-.container .row .col{
-    width: 25%;
+.col{
+    margin: 0px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    border-radius: 15px;
+}
+/*events page*/
+.events{
+    width: 50%;
+    height: auto;
+    background-color: #E9E9E9;
     padding: 20px;
 }
-.container .row .col i{
-    font-size: 32px;
-    color: #a80b59;
-    border-radius: 50%;
-    border: 2px solid #a80b59 ;
-    padding: 15px;
-    width: 32px;
-  
+.events img{
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
 }
-.container .row .col h1{
-    font-size: 18px;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-top: 40px;
+.container .row .col1 img{
+    width: 300px;
+    height: 180px;
+    object-fit: cover;
     
 }
-.container .row .col p{
-    font-size: 14px;
-    padding: 10px;
-    line-height: 20px;
-}
-/**************** end of services container *****************/
-/**************** start of latest event container *****************/
-
-.latest-event{
-    width: 100%;
-    height: 400px;
-    background-image: url(../images/banner2.jpg);
-    object-fit: contain;
-}
-.latest-event .overlay{
-    background-color: #111;
-    opacity: 100%;
-    height: 100%;
-    z-index: 2;
-    opacity: 0.9;
-    position: relative;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+.row .col-2{
+    margin: auto;
     text-align: center;
-    justify-content: center;
+    font-size: 1.2rem;
 }
-
-.latest-event h1{
-    text-align: center;
-    font-size: 40px;
-    font-weight: 200;
-    color: #fff;
-    padding: 30px;
-    font-family: 'Ubuntu', sans-serif;
-
-}
-
-#eventTable{
-    width: 60%;
-    background-color: #ffffff38;
-    border: 1px;
-    min-width: 60%;
-    position: relative;
-    color: #000;
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    margin-left: 20%;
-}
-#eventTable td, #eventTable th {
-    padding: 8px;
-}
-#eventTable thead{
-    border-bottom: 1px solid #DADEEA;
-}
-#eventTable tbody tr{
-    color: #DADEEA;
-}
-  
-#eventTable tbody tr:nth-child(even){background-color: #f2f2f2; color: #000;}
-  
-#eventTable tbody tr:hover {background-color: #ddd; color: #000;}
-  
-#eventTable th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #ffffff04;
-    color: white;
-    text-align: center;
-  }
-.overlay a button{
-    padding: 15px 25px;
-    border-radius: 25px;
-    border: 2px solid #fff;
-    background: none;
-    transition: 0.5s;
-    margin-top: 50px;
-    cursor: pointer;
-    color: #fff;
-}
-.overlay a button{
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
+.row .col-2 a{
     text-decoration: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    background-color: #02266C;
+    color: #fff;
+    border-radius: 15px;
+    font-size: 600;
 }
-/**************** end of latest event container *****************/
-/**************** Start of about us container *****************/
-.about-us h1{
-    font-size: 40px;
-    font-weight: 400;
-    color: #a80b59;
-    font-family: 'Ubuntu', sans-serif;
-    padding: 40px 0px 20px 0px;
-    margin-left: 10%;
-
-}
-.about-us h2{
-    width: 60%;
-    margin-left: 10%;
-    font-size: 18px;
-    font-family: 'Ubuntu', sans-serif;
-}
-.about-us p{
-    width: 65%;
-    margin-left: 10%;
-    font-size: 18px;
-    padding: 10px 0px;
-
-}
-.about-us .image{
-    float: right;
-    padding: 0px 80px;
-}
-.about-us .image img{
-    width: 300px;
-}
-.about-us .content{
-    font-family: 'Ubuntu', sans-serif;
-    width: 70%;
-    margin-left: 20%;
-    text-align: right;
-    color: #000;
-}
-.about-us .content h1{
-    font-size: 20px;
-    font-weight: 200;
-}
-.about-us .content h2{
-    font-size: 36px;
-    font-weight: bold;
-}
-.about-us .content h3{
-    font-size: 20px;
-    font-style: italic;
-    font-weight: 200;
-    padding: 5px 20px;
-
-}
-.about-us .works{
-    text-align: center;
-    font-size: 40px;
-    font-family: 'Ubuntu', sans-serif;
-    font-weight: 400;
-    text-transform: uppercase;
-    margin: 0;
-    padding: 0;
+.col .btns a{
+    padding: 10px 20px;
+    background: black;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 15px;
     width: 100%;
 }
-.about-us .works h1{
-    color: #000;
+
+/*service page*/
+.row .col img{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
 }
-.about-us .works .row{
+.box{
+    padding: 20px;
+}
+.col .truncate {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    margin-bottom: 10px; 
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    margin: 10px 0px;
+    bottom: 0;
+}
+.col .btns{
+    display: flex;
+    width: 100%;
+}
+/*blog page*/
+.col .content{
+    padding: 10px 20px;
+    display: block;
+    font-family: 'Ubuntu', sans-serif;
+}
+.col .content h1{
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: left;
+    margin-top: 10px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.col .content .truncate {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    margin-bottom: 10px; 
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    margin: 10px 0px;
+    bottom: 0;
+
+}
+.col .content .postDate {
+    align-items: right;
+    text-align: right;
+}
+/*contact page*/
+#contact{
+    margin: -20px auto;
+}
+svg {
+	height: 27rem;
+    width: 50%;
+}
+
+#envelope {
+  animation: float 2s ease-in-out infinite;
+}
+
+#star1, #star2, #star3, #star4, #star5, #star6 {
+  animation: blink 1s ease-in-out infinite;
+}
+#star2 { animation-delay: 100ms; }
+#star3 { animation-delay: 500ms; }
+#star4 { animation-delay: 700ms; }
+#star5 { animation-delay: 300ms; }
+#star6 { animation-delay: 200ms }
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: .5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+form{
+    width: 50%;
+}
+.user-details{
+    display: grid;
+    
+}
+.user-details .input-box{
+    display: block;
+    margin: 10px 20px;
+}
+.user-details .input-box .details{
+    font-weight: 500;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 18px;
+}
+.user-details .input-box input,
+.user-details .input-box textarea {
+    width: 100%;
+    outline: none;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 10px; 
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box; 
+    resize: none;
+}
+
+.user-details #textarea,
+.user-details #button{
+    grid-column: span 2;
+}
+.user-details .input-box input[type="number"]::-webkit-outer-spin-button,
+.user-details .input-box input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+.user-details .input-box input:focus,
+.user-details .input-box input:valid,
+.user-details .input-box textarea:focus{
+    border-color: #9b59b6;
+}
+
+form button{
+    width: 100%;
+    outline: none;
+    padding: 10px 0px;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 5px #888888;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    transition: background 1s ease;
+}
+form button:hover{
+    background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+}
+/*universal footer css*/
+#alertBox{
+    display: none;
+    margin: 10px 20px;
+    grid-column: span 2;
+    background-color: var(--bg-success);
+    color: var(--success);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+#alertBox .closeMsg{
+    cursor: pointer;
+}
+footer{
     width: 100%;
     height: 300px;
-    margin: 0;
-    padding: 0;
-
+    background-image: linear-gradient(to right, #1A0051, #02266C);
 }
-.about-us .works .col{
-    width: 25%;
-    background: #ddd;
-    border: solid rgb(173, 173, 173) thin ;
-    display: inline-block;
+footer .logo{
+    padding: 40px 50px;
+    float: left;
+    width: 50%;
 }
-/**************** end of about us container *****************/
-
+footer .logo ul{
+    margin-left: 20px;
+    margin-top: 10px;
+}
+footer .logo ul li{
+    list-style: none;
+    padding: 5px; 
+}
+footer .logo ul li a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-family: 'Ubuntu', sans-serif;
+}
+footer .right-content{
+    padding: 10px 70px;
+    float: right;
+    margin-top: 90px;
+}
+footer .right-content p{
+    color: #fff;
+    font: 18px;
+    font-family: 'Ubuntu', sans-serif;  
+}
+footer .right-content ul {
+    display: flex;
+}
+footer .right-content ul li{
+    list-style: none;
+    display: flex;
+    color: #fff;
+    font-size: 32px;
+    padding: 20px;
+    
+}
+footer .right-content ul li a{
+    color: #fff;
+}

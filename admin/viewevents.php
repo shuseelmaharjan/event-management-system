@@ -133,12 +133,9 @@ $formData = mysqli_fetch_assoc($result);
             <div class="main-title">
                 View Event
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="images/default.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php
+            require_once('profile.php');
+            ?>
         </div>
         <div class="main-content">
             
@@ -164,7 +161,7 @@ $formData = mysqli_fetch_assoc($result);
                             <span class="addinfo">
                                 <p>Ad Status: <span class="<?= ($formData['ad_status'] == 'active') ? 'active' : 'expired' ?>"><?=$formData['ad_status']?></span></p>
                                 <p>Ad Posted Date: <?=$formData['adPostedDate']?></p>
-                                <p>Ad Posted Time: <?=$formData['adPostedTime']?></p>
+                                <p>Ad Posted Time: <?=$formData['adPostedTIme']?></p>
                                 <p>Event Type: <?=$formData['name']?></p>
                             </span>
                         </div>

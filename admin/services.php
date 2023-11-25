@@ -2,6 +2,20 @@
 
 require_once('header.php');
 require_once('sidebar.php');
+
+if (isset($_GET['criteria'])) {
+    $id = $_GET['criteria'];
+    $deleteData = new Service($conn);
+
+    if ($deleteData->deleteService($id)) {
+        echo'<script>';
+        echo'window.location.href = "http://localhost/eveproject/admin/services.php";';
+        echo'</script>';
+    } else {
+        echo "Deletion failed";
+    }
+}
+
 ?>
 <style>
     #btns{
@@ -31,12 +45,7 @@ require_once('sidebar.php');
             <div class="main-title">
                 Services
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php require_once('profile.php');?>
         </div>
         <div class="main-content">
             
@@ -115,9 +124,9 @@ require_once('sidebar.php');
                                         <td class="center"><?php echo $row['total_packages']; ?></td>
                                         <td class="center"><?php echo $row['type_name']; ?></td>
                                         <td class="center">
-                                            <a href="#" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
-                                            <a href="#" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
-                                            <a href="#" onclick="confirm('Are yuu sure');" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>
+                                            <a href="view-service.php?criteria=<?=$row['ser_id']?>" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
+                                            <a href="editservice.php?criteria=<?=$row['ser_id']?>" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
+                                            <a href="services.php?criteria=<?=$row['ser_id']?>" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>
                                                 
                                         </td>
                                         

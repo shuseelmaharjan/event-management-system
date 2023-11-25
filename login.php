@@ -16,9 +16,15 @@ require_once('php/connection.php'); // Include your database connection
     <style>
    form .user-details{
     margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
    }
    #danger,
    #success{
+    margin-top: 20px;
+   }
+   #chkBox{
     margin-top: 20px;
    }
 </style>
@@ -40,16 +46,16 @@ require_once('php/connection.php'); // Include your database connection
                 </div>
                 <div class="input-box">
                     <span class="details">Password:</span>
-                    <input type="password" name="password" placeholder="Password">
+                    <input type="password" name="password" id="password" placeholder="Password">
                 </div>
             </div>
             <div class="input-box" id="chkBox">
                 <div class="left">
                     <input type="checkbox" onclick="showHide()"><span id="hideShow"></span>
                 </div>
-                <div class="right">
+                <!-- <div class="right">
                     <span><a href="forgetpassword.php">Forgot Password?</a></span>
-                </div>
+                </div> -->
             </div>
 
             <div class="danger" id="danger">
@@ -121,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo '<script>';
         echo 'document.getElementById("danger").style.display="inline-block";';
-        echo 'document.getElementById("message").innerText = "Invalid Credentials";';
+        echo 'document.getElementById("message").innerText = "User not found";';
         echo '</script>';
     }
 }?>

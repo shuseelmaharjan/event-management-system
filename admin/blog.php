@@ -40,12 +40,9 @@ if (isset($_GET['criteria'])) {
             <div class="main-title">
                     Blogs
                 </div>
-                <div class="last-title">
-                    <div class="user-details">
-                    <img src="../profile/uploads/default.png" width="50px" alt="image">
-                    <h1>User Admin</h1>
-                    </div>
-                </div>
+                <?php
+                    require_once('profile.php');
+                ?>
         </div>
         <div class="main-content">
             
@@ -106,8 +103,7 @@ if (isset($_GET['criteria'])) {
                                             <td class="center"><?php echo($row['author_name']); ?></td>
                                             <td class="center"><?php echo($row['publish_date']); ?></td>
                                             <td class="center">
-                                                <!-- <a href="#" class="view" onclick="viewData(<?php //echo $row['id']; ?>)"><span><i class="fa-solid fa-eye"></i></span></a> -->
-                                                <button onclick="viewData(<?php echo $row['id']; ?>)"><span><i class="fa-solid fa-eye"></i></span></button>
+                                                <a href="viewblogs.php?criteria=<?=$row['id']?>" class="view"><span><i class="fa-solid fa-eye"></i></span></a>
                                                 <a href="updateBlog.php?criteria=<?=$row['id'];?>" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
                                                 <a href="blog.php?criteria=<?= $row['id']; ?>" onclick="confirm('Are yuu sure');" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>
                                             </td>
@@ -140,13 +136,6 @@ if (isset($_GET['criteria'])) {
 </div>
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 <script>
-    //CKEditor plugin
-    ClassicEditor
-        .create( document.querySelector( '#editor' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-
         function viewData() {
             var wrapperPopup = document.querySelector('.wrapper');
             if (wrapperPopup) {

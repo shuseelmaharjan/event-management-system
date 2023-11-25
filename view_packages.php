@@ -74,7 +74,6 @@ require_once('nav.php');
 
         .container .col form .row {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1ft;
             grid-gap: 30px;
         }
 
@@ -90,7 +89,8 @@ require_once('nav.php');
         }
 
         .container .col form .row .box select,
-        .container .col form .row .box input[type="date"]{
+        .container .col form .row .box input[type="date"],
+        .container .col form .row .box input[type="text"]{
             width: 100%;
             padding: 10px;
             font-size: 1em;
@@ -107,7 +107,7 @@ require_once('nav.php');
         }
 
         .container .col form .row .btn {
-            grid-column: 4;
+            grid-column: 5;
         }
         .container .col form .row .btn input{
             padding: 15px 20px;
@@ -120,13 +120,16 @@ require_once('nav.php');
             cursor: pointer;
             font-size: 1.2em;
         }
+        .days{
+            display: flex;
+        }
         .days button{
             padding: 10px;
-            width: 30%;
+            width: 30px;
             background-color: #02266C;
             color: #fff;
             font-weight: 600;
-            border-radius: 15px;
+            border-radius: 0px;
             border: none;
         }
         .days input{
@@ -153,6 +156,12 @@ require_once('nav.php');
         }
         .alertMesage .box p{
             color: #fff;
+        }
+        .userMsg{
+            color: red;
+            font-style: italic;
+            margin-top: 20px;
+            padding-top: 20px;
         }
 
 
@@ -210,6 +219,7 @@ require_once('nav.php');
                     }
                     ?>
                 </div>
+                <span class="userMsg"><p>* Once you book the reservation, you cannot cancel for 24 hours so make sure to decide before you book for reservation.</p></span>
                 <?php
                    
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -249,57 +259,62 @@ require_once('nav.php');
                     </div>
                 </div>
                 <form action="" method="POST">
-                <div class="row">
-                    <div class="box">
-                        <div class="days">
-                            <label for="numDays">Number of Days</label>
-                            <button type="button" id="decrement"><i class="fa-solid fa-minus"></i></button>
-                            <input type="number" id="value" name="numDays" value="1" min="1">
-                            <button type="button" id="increment"><i class="fa-solid fa-plus"></i></button>
+                    <div class="row">
+                        <div class="box">
+                        <label for="numDays">Number of Days</label>
+
+                            <div class="days">
+                                <button type="button" id="decrement"><i class="fa-solid fa-minus"></i></button>
+                                <input type="number" class="numDays" id="value" name="numDays" value="1" min="1">
+                                <button type="button" id="increment"><i class="fa-solid fa-plus"></i></button>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="box">
-                        <label for="eventDate">Choose Date:</label>
-                        <input type="date" name="eventDate" min="<?php echo date('Y-m-d'); ?>" required>
-                    </div>
+                        <div class="box">
+                            <label for="eventDate">Choose Date:</label>
+                            <input type="date" name="eventDate" min="<?php echo date('Y-m-d'); ?>" required>
+                        </div>
 
-                    <div class="box">
-                        <label for="eventType">Select Package:</label>
-                        <?php
-                            $result = $conn->query($sqlPackages);
-
-                            if ($result->num_rows > 0) {
-                        ?>
-                        <select name="packageName" id="type" onchange="updatePackagePrice()" required>
-                            <option value="" selected disabled>Select Package</option>
+                        <div class="box">
+                            <label for="eventType">Select Package:</label>
                             <?php
-                                while ($row = $result->fetch_assoc()) {
-                                    $pkg_id = $row['pkg_id'];
-                                    $pkgName = $row['pkg_name'];
-                                    $pkgPrice = $row['pkg_cost'];
+                                $result = $conn->query($sqlPackages);
+
+                                if ($result->num_rows > 0) {
                             ?>
-                            <option value="<?= $pkgPrice ?>" data-price="<?= $pkgPrice ?>"><?= $pkgName ?></option>
-                            <?php }?>
-                        </select>
-                        <?php } else {
-                            echo 'No data found.';
-                        }
-                        ?>
-                    </div>
+                            <select name="packageName" id="type" onchange="updatePackagePrice()" required>
+                                <option value="" selected disabled>Select Package</option>
+                                <?php
+                                    while ($row = $result->fetch_assoc()) {
+                                        $pkg_id = $row['pkg_id'];
+                                        $pkgName = $row['pkg_name'];
+                                        $pkgPrice = $row['pkg_cost'];
+                                ?>
+                                <option value="<?= $pkgPrice ?>" data-price="<?= $pkgPrice ?>"><?= $pkgName ?></option>
+                                <?php }?>
+                            </select>
+                            <?php } else {
+                                echo 'No data found.';
+                            }
+                            ?>
+                        </div>
+                        <div class="box">
+                            <label for="eventVenue">Event Venue:</label>
+                            <input type="text" name="eventVenue" required>
+                        </div>
 
-                    <div class="box">
-                        <label for="cost">Cost:</label>
-                        <input type="number" name="totalCost" id="costInput" hidden>
-                        <span><p>NRP</p> <p id="packagePrice">00.00</p></span>
-                    </div>
+                        <div class="box">
+                            <label for="cost">Cost:</label>
+                            <input type="number" name="totalCost" id="costInput" hidden>
+                            <span><p>NRP</p> <p id="packagePrice">00.00</p></span>
+                        </div>
 
-                    <div class="btn">
-                        <input type="submit" name="proceed" value="Book Reservation">
-                    </div>
+                        <div class="btn">
+                            <input type="submit" name="proceed" value="Book Reservation">
+                        </div>
 
-                </div>
-            </form>
+                    </div>
+                </form>
 
 
             <script>

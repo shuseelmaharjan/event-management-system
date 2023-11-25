@@ -149,20 +149,22 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
 <div class="main">
         <div class="main-header">
             <div class="main-title">
-                Event Types
+                Update Blog
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php
+                require_once('profile.php');
+            ?>
         </div>
         <div class="main-content">
             
             <div class="row">
                
                 <div class="col-12">
+                    <a href="blog.php">
+                        <div class="breadcum">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </a>
                     <div class="box">
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="col" id="contentImg">
@@ -210,34 +212,8 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         </div>
   
 </div>
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 <script>
- ClassicEditor
-        .create(document.querySelector('#editor'), {
 
-        toolbar: {
-            items: [
-                'heading',
-                '|',
-                'bold',
-                'italic',
-                'link',
-                '|',
-                'bulletedList',
-                'numberedList',
-                '|',
-                'undo',
-                'redo'
-            ]
-        }
-    })
-    .then(editor => {
-            // Set the content of the CKEditor instance
-            editor.setData(`<?=$formData['description'];?>`);
-        })
-    .catch(error => {
-        console.error(error);
-    });
     function closeBtn(){
         // Hide the overlay when closing
         document.getElementById("wrapper").style.display="none";

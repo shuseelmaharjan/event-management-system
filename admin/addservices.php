@@ -149,21 +149,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <div class="main-title">
                 Add Service
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php require_once('profile.php');?>
+
         </div>
         <div class="main-content">
             
             <div class="row">
                
                 <div class="col-12">
-                    <div class="breadcum">
-                        <a href="services.php">Services</a> > <a href="addservices.php">Add Service</a>
-                    </div>
+                    <a href="services.php">
+                        <div class="breadcum">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </a>
                     <div class="box">
                         
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
@@ -205,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                         <label for="">Select Image</label>
                                         <input type="file" name="image" id="selectFile" accept="image/*">
                                         <label for="selectFile" id="file-2-preview">
-                                            <img id="previewImage" src="eventImages/default.jpg" alt="Thumbnail">
+                                            <img id="previewImage" src="images/image.svg" alt="Thumbnail">
                                             <div>
                                                 <span>+</span>
                                             </div>

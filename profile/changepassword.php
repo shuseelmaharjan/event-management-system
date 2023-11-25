@@ -20,7 +20,30 @@
 	require_once('class/config.php');
 	?>
 <style>
-	
+	#content main .box-info li{
+		background-color: #fff;
+	}
+	.box-info form{
+		width: 100%;
+		background-color: #fff;
+	}
+	.box-info form .user-details{
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-gap: 30px 10px;
+		background-color: #fff;
+	}
+	.box-info form .user-details .input-box{
+		padding: 5px;
+		height: 80px;
+	}
+	.box-info form .user-details .input-box .details{
+		margin: 0;
+		padding: 0;
+	}
+	.box-info form .user-details #submitBtn{
+		grid-column: 3;
+	}
 	.danger{
 		width: 100%;
 		position: relative;
@@ -53,27 +76,19 @@
 	}
 	#hideShow{
 		font-size: 18px;
+		margin: 10px 0px 0px 10px;
 	}
 	#chkBox .left{
 		font-family: system-ui, sans-serif;
-		font-size: 1.5rem;
-		font-weight: 400;
-		line-height: 1.1;
-		display: grid;
-		grid-template-columns: 1em auto;
-		gap: 0.5em;
+		display: flex;
 	}
-	.user-details{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 20px 0 12px 0;
+	#chkBox .left input[type=checkbox] {
+		font-size: 12px;
+		width: 15px;
+		bottom: 10px;
+
 	}
-	.user-details .input-box{
-    margin-bottom: 15px;
-    margin: 20px 0 12px 0;
-    width: calc(100% / 1 - 20px);
-	}
+
 	
 		</style>
 	<?php
@@ -147,22 +162,17 @@
                             <span class="details">Confirm Password:</span>
                             <input type="password" name="confirm_password" id="confirmpassword" placeholder="Confirm password" required>
                         </div>
+
+						<div class="input-box" id="chkBox">
+                        	<div class="left" >
+                            	<input type="checkbox" onclick="showHide()"><span id="hideShow"></span>
+                        	</div>
+                    	</div>
 						
+						<div class="input-box" id="submitBtn">
+                        	<input type="submit" onclick="userVerify()" value="Update">
+                    	</div>
                     </div>
-
-                    <div class="input-box" id="chkBox">
-                        <div class="left" >
-                            <input type="checkbox" onclick="showHide()"><span id="hideShow"></span>
-                        </div>
-                        
-                            
-                    </div>
-				
-                    
-                    <div class="button">
-                        <input type="submit" onclick="userVerify()" value="Update">
-                    </div>
-
 					<!--error and success message alerts-->
 					<div class="danger" id="danger">
 						<p id="message"></p>

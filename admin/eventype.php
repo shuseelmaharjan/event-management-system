@@ -230,9 +230,9 @@ if (isset($_POST['updateType'])) {
                                                 <td class="center"><?php echo $serialNumber; ?>.</td>
                                                 <td class="left"><?php echo $row['name']; ?></td>
                                                 <td class="center">
-                                                    <a onclick="editBtn('<?php echo $row['name']; ?>', '<?php echo $row['type_id']; ?>')" class="edit" href="#"><span><i class="fa-solid fa-pen-to-square"></i> Edit</span></a>
-                                                    <a onclick="sureDelete()" href="eventype.php?criteria=<?= $row['type_id']; ?>" class="delete" ><span><i class="fa-solid fa-trash"></i> Delete</span></a>
-                                                </td>
+                                                    <a class="edit" href="#"><span><i class="fa-solid fa-pen-to-square"></i> Edit</span></a>
+                                                    <a class="delete" ><span><i class="fa-solid fa-trash"></i> Delete</span></a>
+                                                    </td>
                                             </tr>
                                             <?php
                                             $serialNumber++; 

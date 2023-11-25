@@ -94,6 +94,9 @@ require_once('sidebar.php');
         font-weight: 400;
         margin: 10px 0px;
     }
+    .box-body h1{
+        text-align: left;
+    }
     .box-body a{
         cursor: pointer;
     }
@@ -147,6 +150,10 @@ require_once('sidebar.php');
         text-align: center;
 
     }
+    h4{
+        margin: 10px 0px;
+        font-size: 1rem;
+    }
 </style>
 <?php
 $id = $_GET['criteria'];
@@ -198,7 +205,8 @@ while ($data = mysqli_fetch_assoc($row)) {?>
                                 <h3>Time: <?=$data['publish_time']?></h3>
                                 </span>
                                 
-                                <h4><?=$data['subject']?></h4>
+                                <h4>Subject: <?=$data['subject']?></h4>
+                                <h4>Messages:</h4>
                                 <p><?=$data['message']?></p>
                                 <div class="reply">
 

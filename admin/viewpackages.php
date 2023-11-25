@@ -12,12 +12,8 @@ require_once('sidebar.php');
             <div class="main-title">
                 View Packages
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php require_once('profile.php');?>
+
         </div>
         <div class="main-content">
             
@@ -25,9 +21,11 @@ require_once('sidebar.php');
                
                 <div class="col-12">
                     <!-- ORDERS TABLE -->
-                    <div class="breadcum">
-                        <a href="services.php">Services</a> > <a href="viewpackages.php">View Packages</a>
-                    </div>
+                    <a href="services.php">
+                        <div class="breadcum">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </a>
                     
                     <div class="box">
                         <div class="box-header">
@@ -85,7 +83,6 @@ require_once('sidebar.php');
                                             <td class="center"><?php echo $row['pkg_guest']; ?></td>
                                             <td class="center"><?php echo $row['service_name']; ?></td>
                                             <td class="center">
-                                                <a href="#" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i> View Description</span></a>
                                                 <a href="#" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i> Edit</span></a>
                                                 <a href="#" onclick="confirm('Are you sure');" class="delete"><span><i class="fa-solid fa-trash"></i> Delete</span></a>
                                             </td>
@@ -119,7 +116,15 @@ require_once('sidebar.php');
         </div>
   
 </div>
+<script>
+        var currentPage = window.location.href;
 
+var eventsLink = document.querySelector('a[href="services.php"]');
+
+if (currentPage.includes("viewpackages.php")) {
+    eventsLink.classList.add("active");
+}
+</script>
 <?php
 require_once('footer.php');
 ?>

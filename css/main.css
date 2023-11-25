@@ -4,6 +4,9 @@
     padding: 0;
 }
 /*************start of navbar css********************/
+.footerNav{
+    display: none;
+}
 body .navbars {
     font-family: 'Ubuntu', sans-serif;
     position: fixed;
@@ -45,8 +48,7 @@ body .navbars .nav {
 .navbars .navbar-nav{
     width: 60%;
     display: inline;
-    margin-top: 10px;
-    
+    margin-top: 20px;
 }
 .navbars .navbar-nav ul{
     float: right;
@@ -84,6 +86,46 @@ body .navbars .nav {
 .nav .login a i{
     margin-right: 5px;
 }
+.profile-info {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+.profile-info img {
+    width: 40px;
+    height: 40px; 
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+#username{
+    color: #fff;
+}
+
+#dropdown {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    background-color: #fff; 
+    border: 1px solid #ccc; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); 
+}
+
+#dropdown li {
+    padding: 10px;
+}
+#dropdown li a{
+    color: #000;
+}
+
+#user-profile:hover #dropdown {
+    display: block;
+}
 /**************** end of account login/signup *****************/
 /**************** end of navbar css *****************/
 .popup {
@@ -110,11 +152,7 @@ body .navbars .nav {
     cursor: pointer;
 
 }
-.details{
-    width: 50%;
-    background-color: #fff;
-    padding: 25px;
-}
+
 .btns{
     width: 100%;
     height: auto;
@@ -144,4 +182,82 @@ body .navbars .nav {
 
     padding: 10px 20px;
 }
+@media only screen and (max-width: 600px) {
+    footer {
+        display: none;
+    }
+    .navbars {
+        display: flex;
+        justify-content: space-between;
+        height: 70px;
+    }
+    .navbars .nav{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 40px 10px;
+    }
+    .navbars .logo{
+        width: auto;
+    }
+    .navbars .hamburger{
+        color: #fff;
+        width: auto;
+        font-size: 2.6rem;
+        padding: 0px 20px;
+    }
+    .navbars .hamburger #toggle{
+        cursor: pointer;
+    }
+    
+    .navbars .nav .navbar-nav,
+    .navbars .nav .login{
+        display: none;
+    }
+    .footerNav {
+        display: grid;
+        position: fixed;
+        width: 100%;
+        height: 70px;
+        background: linear-gradient(0deg, #02266C, #1A0051);
+        bottom: 0;
+        left: 0;
+        grid-template-columns: repeat(4, 1fr);
+        justify-content: space-between; 
+        align-items: center; 
+    }
+    
+    .box {
+        text-align: center;
+        font-size: 1.2rem; 
+    }
+    
+    .fa-solid {
+        font-size: inherit;
+        color: #fff;
 
+    }
+    .popUp {
+        display: none;
+        position: fixed;
+        background-color: rgba(0, 0, 0, 0.6);
+        width: 0; /* Start with a width of 0 */
+        height: 100vh;
+        z-index: 99999;
+        transition: width 0.3s ease; /* Add a transition for smooth animation */
+        overflow: hidden; /* Hide overflowing content */
+    }
+    
+    .popUp.active {
+        width: 100%; /* Expand to full width when active */
+    }
+    .popUp .close{
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 30px;
+    }
+    
+    
+  
+}

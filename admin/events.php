@@ -39,12 +39,9 @@ if (isset($_GET['criteria'])) {
             <div class="main-title">
                 Events
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="images/default-1.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php 
+            require_once('profile.php');
+            ?>
         </div>
         <div class="main-content">
             
@@ -156,6 +153,7 @@ if (isset($_GET['criteria'])) {
     function closeDeleteConfirmation(){
         document.getElementById("deleteConfirmation").style.display="none";
     }
+    
 </script>
 <?php
 require_once('footer.php');

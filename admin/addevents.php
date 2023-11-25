@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $description = $_POST['description'];
         $image = $_FILES['image']['name'];
         $eventDays = $_POST['eventDays'];
-        $eventAddedTime = date('H:i:s'); 
+        $eventAddedTime = date('H:i'); 
         $eventAddedDate = date('Y-m-d');
         $status = 'active';
         $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
@@ -148,12 +148,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $uploadDir = "../eventUploads/";
         $uniqueFileName = uniqid() . '.' . $imageFileType;
         $targetFilePath = $uploadDir . $uniqueFileName;
-
         if (in_array($imageFileType, array('jpg', 'jpeg', 'png', 'webp'))) {
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
               
-                    if ($addEvent->insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedDate, $eventAddedTime, $status)) {
+                    if ($addEvent->insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedTime, $eventAddedDate, $status)){
                         echo'<script>';
+                        echo'<?php var_dump($eventAddedDate);?>';
                         echo'window.location.href = "http://localhost/eveproject/admin/events.php";';
                         echo'</script>';
                     } else {
@@ -195,8 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         </div>
                     </a>
                     <div class="box">
-                        
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+                        <form method="post" enctype="multipart/form-data">
                                 <div class="input-box" id="block">
                                     <label for="">Event Name:</label>
                                     <input type="text" Name="eventName" placeholder="Event Name" required>
@@ -250,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
                                     <div class="input-box">
                                         <label for="dateofEnd">Event Ending Date</label>
-                                        <input type="date" id="dateofEnd" name="dateofEnd" readonly>
+                                        <input type="date" id="dateofEnd" name="dateofEnd" >
                                     </div>
                                     
 
@@ -270,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                                         <span class="infoMsg"><label for="">Select Image</label><p>* Image type must be jpg, jpeg or png and aspect ratio must be  16:9</p></span>
                                         <input type="file" name="image" id="selectFile" accept="image/*" required>
                                         <label for="selectFile" id="file-2-preview">
-                                            <img id="previewImage" src="eventImages/default.jpg" alt="Thumbnail">
+                                            <img id="previewImage" src="images/image.svg" alt="Thumbnail">
                                             <div>
                                                 <span>+</span>
                                             </div>

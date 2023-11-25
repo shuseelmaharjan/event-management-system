@@ -286,18 +286,18 @@ class event {
     public function __construct($db){
         $this->db = $db;
     }
-
-    // Data insertion
-    public function insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedDate, $eventAddedTime, $status){
+       // Data insertion
+       public function insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedTime, $eventAddedDate, $status){
         $stmt = $this->db->prepare("INSERT INTO tbl_events (eventName, dateofStart, dateofEnd, eventType, venue, eventOrganizer, description, image, event_days, adPostedDate, adPostedTime, ad_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssssssss", $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedDate, $eventAddedTime, $status);
+        $stmt->bind_param("ssssssssssss", $eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedTime, $eventAddedDate, $status);
 
-        if ($stmt->execute()) {
-            return true;
+        if (!$stmt->execute()) {
+            die('Error executing SQL statement: ' . $stmt->error);
         } else {
-            return false;
+            return true;
         }
     }
+
 
     //update
     public function updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $status, $id){
@@ -356,6 +356,27 @@ class service {
             return false;
         }
     }
+    public function updateServiceData($id, $serviceName, $eventType, $description, $uniqueFileName) {
+        $stmt = $this->db->prepare("UPDATE tbl_service SET ser_name = ?, type = ?, description = ?, image = ? WHERE ser_id = ?");
+        $stmt->bind_param("ssssi", $serviceName, $eventType, $description, $uniqueFileName, $id);
+    
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function deleteService($id){
+        $stmt = $this->db->prepare("DELETE FROM tbl_service WHERE ser_id = ?");
+        $stmt->bind_param("i", $id);
+    
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }
 
 //for package

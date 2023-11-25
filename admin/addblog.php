@@ -173,12 +173,9 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
             <div class="main-title">
                 Add Blog Post
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php
+            require_once('profile.php');
+            ?>
         </div>
         <div class="main-content">
             
@@ -193,7 +190,7 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
                                         <label for="">Select Image</label>
                                         <input type="file" name="image" id="selectFile" accept="image/*">
                                         <label for="selectFile" id="file-2-preview">
-                                            <img id="previewImage" src="eventImages/default.jpg" alt="Thumbnail">
+                                            <img id="previewImage" src="images/image.svg" alt="Thumbnail">
                                             <div>
                                                 <span>+</span>
                                             </div>

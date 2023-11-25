@@ -1,31 +1,31 @@
-var swiper = new Swiper(".swiper", {
-    effect: "coverflow",
-    grabCursor: true,
-    centeredSlides: true,
-    coverflowEffect: {
-        rotate: 0,
-        stretch: 0,
-        depth: 100,
-        modifier: 3,
-        slideShadows: true
-    },
-    loop: true,
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-    },
-    breakpoints: {
-        640: {
-            slidesPerView: 2
-        },
-        768: {
-            slidesPerView: 1
-        },
-        1024: {
-            slidesPerView: 2
-        },
-        1560: {
-            slidesPerView: 3
-        }
+jQuery("#carousel").owlCarousel({
+    autoplay: true,
+    rewind: true, /* use rewind if you don't want loop */
+    margin: 20,
+     /*
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    */
+    responsiveClass: true,
+    autoHeight: true,
+    autoplayTimeout: 7000,
+    smartSpeed: 800,
+    nav: true,
+    responsive: {
+      0: {
+        items: 1
+      },
+  
+      600: {
+        items: 3
+      },
+  
+      1024: {
+        items: 4
+      },
+  
+      1366: {
+        items: 4
+      }
     }
-});
+  });

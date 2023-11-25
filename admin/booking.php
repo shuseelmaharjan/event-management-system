@@ -56,6 +56,22 @@ require_once('sidebar.php');
         width: 100px;
         float: right;
     }
+    .box table tbody tr{
+        padding: 0;
+        margin: 0;
+    }
+    .box table tbody tr td{
+        padding: 0;
+        margin: 0;
+    }
+    .box table tbody tr h1 span{
+        margin-left: 5px;
+    }
+    .box table tbody tr h1{
+        font-size: 1rem;
+        color: #000;
+        display: flex;
+    }
 </style>
 <div class="main">
         <div class="main-header">
@@ -73,12 +89,14 @@ require_once('sidebar.php');
             </div>
         </div>
         <div class="main-content">
-            <div class="arrow">
-                <a href="request.php"><i class="fa-solid fa-arrow-left"></i></a>
-            </div>
             
             <div class="row">
             <div class="col-12">
+                    <a href="request.php">
+                        <div class="breadcum">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </a>
                     <!-- ORDERS TABLE -->
                     <?php
                             $id = $_GET['criteria'];
@@ -107,7 +125,8 @@ require_once('sidebar.php');
                                             <td><h1>Booked By: <span><?=$row['user_name'];?></span></h1></td>
                                         </tr>
                                         <tr>
-                                            <td><h1>User Phone: <span><?=$row['user_phone'];?></span></h1></td>
+                                        <td><h1>User Phone: <span><?=$row['user_phone'];?></span></h1></td>
+
                                         </tr>
                                         <tr>
                                             <td><h1>Email: <span><?=$row['user_email'];?></span></h1></td>
@@ -129,7 +148,6 @@ require_once('sidebar.php');
                                         <tr>
                                             <td><h1>Service Name: <span><?=$row['serviceName'];?></span></h1></td>
                                         </tr>
-                                        
                                         <tr>
                                             <td><h1>Package Name: <span><?=$row['packageName'];?></span></h1></td>
                                         </tr>
@@ -137,7 +155,7 @@ require_once('sidebar.php');
                                             <td><h1>Event Type: <span><?=$row['eventType'];?></span></h1></td>
                                         </tr>
                                         <tr>
-                                            <td><h1>Event Destination: <span></span></h1></td>
+                                            <td><h1>Event Destination: <span><?=$row['eventDestination']?></span></h1></td>
                                         </tr>
                                         <tr>
                                             <td><h1>Event Date: <span><?=$row['event_date'];?></span></h1></td>

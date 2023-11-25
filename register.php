@@ -15,7 +15,10 @@
 </head>
 <body>
     <style>
-
+        #danger,
+        #success{
+            grid-column: span 2;
+        }
     </style>
     <div class="verification"n id="verify">
         <!--header section start here -->
@@ -220,7 +223,7 @@
             if($stmt->rowCount()>0){
                 echo '<script>';
                 echo 'document.getElementById("danger").style.display="inline-block";';
-                echo'document.getElementById("message").innerText = "This email is already exist on database, please use different one.";';
+                echo'document.getElementById("message").innerText = "This email is already exist, please use different one.";';
                 echo '</script>';
             }else{
                 // Check if the username already exists in the database
@@ -231,7 +234,7 @@
                 if ($stmt->rowCount() > 0) {
                     echo '<script>';
                     echo 'document.getElementById("danger").style.display="inline-block";';
-                    echo'document.getElementById("message").innerText = "Username already exist on database, please use different one.";';
+                    echo'document.getElementById("message").innerText = "Username already exist, please use different.";';
                     echo '</script>';
 
                 } else {

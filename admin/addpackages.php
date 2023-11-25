@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             </div>
             <div class="last-title">
                 <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
+                <img src="images/default-1.png" width="50px" alt="image">
                 <h1>User Admin</h1>
                 </div>
             </div>
@@ -106,9 +106,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <div class="row">
                
                 <div class="col-12">
-                    <div class="breadcum">
-                        <a href="services.php">Services</a> > <a href="addpackages.php">Add Packages</a>
-                    </div>
+                    <a href="services.php">
+                        <div class="breadcum">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </a>
                     <div class="box">
                         
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
@@ -174,6 +176,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
   
 </div>
 <script>
+var currentPage = window.location.href;
+
+var eventsLink = document.querySelector('a[href="services.php"]');
+
+if (currentPage.includes("addpackages.php")) {
+    eventsLink.classList.add("active");
+}
+
     const textarea = document.getElementById('my-textarea');
     textarea.addEventListener('input', resizeTextarea);
     function resizeTextarea() {

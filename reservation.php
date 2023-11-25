@@ -78,15 +78,16 @@ require_once('nav.php');
     .cancel{
         background-color: red;
     }
+    #cancellation{
+        color: red;
+    }
   
 </style>
 <body>
 <div class="container">
 <div class="box">
     <h1>My Reservation</h1>
-    
     <?php
-
         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             //for cancellation
             if(isset($_POST['cancel'])){
@@ -137,6 +138,8 @@ require_once('nav.php');
                     $eventDate = $rowReservation['event_date'];
                     $cost = $rowReservation['totalcost'];
                     $reserveId = $rowReservation['res_id'];
+                    $status = $rowReservation['status'];
+
 
 
 
@@ -182,14 +185,54 @@ require_once('nav.php');
                                 <h1>Email: <span><?=$email?></span></h1>
                                 <h1>Phone: <span><?=$phone?></span></h1>
                             </div>
-                            <div class="btn" id="cancel">
-                                <form action="reservation.php?criteria=<?=$rowReservation['res_id']?>" method="post">
-                                    <input type="submit" class="cancel" name="cancel" value="Cancel Reservation">
-                                </form>
-                            </div>
 
+                            <?php
+$currentTimestamp = time();
+$reservationTimestamp = strtotime($rowReservation['reserveTime']);
+
+if ($reservationTimestamp === false) {
+    // Display an error message if the timestamp is invalid
+    ?>
+    <div class="col" id="cancellation">
+        <h1>Status</h1>
+        <span>Something Error Contact to <a href="mailto:ems@gmail.com">EMS</a></span>
+    </div>
+    <?php
+} else {
+    $timeDifferenceHours = ($reservationTimestamp - $currentTimestamp) / 3600;
+
+    if ($status == "cancelled") {
+        ?>
+        <div class="col" id="cancellation">
+            <h1>Status</h1>
+            <span>Cancelled</span>
+        </div>
+        <?php
+    } elseif ($timeDifferenceHours > 24) { // Display form if time difference is more than 1 day
+        ?>
+        <div class="col">
+            <div class="btn" id="cancel">
+                <form action="cancelreservation.php?criteria=<?=$rowReservation['res_id']?>" method="post">
+                    <input type="hidden" name="res_id" value="<?=$reserveId?>">
+                    <input type="submit" class="cancel" name "cancel" value="Cancel Reservation">
+                </form>
+            </div>
+        </div>
+    <?php
+    } else {
+        ?>
+        <div class="col" id="cancellation">
+            <h1>Status</h1>
+            <span>Pending</span>
+        </div>
+    <?php
+    }
+}
+?>
                         </div>
+
                         <?php
+                        
                     }
 
                  
@@ -198,6 +241,7 @@ require_once('nav.php');
 
             }
         } 
+
         ?>
 
     

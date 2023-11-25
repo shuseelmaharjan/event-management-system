@@ -21,7 +21,7 @@ require_once('sidebar.php');
             </div>
             <div class="last-title">
                 <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
+                <img src="images/default-1.png" width="50px" alt="image">
                 <h1>User Admin</h1>
                 </div>
             </div>
