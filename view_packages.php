@@ -17,7 +17,7 @@
             $serviceData = mysqli_fetch_assoc($resultService);
         }
 
-        $sqlPackages = "SELECT p.pkg_name, p.pkg_cost, p.pkg_guest, p.pkg_description
+        $sqlPackages = "SELECT p.pkg_id, p.pkg_name, p.pkg_cost, p.pkg_guest, p.pkg_description
                         FROM tbl_packages p
                         WHERE p.service_id = '$id'";
         $resultPackages = mysqli_query($conn, $sqlPackages);
@@ -68,94 +68,85 @@
                 </div>
                 
                 <?php
-
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        $userId = $row['id'];
+                        $packageId = $_POST["packageName"];
+                        $reserveDate = date("Y-m-d");
+                        $reserveTime = date("H:i:s");
+                        $totalCost = $_POST["totalCost"];
+                        $numDays = isset($_POST["numDays"]) ? intval($_POST["numDays"]) : 1;
+                        $eventDate = isset($_POST["eventDate"]) ? $_POST["eventDate"] : '';
+                        $venue = $_POST["eventVenue"];
 
+                        $sqlInsert = "INSERT INTO tbl_reservation (userId, packageId, reserveDate, reserveTime, totalcost, numDays, event_date, eventDestination)
+                        VALUES ('$userId', '$packageId', '$reserveDate', '$reserveTime', '$totalCost', '$numDays', '$eventDate', '$venue')";
 
-                            $eventTypeId = $serviceData["ser_name"];
-                            $totalCost = $_POST["totalCost"];
-                            $serviceId = $serviceData["ser_name"];
-                            $packageId = $_POST["packageName"];
-                            $userId = $row['id'];
-                            $reserveDate = date("Y-m-d");
-                            $reserveTime = date("H:i:s");
-                            $numDays = $_POST["numDays"];
-                            $eventDate = $_POST["eventDate"];
+                        $result = mysqli_query($conn, $sqlInsert);
 
-                            $sqlInsert = "INSERT INTO tbl_reservation (eventType, serviceName, packageName, userId, reserveDate, reserveTime, totalcost, numDays, event_date)
-                                        VALUES ('$eventTypeId', '$serviceId', '$packageId', '$userId', '$reserveDate', '$reserveTime', '$totalCost', '$numDays', '$eventDate')";
-
-                            $result = mysqli_query($conn, $sqlInsert);
-                            if ($result) {
-                                echo '<script>';
-                                echo 'window.location.href = "reservation.php";';
-                                echo '</script>';
-                            }
-
-                             else {
-                                echo "Error: " . mysqli_error($conn);
-                            }
-
+                        if ($result) {
+                            echo '<script>window.location.href = "reservation.php";</script>';
+                        } else {
+                            echo "Error: " . mysqli_error($conn);
+                        }
                     }
                 ?>
+
                 <div id="package-form">
-                    <form action="" method="POST">
-                        <div class="package-row" >
-                            <div class="package-box">
+                <form action="" method="POST">
+                    <div class="package-row">
+                        <div class="package-box">
                             <label for="numDays">Number of Days</label>
-
-                                <div class="days">
-                                    <button style="background: #02266C;" type="button" id="decrement"><i class="fa-solid fa-minus"></i></button>
-                                    <input type="number" class="numDays" id="value" name="numDays" value="1" min="1">
-                                    <button style="background: #02266C;" type="button" id="increment"><i class="fa-solid fa-plus"></i></button>
-                                </div>
+                            <div class="days">
+                                <button style="background: #02266C;" type="button" id="decrement"><i class="fa-solid fa-minus"></i></button>
+                                <input type="number" class="numDays" id="value" name="numDays" value="1" min="1">
+                                <button style="background: #02266C;" type="button" id="increment"><i class="fa-solid fa-plus"></i></button>
                             </div>
-
-                            <div class="package-box">
-                                <label for="eventDate">Choose Date:</label>
-                                <input type="date" name="eventDate" min="<?php echo date('Y-m-d'); ?>" required>
-                            </div>
-
-                            <div class="package-box">
-                                <label for="eventType">Select Package:</label>
-                                <?php
-                                    $result = $conn->query($sqlPackages);
-
-                                    if ($result->num_rows > 0) {
-                                ?>
-                                <select name="packageName" id="type" onchange="updatePackagePrice()" required>
-                                    <option value="" selected disabled>Select Package</option>
-                                    <?php
-                                        while ($row = $result->fetch_assoc()) {
-                                            $pkg_id = $row['pkg_id'];
-                                            $pkgName = $row['pkg_name'];
-                                            $pkgPrice = $row['pkg_cost'];
-                                    ?>
-                                    <option value="<?= $pkgPrice ?>" data-price="<?= $pkgPrice ?>"><?= $pkgName ?></option>
-                                    <?php }?>
-                                </select>
-                                <?php } else {
-                                    echo 'No data found.';
-                                }
-                                ?>
-                            </div>
-                            <div class="package-box">
-                                <label for="eventVenue">Event Venue:</label>
-                                <input type="text" name="eventVenue" required>
-                            </div>
-                            
-                            <div class="row-2">
-                                <div class="package-box">
-                                    <label for="cost"><span class="pkg-price">Cost: NRP <p id="packagePrice"> 00.00 </p> /-</span></label>
-                                    <input type="number" name="totalCost" id="costInput" hidden>
-                                </div>
-                                <div class="btn">
-                                    <button style="background: #02266C;">Book Reservation</button>
-                                </div>
-                            </div>
-                            
                         </div>
-                    </form>
+
+                        <div class="package-box">
+                            <label for="eventDate">Choose Date:</label>
+                            <input type="date" name="eventDate" min="<?php echo date('Y-m-d'); ?>" required>
+                        </div>
+
+                        <div class="package-box">
+                            <label for="eventType">Select Package:</label>
+                            <?php
+                                $result = $conn->query($sqlPackages);
+                                if ($result->num_rows > 0) {
+                            ?>
+                            <select name="packageName" id="type" onchange="updatePackagePrice()" required>
+                                <option value="" selected disabled>Select Package</option>
+                                <?php
+                                    while ($row = $result->fetch_assoc()) {
+                                        $pkg_id = $row['pkg_id'];
+                                        $pkgName = $row['pkg_name'];
+                                        $pkgPrice = $row['pkg_cost'];
+                                ?>
+                                <option value="<?= $pkg_id ?>" data-price="<?= $pkgPrice ?>"><?= $pkgName ?></option>
+                                <?php }?>
+                            </select>
+                            <?php } else {
+                                echo 'No data found.';
+                            }
+                            ?>
+                        </div>
+
+                        <div class="package-box">
+                            <label for="eventVenue">Event Venue:</label>
+                            <input type="text" name="eventVenue" required>
+                        </div>
+
+                        <div class="row-2">
+                            <div class="package-box">
+                                <label for="cost"><span class="pkg-price">Cost: NRP <p id="packagePrice"> 00.00 </p> /-</span></label>
+                                <input type="number" name="totalCost" id="costInput" hidden>
+                            </div>
+                            <div class="btn">
+                                <button style="background: #02266C;">Book Reservation</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 </div>
                 
             </div>

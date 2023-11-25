@@ -555,3 +555,65 @@ ul li {
     display: flex;
     justify-content: space-between;
 }
+/*reservetion css*/
+.reservation {
+    width: 75%;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 70px;
+    background: var(--white);
+    padding-bottom: 40px;
+}
+
+.res-title {
+    text-align: center;
+    padding: 20px;
+}
+.res-title h1{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 2rem;
+    font-weight: 500;
+}
+.reservation .box-container{
+    width: 80%;
+    margin: 20px auto;
+    box-shadow: rgba(0, 0, 0, 0.6);
+    border: 1px solid #ccc;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 20px;
+    border-radius: 15px;
+}
+.reservation .box-container .box-row{
+    display: block;
+    font-family: 'Ubuntu', sans-serif;
+
+}
+.reservation .box-container .box-row h1{
+    font-size: 1rem;
+    font-weight: 500;
+}
+.reservation .box-container .box-row p{
+    font-size: 1rem;
+    font-family: 400;
+}
+.reservation .box-container .user-row{
+    display: flex;
+    justify-content: space-between;
+}
+.reservation .box-container .user-row .user-info h1{
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Ubuntu', sans-serif;
+
+}
+.reservation .box-container h2{
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Ubuntu', sans-serif;
+}
+.user-row .user-info button{
+    background-color: var(--danger);
+    padding: 10px;
+}

@@ -253,7 +253,7 @@
 						} else {
 							?>
 							<div class="default">
-								<img src="uploads/default.png"  alt="default img">
+								<img src="../images/user.png"  alt="default img">
 							</div>
 							<?php
 						}

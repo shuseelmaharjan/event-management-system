@@ -26,7 +26,7 @@
                     $username = isset($userInfo['username']) ? $userInfo['username'] : '';
                     
                     // default profile image path here
-                    $defaultProfileImagePath = 'uploads/default.png';
+                    $defaultProfileImagePath = '../images/user.png';
 
                     $userImage = isset($userInfo['image']) ? $userInfo['image'] : $defaultProfileImagePath;
 
@@ -47,7 +47,7 @@
 						} else {
 							?>
                             <div class="default">
-								<img src="uploads/default.png"  alt="default img">
+								<img style="margin-left: 30px;" width="40px" src="../images/user.png"  alt="default img">
 							</div>
 							<?php
 						}

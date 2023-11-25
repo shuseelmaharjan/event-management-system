@@ -1,257 +1,131 @@
 <?php
 require_once('php/connection.php');
 require_once('header.php');
-?>
-<link rel="stylesheet" href="css/main.css">
-</head>
-<?php 
 require_once('nav.php');
 ?>
 
-<style>
-    .container{
-        background-color: #ccc;
-        height: auto;
-        padding-top: 50px;
-    }
-    .box{
-        height: auto;
-        width: 60%;
-        padding: 60px 30px 40px 30px;
-        font-family: 'Ubuntu', sans-serif;
-        margin: 0px auto;
-        background-color: #fff;
-        text-align: center;
-    }
-    .box .row{
-        width: 80%;
-        margin: 30px auto;
-        border: 1px solid #ccc;
-        padding: 20px;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        border-radius: 20px;
-        grid-gap: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    .box .row .col{
-        text-align: left;
-    }
-    .box .row .col h1{
-        font-size: 1em;
-        font-weight: 600;
+<div class="container" style="background: #ccc;">
+    <div class="reservation">
+        <div class="res-title">
+            <h1>My Reservations</h1>
+        </div>
+<?php
 
-    }
-    .box .row .col span{
-        font-size: 1em;
-        font-weight: 400;
-    }
-    .box .row .col-1{
-        display: flex;
-        grid-column: span 2;
-        justify-content: space-between;
-        align-items: center;
-        
-    }
-    .box .col-1 h1{
-        font-size: 1em;
-        font-weight: 600;
-        text-align: left;
-    }
-    .box .col-1 span{
-        font-weight: 400;
-    }
-    .btn input{
-        width: 100%;
-        font-size: 1.2em;
-        font-weight: 600;
-        padding: 10px;
-        border: none;
-        color: #fff;
-        cursor: pointer;
-    }
-   
-    #cancel{
-        grid-column: 3;
-        padding: 10px;
-    }
-  
-    .cancel{
-        background-color: red;
-    }
-    #cancellation{
-        color: red;
-    }
-  
-</style>
-<body>
-<div class="container">
-<div class="box">
-    <h1>My Reservation</h1>
-    <?php
-        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-            //for cancellation
-            if(isset($_POST['cancel'])){
-                $id = $_GET['criteria'];
-                $cancelSql = "UPDATE tbl_reservation SET status = 'cancelled' WHERE res_id = $id";
-                $stmtUpdate = mysqli_query($conn, $cancelSql);
-                if($stmtUpdate){
-                   echo('<h2>Cancellation Success</h2>');
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    $username = $_SESSION['username'];
 
-                }else{
-                    echo('<h2>Cancellation Failed</h2>');
+    // Use prepared statements to prevent SQL injection
+    $sqlUserId = "SELECT id FROM tbl_users WHERE username = ?";
+    $stmtUserId = $conn->prepare($sqlUserId);
+    $stmtUserId->bind_param("s", $username);
 
-                }
-            }
-            
-            $username = $_SESSION['username'];
-
-            $userId = 0;
-
-            $sqlUserId = "SELECT id FROM tbl_users WHERE username = ?";
-            $stmtUserId = $conn->prepare($sqlUserId);
-        if (!$stmtUserId) {
-            die("Error in preparing SQL query: " . $conn->error);
-        }
-        $stmtUserId->bind_param("s", $username);
-
-        if (!$stmtUserId->execute()) {
-            die("Error in executing SQL query: " . $stmtUserId->error);
-        }
-
+    if (!$stmtUserId->execute()) {
+        echo "Error: " . $stmtUserId->error;
+    } else {
         $resultUserId = $stmtUserId->get_result();
 
-            if ($resultUserId->num_rows === 1) {
-                $rowUserId = $resultUserId->fetch_assoc();
-                $userId = $rowUserId['id'];
-            }
+        if ($resultUserId->num_rows === 1) {
+            $rowUserId = $resultUserId->fetch_assoc();
+            $user_id = $rowUserId['id'];
+        }
 
-            $sqlReservation = "SELECT * FROM tbl_reservation WHERE userId = ?";
-            $stmtReservation = $conn->prepare($sqlReservation);
-            $stmtReservation->bind_param("i", $userId);
-            $stmtReservation->execute();
-            $resultReservation = $stmtReservation->get_result();
+        $sql = "SELECT r.res_id, r.packageId, r.reserveDate, r.reserveTime, r.status, r.totalcost, r.advanceamt, r.numDays, r.event_date, r.amtstatus, r.eventDestination,
+                   u.name AS userName, u.email AS userEmail, u.phone AS userPhone,
+                   p.pkg_name AS packageName,
+                   s.ser_name AS serviceName
+            FROM tbl_reservation r
+            INNER JOIN tbl_users u ON r.userId = u.id
+            INNER JOIN tbl_packages p ON r.packageId = p.pkg_id
+            INNER JOIN tbl_service s ON p.service_id = s.ser_id
+            WHERE r.userId = ? 
+            ORDER BY r.res_id DESC";
 
-            if ($resultReservation->num_rows > 0) {
-                while ($rowReservation = $resultReservation->fetch_assoc()) {
-                    $package = $rowReservation['packageName']; 
-                    $numDays = $rowReservation['numDays'];
-                    $eventDate = $rowReservation['event_date'];
-                    $cost = $rowReservation['totalcost'];
-                    $reserveId = $rowReservation['res_id'];
-                    $status = $rowReservation['status'];
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
 
+        if (!$stmt->execute()) {
+            echo "Error: " . $stmt->error;
+        } else {
+            $result = $stmt->get_result();
 
+            while ($row = $result->fetch_assoc()) {
+?>
+        <div class="box-container">
+            <div class="box-row">
+                <h1>Reservation Id</h1>
+                <p>#<?= $row['res_id'] ?></p>
+            </div>
+            <div class="box-row">
+                <h1>Service Name</h1>
+                <p><?= $row['serviceName'] ?></p>
+            </div>
+            <div class="box-row">
+                <h1>Package Name</h1>
+                <p><?= $row['packageName'] ?></p>
+            </div>
+            <div class="box-row">
+                <h1>Total Cost</h1>
+                <p>NRs. <?= $row['totalcost'] ?></p>
+            </div>
+            <div class="box-row">
+                <h1>Date of Reservation</h1>
+                <p><?= $row['reserveDate'] ?></p>
+            </div>
+            <div class="box-row">
+                <h1>Time</h1>
+                <p><?= $row['reserveTime'] ?></p>
+            </div>
+            <div class="box-row">
+                <h1>Event Venue</h1>
+                <p><?= $row['eventDestination'] ?></p>
+            </div>
+            <div class="box-row">
+                <h1>Event Days</h1>
+                <p><?= $row['numDays'] ?></p>
+            </div>
+            <div class="box-row">
+                <h1>Advance Amount</h1>
+                <p><?= $row['advanceamt'] ?></p>
+            </div>
+            <div class="box-row">
+                <h1>Due Amount</h1>
+                <p>NRs. <?= $row['totalcost'] - $row['advanceamt']?></p>
+            </div>
+            <h2 style="grid-column: span 5;">User Details</h2>
+            <div class="user-row" style="grid-column: span 5;">
+                <div class="user-info">
+                    <h1>Name: <?= $row['userName'] ?></h1>
+                </div>
+                <div class="user-info">
+                    <h1>Email: <?= $row['userEmail'] ?></h1>
+                </div>
+                <div class="user-info">
+                    <h1>Phone: <?= $row['userPhone'] ?></h1>
+                </div>
+            </div>
+            <div class="user-row" style="grid-column: span 5">
+            <div class="user-info">
+                <h1>Request Status: <span id="status"><?= !empty($row['status']) ? $row['status'] : 'Pending' ?></span></h1>
+            </div>
 
-
-                    //for user details
-                    $sqlUserInfo = "SELECT name, email, phone FROM tbl_users WHERE id = ?";
-                    $stmtUserInfo = $conn->prepare($sqlUserInfo);
-                    $stmtUserInfo->bind_param("i", $userId);
-                    $stmtUserInfo->execute();
-                    $resultUserInfo = $stmtUserInfo->get_result();
-                    if ($resultUserInfo->num_rows === 1){
-                        $rowUserInfo = $resultUserInfo->fetch_assoc();
-                        $name = $rowUserInfo['name'];
-                        $email = $rowUserInfo['email'];
-                        $phone = $rowUserInfo['phone'];
-                        ?>
-                        <div class="row">
-                            <div class="col">
-                                <h1>Reservation ID:</h1>
-                                <span>#<?=$reserveId?></span>
-                            </div>
-                            <div class="col">
-                                <h1>Service Name:</h1>
-                                <span>Marriage</span>
-                            </div>
-                            <div class="col">
-                                <h1>Package</h1>
-                                <span><?=$package?></span>
-                            </div>
-                            <div class="col">
-                                <h1>No. of Days</h1>
-                                <span><?=$numDays?></span>
-                            </div>
-                            <div class="col">
-                                <h1>Reserved Date</h1>
-                                <span><?=$eventDate?></span>
-                            </div>
-                            <div class="col">
-                                <h1>Total Cost:</h1>
-                                <span><?=$cost?></span>
-                            </div>
-                            <div class="col-1">
-                                <h1>Name: <span><?=$name?></span></h1>
-                                <h1>Email: <span><?=$email?></span></h1>
-                                <h1>Phone: <span><?=$phone?></span></h1>
-                            </div>
-
-                            <?php
-$currentTimestamp = time();
-$reservationTimestamp = strtotime($rowReservation['reserveTime']);
-
-if ($reservationTimestamp === false) {
-    // Display an error message if the timestamp is invalid
-    ?>
-    <div class="col" id="cancellation">
-        <h1>Status</h1>
-        <span>Something Error Contact to <a href="mailto:ems@gmail.com">EMS</a></span>
-    </div>
-    <?php
-} else {
-    $timeDifferenceHours = ($reservationTimestamp - $currentTimestamp) / 3600;
-
-    if ($status == "cancelled") {
-        ?>
-        <div class="col" id="cancellation">
-            <h1>Status</h1>
-            <span>Cancelled</span>
-        </div>
-        <?php
-    } elseif ($timeDifferenceHours > 24) { // Display form if time difference is more than 1 day
-        ?>
-        <div class="col">
-            <div class="btn" id="cancel">
-                <form action="cancelreservation.php?criteria=<?=$rowReservation['res_id']?>" method="post">
-                    <input type="hidden" name="res_id" value="<?=$reserveId?>">
-                    <input type="submit" class="cancel" name "cancel" value="Cancel Reservation">
-                </form>
+                <?php
+                if ($row['status'] == "Active") {
+                ?>
+                    <button style="background-color: red; color:#fff; border:none; padding: 10px 15px; font-size: 1rem; font-weight: 500; cursor:pointer">Cancel Request</button>
+                <?php
+                }
+                ?>
             </div>
         </div>
-    <?php
-    } else {
-        ?>
-        <div class="col" id="cancellation">
-            <h1>Status</h1>
-            <span>Pending</span>
-        </div>
-    <?php
-    }
+ 
+
+<?php
 }
-?>
-                        </div>
-
-                        <?php
-                        
-                    }
-
-                 
-                   
-                }
-
-            }
-        } 
-
-        ?>
-
-    
+}
+}
+}?>
 </div>
 </div>
-
-</body>
-
-
 <?php
     require_once('footer.php');
 ?>
