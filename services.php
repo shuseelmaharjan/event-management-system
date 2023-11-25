@@ -1,7 +1,10 @@
 <?php
     require_once('php/connection.php');
     require_once('header.php');
-    require_once('nav.php');
+?>
+<link rel="stylesheet" href="css/style.css">
+<?php
+require_once('nav.php');
 ?>
     <!--start of container-->
     <div class="container">

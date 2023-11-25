@@ -1,6 +1,9 @@
 <?php
 require_once('php/connection.php');
 require_once('header.php');
+?>
+<link rel="stylesheet" href="css/style.css">
+<?php
 require_once('nav.php');
 ?>
     <!--start of a container-->
@@ -24,7 +27,7 @@ require_once('nav.php');
                 <div class="col">
                         <img src="blogUploads/<?php echo $row['image']; ?>" alt="image">
 
-                        <div class="content">
+                        <div class="contents">
                             <h1><?php echo $row['post_title']; ?></h1>
                             <p class="truncate"><?php echo $row['description']; ?></p>
                             <!-- <a href="#" class="btn">View Details</a> -->

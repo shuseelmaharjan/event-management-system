@@ -15,6 +15,7 @@ require_once('nav.php');
         padding-top: 50px;
     }
     .box{
+        height: auto;
         width: 60%;
         padding: 60px 30px 40px 30px;
         font-family: 'Ubuntu', sans-serif;

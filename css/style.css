@@ -1,6 +1,8 @@
-/*universal*/
 :root{
-
+    --primary: #02266C;
+    --secondary: #1A0051;
+    --black: #000000;
+    --white: #ffffff;
     --bg-success: #dff0d8;
     --bg-danger: #f2dede;
     --success: #3c763d;
@@ -8,50 +10,99 @@
     --danger-outline: #ebccd1;
     --success-outline: #d6e9c6;
 }
-.container{
-    width: 100%;
-    background-color: #E9E9E9;    
-    height: 100%;
-    
-}
-.container .wrapper{
-    padding: 0px 40px 40px 40px;
-    display: block;
-}
-.container .heading{
+/**home page**/
+.owl-slider {
     margin-top: 70px;
-    text-align: center;
+    width: 100%;
+    display: flex;
+    overflow: hidden; /* Hide the overflow to prevent unwanted spacing */
+}
 
+.item {
+    margin: 0; 
+    padding: 0;
 }
-.container .heading h1{
-    font-size: 32px;
-    font-family: 'Ubuntu', sans-serif;
-    font-weight: 400;
-    padding: 20px 0px;
-    text-transform: uppercase;
+
+.item img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
 }
-.container .row{
-    width: 80%;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 40px 20px;
-    display: grid;
-    grid-gap: 10px;
-    outline: none;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px #888888;
+
+.owl-carousel {
+    display: flex;
+    margin: 0; /* Remove any default margin */
 }
-.col{
-    margin: 0px 10px;
+
+.owl-carousel .owl-item {
+    margin-right: 0; 
+    margin-left: 0; /* Set both margins to zero */
+}
+
+
+.event-row{
+    display: block;
+    padding-bottom: 80px;
+}
+.event-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}   
+.event-col{
+    margin: 10px 20px;
+    width: 350px;
+}
+.card {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+    border: none;
+}
+
+.card img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    position: relative;
+}
+
+.card .card-img-overlay {
+    z-index: 999;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #fff;
-    border-radius: 15px;
+    justify-content: flex-end; 
+    background: linear-gradient(to top, var(--primary) 10%, rgba(0, 0, 0, 0) 100%);
+    color: var(--white); 
 }
+
+.card .card-img-overlay .text {
+    padding: 20px;
+}
+
+.card .card-img-overlay h1 {
+    font-size: 2rem;
+    color: var(--white);
+    padding-bottom: 10px;
+    margin: 0; 
+}
+
+.card .card-img-overlay p {
+    font-size: 16px;
+    margin: 0; 
+}
+
+.card:hover{
+    transform: scale(1.05);
+    transition: all 1s ease;
+    z-index: 999;
+}
+
 /*events page*/
 .events{
     width: 50%;
@@ -120,12 +171,12 @@
     width: 100%;
 }
 /*blog page*/
-.col .content{
+.col .contents{
     padding: 10px 20px;
     display: block;
     font-family: 'Ubuntu', sans-serif;
 }
-.col .content h1{
+.col .contents h1{
     font-size: 1.5rem;
     font-weight: 600;
     text-align: left;
@@ -133,7 +184,7 @@
     font-family: 'Ubuntu', sans-serif;
 }
 
-.col .content .truncate {
+.col .contents .truncate {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2; 
@@ -146,9 +197,10 @@
     bottom: 0;
 
 }
-.col .content .postDate {
+.col .contents .postDate {
     align-items: right;
     text-align: right;
+    margin-top: 10px;
 }
 /*contact page*/
 #contact{
@@ -259,7 +311,7 @@ form button{
 form button:hover{
     background: linear-gradient(-135deg, #71b7e6, #9b59b6);
 }
-/*universal footer css*/
+/*universal css*/
 #alertBox{
     display: none;
     margin: 10px 20px;
@@ -273,52 +325,233 @@ form button:hover{
 #alertBox .closeMsg{
     cursor: pointer;
 }
-footer{
+/**view-events**/
+.events-wrapper{
+    margin-top: 70px;
+    padding: 0;
+    background: var(--white);
+}
+.content{
     width: 100%;
-    height: 300px;
-    background-image: linear-gradient(to right, #1A0051, #02266C);
+    padding: 0;
 }
-footer .logo{
-    padding: 40px 50px;
-    float: left;
-    width: 50%;
+.content img{
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
 }
-footer .logo ul{
-    margin-left: 20px;
-    margin-top: 10px;
+.content .other-content{
+    width: 80%;
+    margin: 0px auto;
 }
-footer .logo ul li{
-    list-style: none;
-    padding: 5px; 
-}
-footer .logo ul li a{
-    text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    text-transform: uppercase;
+.content h1{
+    font-size: 3rem;
+    color: var(--primary);
     font-family: 'Ubuntu', sans-serif;
 }
-footer .right-content{
-    padding: 10px 70px;
-    float: right;
-    margin-top: 90px;
+.content .info-content{
+    margin: 30px 0px;
+    display: block;
 }
-footer .right-content p{
-    color: #fff;
-    font: 18px;
-    font-family: 'Ubuntu', sans-serif;  
+.content .info-content h2{
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Ubuntu', sans-serif;
+    padding: 20px 0px;
 }
-footer .right-content ul {
+.content .info-content .event-info{
     display: flex;
+    justify-content: space-between;
+    padding: 20px 0px;
 }
-footer .right-content ul li{
+.content .info-content .event-info p{
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Ubuntu', sans-serif;
+}
+.content .info-content .event-info span{
+    font-weight: 400;
+}
+.event-info .col-1{
+    display: flex;
+    height: 2rem;
+    text-align: left;
+    align-items: left;
+}
+
+.event-info .col-1 i{
+    font-size: 2.5rem;
+    color: var(--secondary);
+    padding-right: 20px;
+}
+.info-content .des{
+    margin-top: 30px;
+}.randomData {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-3 {
+    flex: 1;
+    margin: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+}
+
+.data {
+    text-align: center;
+}
+
+.data a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.data img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 0; 
+}
+
+.data h1 {
+    padding: 10px 0;
+    margin: 0; 
+    font-size: 2rem; 
+    color: var(--white);
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 500;
+    background-color: var(--secondary);
+}
+/**packages css**/
+.package-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    justify-content: center; 
+    gap: 20px; 
+}
+
+.info {
+    flex: 1;
+    max-width: 300px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid green;
+}
+
+.info h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 10px 0px;
+}
+
+ul {
     list-style: none;
-    display: flex;
-    color: #fff;
-    font-size: 32px;
-    padding: 20px;
-    
+    padding: 0;
 }
-footer .right-content ul li a{
-    color: #fff;
+
+ul li {
+    margin-bottom: 8px;
+}
+
+.des {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.info .price{
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+
+}
+.info .price h3{
+    font-size: 2rem;
+    padding: 30px 0px;
+    border-top: 2px solid #ccc;
+}
+.events-wrapper form {
+    width: 80%;
+    margin: 30px auto;
+
+}
+
+.events-wrapper form .package-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.events-wrapper form .package-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.events-wrapper form .package-box label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1rem;
+}
+
+.events-wrapper form .package-box input,
+.events-wrapper form .package-box select {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.events-wrapper form .package-box select {
+    cursor: pointer;
+}
+
+.events-wrapper form .days {
+    display: flex;
+    align-items: center;
+}
+
+.events-wrapper form #decrement, #increment {
+    font-size: 20px;
+}
+
+
+.events-wrapper form #packagePrice {
+    margin-left: 10px;
+}
+
+.events-wrapper form span p {
+    margin: 0;
+    margin-left: 5px;
+}
+.package-row .row-2{
+    grid-column: span 4;
+    justify-content: space-between;
+    display: flex;
+}
+.package-row .row-2 .pkg-price{
+    display: flex;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#package-form form button{
+    padding: 10px 30px;
+}
+#package-form form button:hover{
+    background: green;
+    transform: scale(1.05);
+    transition: all 1s ease;
+}
+/*blog details page*/
+.container .blog-details{
+    margin-top: 70px;
+}
+#blog-details{
+    display: flex;
+    justify-content: space-between;
 }

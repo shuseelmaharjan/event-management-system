@@ -1,11 +1,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&family=Ubuntu:wght@400;500&display=swap');
+/*universal*/
+:root{
+
+    --bg-success: #dff0d8;
+    --bg-danger: #f2dede;
+    --success: #3c763d;
+    --danger: #a94442;
+    --danger-outline: #ebccd1;
+    --success-outline: #d6e9c6;
+}
 *{
     margin: 0;
     padding: 0;
 }
-/*************start of navbar css********************/
-.footerNav{
-    display: none;
+.container{
+    width: 100%;
+    background-color: #E9E9E9;    
+    height: 100%;
+    
+}
+.container .wrapper{
+    padding: 0px 40px 40px 40px;
+    display: block;
+}
+.container .heading{
+    margin-top: 70px;
+    text-align: center;
+
+}
+.container .heading h1{
+    font-size: 32px;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+    padding: 20px 0px;
+    text-transform: uppercase;
+}
+.container .row{
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 40px 20px;
+    display: grid;
+    grid-gap: 10px;
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px #888888;
+}
+.col{
+    margin: 0px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    border-radius: 15px;
 }
 body .navbars {
     font-family: 'Ubuntu', sans-serif;
@@ -86,6 +136,9 @@ body .navbars .nav {
 .nav .login a i{
     margin-right: 5px;
 }
+.user-profile ul{
+    list-style: none;
+}
 .profile-info {
     display: flex;
     align-items: center;
@@ -127,137 +180,54 @@ body .navbars .nav {
     display: block;
 }
 /**************** end of account login/signup *****************/
-/**************** end of navbar css *****************/
-.popup {
-    z-index: 9999;
-    position: fixed;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    height: 600px;
+
+/**footer css**/
+footer{
     width: 100%;
-    height: 100vh;
-    background-color: #000000b7;
+    height: 300px;
+    background-image: linear-gradient(to right, #1A0051, #02266C);
 }
-.popup .close{
-    top: 0;
-    right: 0;
-    position: absolute;
-    z-index: 1111;
+footer .logo{
+    padding: 40px 50px 0px 50px;
+    float: left;
+    width: 50%;
 }
-.popup .close i{
+footer .logo ul{
+    margin-left: 20px;
+    margin-top: 10px;
+}
+footer .logo ul li{
+    list-style: none;
+    padding: 5px; 
+}
+footer .logo ul li a{
+    text-decoration: none;
     color: #fff;
-    font-size: 1.5rem;
-    margin: 20px;
-    cursor: pointer;
-
-}
-
-.btns{
-    width: 100%;
-    height: auto;
-    margin: 20px auto 0px auto;
-    padding: 10px;
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(3, 1fr);
-    outline: none;
+    font-size: 18px;
+    text-transform: uppercase;
     font-family: 'Ubuntu', sans-serif;
 }
-.btns .book{
-    width: 100%;
+footer .right-content{
+    padding: 10px 70px;
+    float: right;
+    margin-top: 90px;
 }
-.btns .book label{
-    width: 100%;
-    display: block;
-    margin-top: 10px 0px;
+footer .right-content p{
+    color: #fff;
+    font: 18px;
+    font-family: 'Ubuntu', sans-serif;  
 }
-.btns .book input,
-.btns .book select{
-    width: 90%;
-    padding: 10px;
+footer .right-content ul {
+    display: flex;
 }
-#submit input{
-    width: 100%;
-
-    padding: 10px 20px;
+footer .right-content ul li{
+    list-style: none;
+    display: flex;
+    color: #fff;
+    font-size: 32px;
+    padding: 20px;
+    
 }
-@media only screen and (max-width: 600px) {
-    footer {
-        display: none;
-    }
-    .navbars {
-        display: flex;
-        justify-content: space-between;
-        height: 70px;
-    }
-    .navbars .nav{
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        padding: 40px 10px;
-    }
-    .navbars .logo{
-        width: auto;
-    }
-    .navbars .hamburger{
-        color: #fff;
-        width: auto;
-        font-size: 2.6rem;
-        padding: 0px 20px;
-    }
-    .navbars .hamburger #toggle{
-        cursor: pointer;
-    }
-    
-    .navbars .nav .navbar-nav,
-    .navbars .nav .login{
-        display: none;
-    }
-    .footerNav {
-        display: grid;
-        position: fixed;
-        width: 100%;
-        height: 70px;
-        background: linear-gradient(0deg, #02266C, #1A0051);
-        bottom: 0;
-        left: 0;
-        grid-template-columns: repeat(4, 1fr);
-        justify-content: space-between; 
-        align-items: center; 
-    }
-    
-    .box {
-        text-align: center;
-        font-size: 1.2rem; 
-    }
-    
-    .fa-solid {
-        font-size: inherit;
-        color: #fff;
-
-    }
-    .popUp {
-        display: none;
-        position: fixed;
-        background-color: rgba(0, 0, 0, 0.6);
-        width: 0; /* Start with a width of 0 */
-        height: 100vh;
-        z-index: 99999;
-        transition: width 0.3s ease; /* Add a transition for smooth animation */
-        overflow: hidden; /* Hide overflowing content */
-    }
-    
-    .popUp.active {
-        width: 100%; /* Expand to full width when active */
-    }
-    .popUp .close{
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding: 30px;
-    }
-    
-    
-  
+footer .right-content ul li a{
+    color: #fff;
 }

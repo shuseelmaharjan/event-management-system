@@ -21,7 +21,7 @@
                 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                     $username = $_SESSION['username'];
 
-                    $imagePath = 'profile/default.png';
+                    $imagePath = 'images/user.png';
 
                     $sql = "SELECT id, image FROM tbl_users WHERE username = ?";
                     $stmt = $conn->prepare($sql);
