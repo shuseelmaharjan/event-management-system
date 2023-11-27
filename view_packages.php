@@ -3,96 +3,66 @@
     require_once('header.php');
     require_once('nav.php');
 
-        $id = $_GET['criteria'];
+    $id = $_GET['criteria'];
 
-        $sqlService = "SELECT s.ser_name, s.image, s.description, t.name AS event_type
-                    FROM tbl_service s
-                    LEFT JOIN tbl_types t ON s.type = t.type_id
-                    WHERE s.ser_id = '$id'";
-        $resultService = mysqli_query($conn, $sqlService);
+    $sqlService = "SELECT s.ser_name, s.image, s.description, t.name AS event_type
+                FROM tbl_service s
+                LEFT JOIN tbl_types t ON s.type = t.type_id
+                WHERE s.ser_id = '$id'";
+    $resultService = mysqli_query($conn, $sqlService);
 
-        if (!$resultService) {
-            echo "Connection error: " . mysqli_error($conn);
-        } else {
-            $serviceData = mysqli_fetch_assoc($resultService);
-        }
+    if (!$resultService) {
+        echo "Connection error: " . mysqli_error($conn);
+    } else {
+        $serviceData = mysqli_fetch_assoc($resultService);
+    }
 
-        $sqlPackages = "SELECT p.pkg_id, p.pkg_name, p.pkg_cost, p.pkg_guest, p.pkg_description
-                        FROM tbl_packages p
-                        WHERE p.service_id = '$id'";
-        $resultPackages = mysqli_query($conn, $sqlPackages);
+    $sqlPackages = "SELECT p.pkg_id, p.pkg_name, p.pkg_cost, p.pkg_guest, p.pkg_description
+                    FROM tbl_packages p
+                    WHERE p.service_id = '$id'";
+    $resultPackages = mysqli_query($conn, $sqlPackages);
 
-        if (!$resultPackages) {
-            echo "Connection error: " . mysqli_error($conn);
-        }
-        ?>
+    if (!$resultPackages) {
+        echo "Connection error: " . mysqli_error($conn);
+    }
+?>
 
-        <div class="container">
-            <div class="events-wrapper">
-
-
-            <div class="content">
-                <img src="serviceUploads/<?php echo $serviceData["image"]; ?>" alt="image">
-                <div class="other-content">
-                    <h1><?php echo $serviceData["ser_name"]; ?></h1>
-
-                
-
-                    <div class="info-content">
-                        <h2>Event Type: <?php echo $serviceData["event_type"]; ?></h2>
-                    </div>
-                    <div class="des">
-                        <p><?php echo $serviceData['description']; ?></p>
-                    </div>
-                    <div class="info-content">
-                        <h1 style="text-align: center; text-transform: uppercase;">Our Best Packages</h1>
-                        <div class="package-container">
-                            <?php
-                            while ($packageData = mysqli_fetch_assoc($resultPackages)) {
-                            ?>
-                                <div class="info">
-                                    <h1><?php echo $packageData['pkg_name']; ?></h1>
-                                    <ul>
-                                        <li><span class="price"><h3>NRS. <?php echo $packageData['pkg_cost']; ?> /-</span></h3></li>
-                                        <li><span><strong>Guest Limit:</strong></span><?php echo $packageData['pkg_guest']; ?></li>
-                                        <li><span><strong>Description:</strong></span><?php echo $packageData['pkg_description']; ?></li>
-                                    </ul>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                    <span class="userMsg" style="color:red;"><p><i>* Once you book the reservation, you cannot cancel after an hour, so make sure to decide before you book for reservation.</i></p></span>
-
+<div class="container">
+    <div class="events-wrapper">
+        <div class="content">
+            <img src="serviceUploads/<?php echo $serviceData["image"]; ?>" alt="image">
+            <div class="other-content">
+                <h1><?php echo $serviceData["ser_name"]; ?></h1>
+                <div class="info-content">
+                    <h2>Event Type: <?php echo $serviceData["event_type"]; ?></h2>
                 </div>
-                
-                <?php
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        $userId = $row['id'];
-                        $packageId = $_POST["packageName"];
-                        $reserveDate = date("Y-m-d");
-                        $reserveTime = date("H:i:s");
-                        $totalCost = $_POST["totalCost"];
-                        $numDays = isset($_POST["numDays"]) ? intval($_POST["numDays"]) : 1;
-                        $eventDate = isset($_POST["eventDate"]) ? $_POST["eventDate"] : '';
-                        $venue = $_POST["eventVenue"];
-
-                        $sqlInsert = "INSERT INTO tbl_reservation (userId, packageId, reserveDate, reserveTime, totalcost, numDays, event_date, eventDestination)
-                        VALUES ('$userId', '$packageId', '$reserveDate', '$reserveTime', '$totalCost', '$numDays', '$eventDate', '$venue')";
-
-                        $result = mysqli_query($conn, $sqlInsert);
-
-                        if ($result) {
-                            echo '<script>window.location.href = "reservation.php";</script>';
-                        } else {
-                            echo "Error: " . mysqli_error($conn);
+                <div class="des">
+                    <p><?php echo $serviceData['description']; ?></p>
+                </div>
+                <div class="info-content">
+                    <h1 style="text-align: center; text-transform: uppercase;">Our Best Packages</h1>
+                    <div class="package-container">
+                        <?php
+                        while ($packageData = mysqli_fetch_assoc($resultPackages)) {
+                        ?>
+                            <div class="info">
+                                <h1><?php echo $packageData['pkg_name']; ?></h1>
+                                <ul>
+                                    <li><span class="price"><h3>NRS. <?php echo $packageData['pkg_cost']; ?> /-</span></h3></li>
+                                    <li><span><strong>Guest Limit:</strong></span><?php echo $packageData['pkg_guest']; ?></li>
+                                    <li><span><strong>Description:</strong></span><?php echo $packageData['pkg_description']; ?></li>
+                                </ul>
+                            </div>
+                        <?php
                         }
-                    }
-                ?>
+                        ?>
+                    </div>
+                </div>
+                <span class="userMsg" style="color:red;"><p><i>* Once you book the reservation, you cannot cancel after an hour, so make sure to decide before you book for reservation.</i></p></span>
+            </div>
 
-                <div id="package-form">
-                <form action="" method="POST">
+            <div id="package-form">
+            <form action="" method="POST">
                     <div class="package-row">
                         <div class="package-box">
                             <label for="numDays">Number of Days</label>
@@ -147,7 +117,58 @@
                         </div>
                     </div>
                 </form>
-                </div>
+            </div>
+            <div class="error-message" id="error-message">
+                <p id="errorMessage"></p>
+                <a onclick="closeErrorMsg()"><i class="fa-solid fa-xmark"></i></a>
+            </div>
+
+            
+            <?php
+            
+            
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+                    $username = $_SESSION['username'];
+                    $sql = "SELECT id FROM tbl_users WHERE username = ?";
+                    
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "s", $username);
+                    mysqli_stmt_execute($stmt);
+                    mysqli_stmt_bind_result($stmt, $id);
+                    mysqli_stmt_fetch($stmt);
+                    mysqli_stmt_close($stmt);  // Close the statement after fetching
+            
+                    $userId = $id;
+                    $packageId = $_POST["packageName"];
+                    $reserveDate = date("Y-m-d");
+                    $reserveTime = date("H:i:s");
+                    $totalCost = $_POST["totalCost"];
+                    $numDays = isset($_POST["numDays"]) ? intval($_POST["numDays"]) : 1;
+                    $eventDate = isset($_POST["eventDate"]) ? $_POST["eventDate"] : '';
+                    $venue = $_POST["eventVenue"];
+            
+                    $sqlInsert = "INSERT INTO tbl_reservation (userId, packageId, reserveDate, reserveTime, totalcost, numDays, event_date, eventDestination)
+                    VALUES ('$userId', '$packageId', '$reserveDate', '$reserveTime', '$totalCost', '$numDays', '$eventDate', '$venue')";
+            
+                    $result = mysqli_query($conn, $sqlInsert);
+            
+                    if ($result) {
+                        echo '<script>window.location.href = "reservation.php";</script>';
+                    } else {
+                        echo "Error: " . mysqli_error($conn);
+                    }
+                } else {
+                    echo '<script>';
+                    echo 'document.getElementById("error-message").style.display="flex";';
+                    echo 'document.getElementById("errorMessage").innerText = "Please log in first to make a reservation.";';
+                    echo '</script>';
+                }
+            }
+            
+                ?>
                 
             </div>
             </div>
@@ -192,6 +213,11 @@
                     valueInput.value = currentValue;
                     updatePackagePrice(); // Update the price when the value changes
                 });
+
+                function closeErrorMsg(){
+                    document.getElementById('error-message').style.display="none";
+                }
+
             </script>
 
 

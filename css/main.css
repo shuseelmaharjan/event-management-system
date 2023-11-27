@@ -234,3 +234,23 @@ footer .right-content ul li{
 footer .right-content ul li a{
     color: #fff;
 }
+/**error message**/
+.error-message {
+    display: none;
+    padding: 10px;
+    z-index: 999;
+    position: fixed;
+    bottom: 25px;
+    right: 30px;
+    background: var(--bg-danger);
+    border: 2px solid var(--danger-outline);
+    color: var(--danger);
+    width: 35%;
+    justify-content: space-between;
+}
+
+.error-message a {
+    color: var(--danger);
+    font-weight: 600;
+    cursor: pointer;
+}

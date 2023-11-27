@@ -14,7 +14,6 @@ require_once('nav.php');
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $username = $_SESSION['username'];
 
-    // Use prepared statements to prevent SQL injection
     $sqlUserId = "SELECT id FROM tbl_users WHERE username = ?";
     $stmtUserId = $conn->prepare($sqlUserId);
     $stmtUserId->bind_param("s", $username);
