@@ -10,12 +10,9 @@ require_once('sidebar.php');
             <div class="main-title">
                 Billing
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php 
+            require_once('profile.php');
+            ?>
         </div>
         <div class="main-content">
             

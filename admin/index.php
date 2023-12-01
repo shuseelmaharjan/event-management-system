@@ -151,30 +151,49 @@
                             </thead>
                             <tbody>
                                 <?php
-                                $sql = "SELECT * FROM tbl_reservation WHERE status = ''";
+                                $sql = "SELECT 
+                                            r.res_id, 
+                                            s.ser_name AS event_name, 
+                                            r.reserveDate, 
+                                            t.name AS event_type, 
+                                            r.status
+                                        FROM 
+                                            tbl_reservation r
+                                        JOIN 
+                                            tbl_packages p ON r.packageId = p.pkg_id
+                                        JOIN 
+                                            tbl_service s ON p.service_id = s.ser_id
+                                        JOIN 
+                                            tbl_types t ON s.type = t.type_id
+                                        WHERE 
+                                            r.status = ''
+                                        ORDER BY 
+                                            r.reserveDate DESC
+                                        LIMIT 
+                                            5;";
+
                                 $output = mysqli_query($conn, $sql);
+
                                 if (!$output) {
                                     echo "Error: " . mysqli_error($conn);
                                 } else {
                                     $serialNumber = 1;
-                                    $rowCount = 0; 
+                                    $rowCount = 0;
+
                                     while ($row = mysqli_fetch_assoc($output)) {
-                                        if ($rowCount < 5) {
-                                            ?>
-                                            <tr>
-                                                <td class="center"><?= $serialNumber ?></td>
-                                                <td class="left"><?= $row['serviceName'] ?></td>
-                                                <td class="center"><?= $row['event_date'] ?></td>
-                                                <td class="left"><?= $row['eventType'] ?></td>
-                                                <td class="center">
-                                                    <a href="booking.php?criteria=<?=$row['res_id']?>" class="edit">View Details</a>
-                                                </td>                                            </tr>
-                                            <?php
-                                            $rowCount++;
-                                            $serialNumber++;
-                                        } else {
-                                            break; 
-                                        }
+                                        ?>
+                                        <tr>
+                                            <td class="center"><?= $serialNumber ?></td>
+                                            <td class="left"><?= $row['event_name'] ?></td>
+                                            <td class="center"><?= $row['reserveDate'] ?></td>
+                                            <td class="left"><?= $row['event_type'] ?></td>
+                                            <td class="center">
+                                                <a href="booking.php?criteria=<?= $row['res_id'] ?>" class="edit">View Details</a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        $rowCount++;
+                                        $serialNumber++;
                                     }
 
                                     if (mysqli_num_rows($output) > 5) {
@@ -184,6 +203,7 @@
                                 ?>
                             </tbody>
                         </table>
+
 
 
                         </div>

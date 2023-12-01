@@ -176,11 +176,9 @@ while ($data = mysqli_fetch_assoc($row)) {?>
             <div class="main-title">
                     View Mail
                 </div>
-                <div class="last-title">
-                    <div class="user-details">
-                    <img src="../profile/uploads/default.png" width="50px" alt="image">
-                    <h1>User Admin</h1>
-                    </div>
+                <?php 
+            require_once('profile.php');
+            ?>
                 </div>
         </div>
         <div class="main-content">

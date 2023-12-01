@@ -148,12 +148,9 @@ if (isset($_POST['updateType'])) {
             <div class="main-title">
                 Event Types
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php 
+            require_once('profile.php');
+            ?>
         </div>
         
         <div class="main-content">

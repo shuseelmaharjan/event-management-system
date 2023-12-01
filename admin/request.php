@@ -19,12 +19,9 @@ require_once('sidebar.php');
             <div class="main-title">
                 Requests
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="images/default-1.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php 
+            require_once('profile.php');
+            ?>
         </div>
         <div class="main-content">
             
@@ -69,38 +66,54 @@ require_once('sidebar.php');
 
                                 <tbody>
                                     <?php
-                                    $sql = "SELECT r.*, u.name AS user_name, u.email AS user_email, u.phone AS user_phone
-                                            FROM tbl_reservation r
-                                            JOIN tbl_users u ON r.userId = u.id
-                                            ORDER BY r.reserveDate DESC
-                                            LIMIT $offset, $recordsPerPage;
-                                            ";
-                                    $result = $conn->query($sql);
-                                    if (!$result) {
-                                        die("Query failed: " . $conn->error);
-                                    }
-                                    
-                                    $serialNumber = ($currentPage - 1) * $recordsPerPage + 1;
-                                    while ($row = $result->fetch_assoc()) {
-                                    ?>
-                                        <tr class="status-row">
-                                        
-                                            <td class="center"><?php echo($serialNumber); ?></td>
-                                            <td class="left"><?php echo($row['user_name']); ?></td>
-                                            <td class="left"><?php echo($row['serviceName']); ?></td>
-                                            <td class="left"><?php echo($row['packageName']); ?></td>
-                                            <td class="center"><?php echo($row['event_date']); ?></td>
-                                            <td class="center"><?php echo($row['reserveDate']); ?></td>
-                                            <td class="center"><span class="status"><?= empty($row['status']) ? 'Not Seen' : $row['status'] ?></span></td>
-                                            <td class="center">
-                                                <a href="booking.php?criteria=<?=$row['res_id']?>" class="edit">View Details</a>
-                                            </td>
-                                           
-                                        </tr>
-                                    <?php
-                                        $serialNumber++; 
-                                    }
-                                    $result->close();
+                                    $sql = "SELECT 
+                                    r.res_id, 
+                                    u.name AS user_name, 
+                                    s.ser_name AS service_name, 
+                                    p.pkg_name AS package_name, 
+                                    r.event_date, 
+                                    r.reserveDate, 
+                                    r.status
+                                FROM 
+                                    tbl_reservation r
+                                JOIN 
+                                    tbl_users u ON r.userId = u.id
+                                JOIN 
+                                    tbl_packages p ON r.packageId = p.pkg_id
+                                JOIN 
+                                    tbl_service s ON p.service_id = s.ser_id
+                                ORDER BY 
+                                    r.reserveDate DESC
+                                LIMIT 
+                                    $offset, $recordsPerPage;
+                        ";
+                        
+                        $result = $conn->query($sql);
+                        if (!$result) {
+                            die("Query failed: " . $conn->error);
+                        }
+                        
+                        $serialNumber = ($currentPage - 1) * $recordsPerPage + 1;
+                        
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <tr class="status-row">
+                                <td class="center"><?php echo($serialNumber); ?></td>
+                                <td class="left"><?php echo($row['user_name']); ?></td>
+                                <td class="left"><?php echo($row['service_name']); ?></td>
+                                <td class="left"><?php echo($row['package_name']); ?></td>
+                                <td class="center"><?php echo($row['event_date']); ?></td>
+                                <td class="center"><?php echo($row['reserveDate']); ?></td>
+                                <td class="center"><span class="status"><?= empty($row['status']) ? 'Not Seen' : $row['status'] ?></span></td>
+                                <td class="center">
+                                    <a href="booking.php?criteria=<?= $row['res_id'] ?>" class="edit">View Details</a>
+                                </td>
+                            </tr>
+                            <?php
+                            $serialNumber++;
+                        }
+                        
+                        $result->close();
                                     ?>
                                 </tbody>
                             </table> 

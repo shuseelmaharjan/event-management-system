@@ -81,61 +81,56 @@ require_once('sidebar.php');
             <div class="main-title">
                 Booking Details
             </div>
-            <div class="last-title">
-                <div class="user-details">
-                <img src="../profile/uploads/default.png" width="50px" alt="image">
-                <h1>User Admin</h1>
-                </div>
-            </div>
+            <?php 
+            require_once('profile.php');
+            ?>
         </div>
         <div class="main-content">
             
             <div class="row">
             <div class="col-12">
-                    <a href="request.php">
-                        <div class="breadcum">
+                <a href="request.php">
+                    <div class="breadcum">
                         <i class="fa-solid fa-arrow-left"></i>
-                        </div>
-                    </a>
-                    <!-- ORDERS TABLE -->
-                    <?php
-                            $id = $_GET['criteria'];
+                    </div>
+                </a>
+                <!-- ORDERS TABLE -->
+                <?php
+                $id = $_GET['criteria'];
 
-                            $sql = "SELECT r.*, u.name AS user_name, u.email AS user_email, u.phone AS user_phone
-                                    FROM tbl_reservation r
-                                    JOIN tbl_users u ON r.userId = u.id
-                                    WHERE r.res_id = $id;
-                            ";
-                            $result = $conn->query($sql);
-                            if (!$result) {
-                                die("Query failed: " . $conn->error);
-                            }
-                            while ($row = $result->fetch_assoc()){
-                                ?>
+                $sql = "SELECT r.*, u.name AS user_name, u.email AS user_email, u.phone AS user_phone,
+                        s.ser_name AS serviceName, p.pkg_name AS packageName, t.name AS eventType, r.eventDestination
+                        FROM tbl_reservation r
+                        JOIN tbl_users u ON r.userId = u.id
+                        JOIN tbl_packages p ON r.packageId = p.pkg_id
+                        JOIN tbl_service s ON p.service_id = s.ser_id
+                        JOIN tbl_types t ON s.type = t.type_id
+                        WHERE r.res_id = $id;
+                ";
+                $result = $conn->query($sql);
+                if (!$result) {
+                    die("Query failed: " . $conn->error);
+                }
+                while ($row = $result->fetch_assoc()) {
+                ?>
                     <div class="box">
                         <div class="box-header">
                             User Details
                         </div>
                         <div class="box-body overflow-scroll">
-                            
-                                <table>
-                                    <tbody>
-
-                                        <tr>
-                                            <td><h1>Booked By: <span><?=$row['user_name'];?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                        <td><h1>User Phone: <span><?=$row['user_phone'];?></span></h1></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td><h1>Email: <span><?=$row['user_email'];?></span></h1></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                              
-                            
-                           
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><h1>Booked By: <span><?= $row['user_name']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>User Phone: <span><?= $row['user_phone']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Email: <span><?= $row['user_email']; ?></span></h1></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="box">
@@ -145,40 +140,42 @@ require_once('sidebar.php');
                         <div class="box-body overflow-scroll">
                             <table>
                                 <tbody>
-                                        <tr>
-                                            <td><h1>Service Name: <span><?=$row['serviceName'];?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h1>Package Name: <span><?=$row['packageName'];?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h1>Event Type: <span><?=$row['eventType'];?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h1>Event Destination: <span><?=$row['eventDestination']?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h1>Event Date: <span><?=$row['event_date'];?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h1>Reservation Date: <span><?=$row['reserveDate'];?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h1>Total Cost: <span><?=$row['totalcost'];?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h1>Paid Amount: <span><?=$row['advanceamt'];?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                            <?php
-                                            $dueAmt = $row['totalcost'] - $row['advanceamt'];
-                                            ?>
-                                            <td><h1>Due Amount: <span><?= $dueAmt ?></span></h1></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h1>Reservation ID: <span>#<?=$row['res_id'];?></span></h1></td>
-                                        </tr>
-
+                                    <tr>
+                                        <td><h1>Service Name: <span><?= $row['serviceName']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Package Name: <span><?= $row['packageName']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Event Type: <span><?= $row['eventType']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Event Destination: <span><?= $row['eventDestination']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Event Date: <span><?= $row['event_date']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Reservation Date: <span><?= $row['reserveDate']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Total Cost: <span><?= $row['totalcost']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Paid Amount: <span><?= $row['advanceamt']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <?php
+                                        $dueAmt = $row['totalcost'] - $row['advanceamt'];
+                                        ?>
+                                        <td><h1>Due Amount: <span><?= $dueAmt ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Reservation ID: <span>#<?= $row['res_id']; ?></span></h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h1>Event Venue: <span>#<?= $row['eventDestination']; ?></span></h1></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -188,12 +185,11 @@ require_once('sidebar.php');
                             Response
                         </div>
                         <div class="box-body overflow-scroll">
-                        <?php
+                            <?php
                             if (isset($_POST['updatedata'])) {
                                 $workStatus = $_POST['status'];
                                 $paymentStatus = $_POST['pstatus'];
                                 $payment = $_POST['payment'];
-
 
                                 $updateSql = "UPDATE tbl_reservation SET status = ?, amtstatus = ?, advanceamt = ? WHERE res_id = ?";
 
@@ -207,9 +203,9 @@ require_once('sidebar.php');
                                     if (!$result) {
                                         echo "Update failed: " . mysqli_error($conn);
                                     } else {
-                                        echo'<script>';
-                                        echo'window.location.href = "http://localhost/eveproject/admin/request.php";';
-                                        echo'</script>';
+                                        echo '<script>';
+                                        echo 'window.location.href = "http://localhost/eveproject/admin/request.php";';
+                                        echo '</script>';
                                     }
 
                                     mysqli_stmt_close($stmt);
@@ -245,15 +241,14 @@ require_once('sidebar.php');
                                     <input type="submit" name="updatedata" value="Update">
                                 </div>
                             </form>
-
                         </div>
                     </div>
-                    <?php
-                            }
-                           ?>
-                           
-                    
-                </div>
+                <?php
+                }
+                ?>
+            </div>
+
+            
             </div>
         </div>
 </div>
