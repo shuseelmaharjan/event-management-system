@@ -2,3 +2,8 @@
 ./serviceUploads
 ./eventUploads
 ./userUploads
+
+*.jpg
+*.jpeg
+*.png
+*.gif
