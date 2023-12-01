@@ -34,28 +34,28 @@
                 
                     ?>
             <div class="user-profile" id="user-profile">
-                <ul>
-                    <li>
-                    <?php
-						if (!empty($userInfo["image"]) ) {
-							?>
-                        <div class="profile-info">
-                            <img src="<?php echo($userInfo["image"]);?>" alt="profile">
-                            <span id="username"><?= $username ?></span>
-                        </div>
-                        <?php
-						} else {
-							?>
-                            <div class="default">
-								<img style="margin-left: 30px;" width="40px" src="../images/user.png"  alt="default img">
-							</div>
-							<?php
-						}
-					?>
-                       
-                    </li>
-                </ul>
-            </div>
+    <ul>
+        <li>
+            <?php
+            if (!empty($userInfo["image"])) {
+                ?>
+                <div class="profile-info">
+                    <img src="../userUploads/<?php echo htmlspecialchars($userInfo["image"]); ?>" alt="profile">
+                    <span id="username"><?= $username ?></span>
+                </div>
+                <?php
+            } else {
+                ?>
+                <div class="default">
+                    <img style="margin-left: 30px;" width="40px" src="../images/user.png" alt="default img">
+                </div>
+                <?php
+            }
+            ?>
+        </li>
+    </ul>
+</div>
+
             <?php
                 }
             ?>

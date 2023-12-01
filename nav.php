@@ -31,8 +31,8 @@
 
                     if ($result->num_rows === 1) {
                         $row = $result->fetch_assoc();
-                        if ($row['image'] !== null && $row['image'] !== '') { // Check for empty string as well
-                            $imagePath = 'profile/' . $row['image'];
+                        if ($row['image'] !== null && $row['image'] !== '') { 
+                            $imagePath =  $row['image'];
                         }
                     }
                     ?>
@@ -41,7 +41,7 @@
                         <ul>
                             <li>
                                 <div class="profile-info">
-                                    <img src="<?= $imagePath ?>" alt="profile">
+                                    <img src="userUploads/<?= $imagePath ?>" alt="profile">
                                     <span id="username"><?= $username ?></span>
                                 </div>
                                 <ul id="dropdown">

@@ -168,7 +168,7 @@
 	<div id="image" onclick="closeImage()">
 		<div class="img" onclick="openImage()">
 			<div class="cover">
-				<img src="<?php echo $userInfo["image"];?>" alt="Image">
+				<img src="../userUploads/<?php echo $userInfo["image"];?>" alt="Image">
 			</div>
 		</div>
 	</div>
@@ -247,7 +247,7 @@
 						if (!empty($userInfo["image"]) ) {
 							?>
 							<div class="exist">
-								<img onclick="openImage()" src="<?php echo($userInfo["image"]);?>" alt="profile">
+								<img onclick="openImage()" src="../userUploads/<?php echo($userInfo["image"]);?>" alt="profile">
 							</div>
 							<?php
 						} else {
@@ -398,10 +398,10 @@
 		  // Assuming you have a variable containing the unique identifier for the user or record to update
 		  $user_id = $userInfo["id"]; // Change this to the actual user ID or identifier
     
-		  $target_dir = "uploads/";
+		  $target_dir = "../userUploads/";
 		  $original_file_name = basename($_FILES["file"]["name"]);
-		  $imageFileType = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION));
-	  
+    	  $imageFileType = strtolower(pathinfo($original_file_name, PATHINFO_EXTENSION));
+
 		  // Generate a unique filename
 		  $unique_filename = generateUniqueFileName($imageFileType);
 	  
@@ -455,7 +455,7 @@
 				  $imagePath = $target_file;
 				  $updateQuery = "UPDATE tbl_users SET image = ? WHERE id = ?";
 				  $stmt = $conn->prepare($updateQuery);
-				  $stmt->bind_param("si", $imagePath, $user_id); // 'i' for integer, assuming id is an integer
+				  $stmt->bind_param("si", $unique_filename, $user_id);
 	  
 				  if ($stmt->execute()) {
 					echo '<script>';
