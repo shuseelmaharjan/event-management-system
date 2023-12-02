@@ -106,44 +106,6 @@ require_once('php/authentication.php');
     }
     
 </style>
-<?php 
-$addService = new service($conn);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    echo "Event Type: " . $_POST['eventType'];
-    if ($_FILES['image']['error'] == 0) {
-        $serviceName = $_POST['serviceName'];//1
-        $eventType = $_POST['eventType'];//2
-        $description = $_POST['description'];//3
-        $image = $_FILES['image']['name'];
-        $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));//4
-
-        $uploadDir = "../serviceUploads/";
-        $uniqueFileName = uniqid() . '.' . $imageFileType;
-        $targetFilePath = $uploadDir . $uniqueFileName; 
-
-        if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
-              
-                    if ($addService->insertService($serviceName, $eventType, $description, $uniqueFileName)) {
-                        echo("Data inserted Successfully. Data inserted Successfully. Data inserted Successfully. Data inserted Successfully. ");
-                        exit();
-                    } else {
-                        echo("failed");
-                    }
-                
-            } else {
-                echo "Error uploading the image.";
-            }
-        } else {
-            echo "Error: Only jpg, jpeg, and png file types are allowed.";
-        }
-    } else {
-        echo "File upload error: " . $_FILES["image"]["error"];
-    }
-}
-
-?>
 <div class="main">
         <div class="main-header">
             <div class="main-title">
@@ -227,6 +189,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         </div>
   
 </div>
+<?php 
+require_once('messagebox.php');
+$addService = new service($conn);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    echo "Event Type: " . $_POST['eventType'];
+    if ($_FILES['image']['error'] == 0) {
+        $serviceName = $_POST['serviceName'];
+        $eventType = $_POST['eventType'];
+        $description = $_POST['description'];
+        $image = $_FILES['image']['name'];
+        $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+
+        $uploadDir = "../serviceUploads/";
+        $uniqueFileName = uniqid() . '.' . $imageFileType;
+        $targetFilePath = $uploadDir . $uniqueFileName; 
+
+        if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+              
+                    if ($addService->insertService($serviceName, $eventType, $description, $uniqueFileName)) {
+                        echo '<script>';
+                        echo 'document.getElementById("messageBox").style.display = "flex";';
+                        echo 'document.getElementById("messageBox").style.background = "green";';
+                        echo 'document.getElementById("displayMsg").innerText = "Service added successfully.";';
+                        echo'setTimeout(function () {
+                            window.location.href = "services.php";
+                        }, 3000);';
+                        echo '</script>';
+                    } else {
+                        echo '<script>';
+                        echo 'document.getElementById("messageBox").style.display = "flex";';
+                        echo 'document.getElementById("messageBox").style.background = "red";';
+                        echo 'document.getElementById("displayMsg").innerText = "Failed to add service!";';
+                        echo '</script>';
+                    }
+                
+            } else {
+                echo '<script>';
+                echo 'document.getElementById("messageBox").style.background = "red";';
+                echo 'document.getElementById("messageBox").style.display = "flex";';
+                echo 'document.getElementById("displayMsg").innerText = "Error uploading the image.";';
+                echo '</script>';
+            }
+        } else {
+            echo '<script>';
+            echo 'document.getElementById("messageBox").style.background = "red";';
+            echo 'document.getElementById("messageBox").style.display = "flex";';
+            echo 'document.getElementById("displayMsg").innerText = "Only jpg, jpeg, and png file types are allowed.";';
+            echo '</script>';
+        }
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Failed to add service!";';
+        echo '</script>';
+    }
+}
+
+?>
 <script>
     const textarea = document.getElementById('my-textarea');
     textarea.addEventListener('input', resizeTextarea);

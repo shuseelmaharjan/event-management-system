@@ -41,7 +41,7 @@
                         <ul>
                             <li>
                                 <div class="profile-info">
-                                    <img src="userUploads/<?= $imagePath ?>" alt="profile">
+                                    <img src="<?= $imagePath ?>" alt="profile">
                                     <span id="username"><?= $username ?></span>
                                 </div>
                                 <ul id="dropdown">
@@ -64,4 +64,8 @@
             </div>
         </div>   
     </nav>
+    <div class="messageBox" id="messageBox">
+        <p id="displayMsg"></p>
+        <p onclick="closemessageBox()" id="closeBtn"><i class="fa-solid fa-xmark"></i></p>
+    </div>
     <!--end of navbar-->

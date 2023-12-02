@@ -125,53 +125,9 @@ require_once('php/authentication.php');
         color: red;
     }
     
+    
 </style>
-<?php 
-$addEvent = new event($conn);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    if ($_FILES['image']['error'] == 0) {
-        $eventName = $_POST['eventName'];
-        $dateofStart = $_POST['dateofStart'];
-        $dateofEnd = $_POST['dateofEnd'];
-        $eventType = $_POST['eventType'];
-        $venue = $_POST['venue'];
-        $eventOrganizer = $_POST['eventOrganizer'];
-        $description = $_POST['description'];
-        $image = $_FILES['image']['name'];
-        $eventDays = $_POST['eventDays'];
-        $eventAddedTime = date('H:i'); 
-        $eventAddedDate = date('Y-m-d');
-        $status = 'active';
-        $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-
-        $uploadDir = "../eventUploads/";
-        $uniqueFileName = uniqid() . '.' . $imageFileType;
-        $targetFilePath = $uploadDir . $uniqueFileName;
-        if (in_array($imageFileType, array('jpg', 'jpeg', 'png', 'webp'))) {
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
-              
-                    if ($addEvent->insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedTime, $eventAddedDate, $status)){
-                        echo'<script>';
-                        echo'<?php var_dump($eventAddedDate);?>';
-                        echo'window.location.href = "http://localhost/eveproject/admin/events.php";';
-                        echo'</script>';
-                    } else {
-                        echo("failed");
-                    }
-                
-            } else {
-                echo "Error uploading the image.";
-            }
-        } else {
-            echo "Error: Only jpg, jpeg, and png file types are allowed.";
-        }
-    } else {
-        echo "File upload error: " . $_FILES["image"]["error"];
-    }
-}
-
-?>
 <div class="main">
         <div class="main-header">
             <div class="main-title">
@@ -284,6 +240,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         </div>
   
 </div>
+<?php 
+require_once('messagebox.php');
+$addEvent = new event($conn);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    if ($_FILES['image']['error'] == 0) {
+        $eventName = $_POST['eventName'];
+        $dateofStart = $_POST['dateofStart'];
+        $dateofEnd = $_POST['dateofEnd'];
+        $eventType = $_POST['eventType'];
+        $venue = $_POST['venue'];
+        $eventOrganizer = $_POST['eventOrganizer'];
+        $description = $_POST['description'];
+        $image = $_FILES['image']['name'];
+        $eventDays = $_POST['eventDays'];
+        $eventAddedTime = date('H:i'); 
+        $eventAddedDate = date('Y-m-d');
+        $status = 'active';
+        $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+
+        $uploadDir = "../eventUploads/";
+        $uniqueFileName = uniqid() . '.' . $imageFileType;
+        $targetFilePath = $uploadDir . $uniqueFileName;
+        if (in_array($imageFileType, array('jpg', 'jpeg', 'png', 'webp'))) {
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+              
+                    if ($addEvent->insertEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $eventAddedTime, $eventAddedDate, $status)){
+                        echo '<script>';
+                        echo 'document.getElementById("messageBox").style.display = "flex";';
+                        echo 'document.getElementById("messageBox").style.background = "green";';
+                        echo 'document.getElementById("displayMsg").innerText = "Event program added successfully.";';
+                        echo'setTimeout(function () {
+                            window.location.href = "events.php";
+                        }, 3000);';
+                        echo '</script>';
+                        
+                        
+                    } else {
+                        echo '<script>';
+                        echo 'document.getElementById("messageBox").style.display = "flex";';
+                        echo 'document.getElementById("messageBox").style.background = "red";';
+                        echo 'document.getElementById("displayMsg").innerText = "Event cannot be added.";';
+                        echo '</script>';
+                    }
+                
+            } else {
+                echo '<script>';
+                echo 'document.getElementById("messageBox").style.display = "flex";';
+                echo 'document.getElementById("messageBox").style.background = "red";';
+                echo 'document.getElementById("displayMsg").innerText = "Error uploading an image.";';
+                echo '</script>';
+            }
+        } else {
+            echo '<script>';
+            echo 'document.getElementById("messageBox").style.display = "flex";';
+            echo 'document.getElementById("messageBox").style.background = "red";';
+            echo 'document.getElementById("displayMsg").innerText = "Only jpg, jpeg, and png file types are allowed.";';
+            echo '</script>';
+        }
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "The file upload error.";';
+        echo '</script>';
+    }
+}
+
+?>
 <script>
     //for date piker
     var currentDate = new Date().toISOString().split('T')[0];

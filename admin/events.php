@@ -1,23 +1,6 @@
 <?php
 require_once('header.php');
 require_once('sidebar.php');
-
-
-if (isset($_GET['criteria'])) {
-    $id = $_GET['criteria'];
-    $deleteData = new event($conn);
-
-    if ($deleteData->deleteEvent($id)) {
-        // Successful deletion, you can redirect or display a success message
-        // header("Location: events.php");
-        // exit();
-        echo'<script>';
-        echo'window.location.href = "http://localhost/eveproject/admin/events.php";';
-        echo'</script>';
-    } else {
-        echo "Deletion failed";
-    }
-}
 ?>
 <style>
      #btns{
@@ -25,15 +8,7 @@ if (isset($_GET['criteria'])) {
         justify-content: flex-end;
     }
 </style>
-<div class="deleteConfirmation" id="deleteConfirmation">
-    <div class="deleteMsg">
-        <h1>Are you sure?</h1>
-        <div class="btns">
-            <a href="#" class="confirm">Confirm</a>
-            <a onclick="closeDeleteConfirmation()" class="cancel">Cancel</a>
-        </div>
-    </div>
-</div>
+
 <div class="main">
         <div class="main-header">
             <div class="main-title">
@@ -116,8 +91,7 @@ if (isset($_GET['criteria'])) {
                                                 <td class="center">
                                                     <a href="viewevents.php?criteria=<?=$row['id'];?>" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
                                                     <a href="updateevent.php?criteria=<?=$row['id'];?>" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
-                                                    <!-- <button onclick="deleteConfirmation()" data-id="<?=$row['id']?>" class="delete"><i class="fa-solid fa-trash"></i></button> -->
-                                                    <a href="events.php?criteria=<?=$row['id']?>" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>                                                </td>
+                                                    <a href="javascript:void(0);" class="delete" onclick="confirmDelete('events.php?criteria=<?=$row['id']?>')"><span><i class="fa-solid fa-trash"></i></span></a>
                                             </tr>
                                             <?php
                                             $serialNumber++; 
@@ -128,6 +102,7 @@ if (isset($_GET['criteria'])) {
                             </table> 
                         </div>
                     </div>
+                    
                     <div class="pagination">
                                 <?php if ($currentPage > 1): ?>
                                     <a href="?page=<?php echo ($currentPage - 1); ?>"><i class="fa-solid fa-angles-left"></i> Previous</a>
@@ -140,21 +115,47 @@ if (isset($_GET['criteria'])) {
                                 <?php if ($currentPage < $totalPages): ?>
                                     <a href="?page=<?php echo ($currentPage + 1); ?>">Next <i class="fa-solid fa-angles-right"></i></a>
                                 <?php endif; ?>
-                            </div>
+                    </div>
+
                 </div>
             </div>
         </div>
   
 </div>
 <script>
-    function deleteConfirmation(){
-        document.getElementById("deleteConfirmation").style.display="flex";
+    function confirmDelete(redirectUrl) {
+        var confirmation = confirm("Are you sure you want to delete this record?");
+
+        if (confirmation) {
+            // If confirmation is true, redirect to the server to handle the deletion
+            window.location.href = redirectUrl;
+        }
     }
-    function closeDeleteConfirmation(){
-        document.getElementById("deleteConfirmation").style.display="none";
-    }
-    
 </script>
+
 <?php
+if (isset($_GET['criteria'])) {
+    $id = $_GET['criteria'];
+    $deleteData = new event($conn);
+
+    if ($deleteData->deleteEvent($id)) {
+        // Successful deletion, you can redirect or display a success message
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "green";';
+        echo 'document.getElementById("displayMsg").innerText = "Event program deleted successfully.";';
+        echo 'setTimeout(function () { window.location.href = "events.php"; }, 3000);';
+        echo '</script>';
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Error deleting the event program.";';
+        echo '</script>';
+    }
+}
+
+
+
 require_once('footer.php');
 ?> 

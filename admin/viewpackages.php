@@ -83,8 +83,8 @@ require_once('sidebar.php');
                                             <td class="center"><?php echo $row['pkg_guest']; ?></td>
                                             <td class="center"><?php echo $row['service_name']; ?></td>
                                             <td class="center">
-                                                <a href="#" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i> Edit</span></a>
-                                                <a href="#" onclick="confirm('Are you sure');" class="delete"><span><i class="fa-solid fa-trash"></i> Delete</span></a>
+                                                <a href="updatepackages.php?criteria=<?=$row['pkg_id'];?>" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i> Edit</span></a>
+                                                <a href="javascript:void(0);" class="delete" onclick="confirmDelete('viewpackages.php?criteria=<?=$row['pkg_id']?>')"><span><i class="fa-solid fa-trash"></i></span></a>
                                             </td>
                                         </tr>
                                         <?php
@@ -117,7 +117,16 @@ require_once('sidebar.php');
   
 </div>
 <script>
-        var currentPage = window.location.href;
+    function confirmDelete(redirectUrl) {
+        var confirmation = confirm("Are you sure you want to delete this record?");
+
+        if (confirmation) {
+            // If confirmation is true, redirect to the server to handle the deletion
+            window.location.href = redirectUrl;
+        }
+    }
+
+var currentPage = window.location.href;
 
 var eventsLink = document.querySelector('a[href="services.php"]');
 
@@ -126,5 +135,27 @@ if (currentPage.includes("viewpackages.php")) {
 }
 </script>
 <?php
+$packageObj = new package($conn);
+
+if (isset($_GET['criteria'])) {
+    // Get package ID from the URL
+    $pkgId = $_GET['criteria'];
+
+    // Call the deletePackage method
+    if ($packageObj->deletePackage($pkgId)) {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Package deleted successfully.";';
+        echo 'setTimeout(function () { window.location.href = "viewpackages.php"; }, 3000);';
+        echo '</script>';
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Error deleting the package.";';
+        echo '</script>';
+    }
+}
 require_once('footer.php');
 ?>

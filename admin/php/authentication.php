@@ -188,19 +188,16 @@ class eventType{
         $checkStmt->close();
     
         if ($count > 0) {
-            echo "This name already exist";
             return false;
         } else {
             $insertQuery = "INSERT INTO tbl_types (name) VALUES(?)";
             $insertStmt = $this->db->prepare($insertQuery);
             if(!$insertStmt){
-                die("data already on database");
             }
             $insertStmt->bind_param("s", $name);
             if($insertStmt->execute()){
                 return true;
             }else{
-                echo "data not inserted.";
                 return false;
             }
         }
@@ -401,6 +398,37 @@ class package{
     
         $stmt->bind_param("sssss", $packageName, $packageCost, $packageGuest, $packageDescription, $serviceId);
     
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //update data
+
+    public function updatePackage($pkgId, $serviceId, $packageName, $packageCost, $packageGuest, $packageDescription)
+    {
+        $stmt = $this->db->prepare("UPDATE tbl_packages 
+                                    SET pkg_name = ?, pkg_cost = ?, pkg_guest = ?, pkg_description = ?, service_id = ?
+                                    WHERE pkg_id = ?");
+
+        $stmt->bind_param("sssssi", $packageName, $packageCost, $packageGuest, $packageDescription, $serviceId, $pkgId);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //package deletion
+    public function deletePackage($pkgId)
+    {
+        $stmt = $this->db->prepare("DELETE FROM tbl_packages WHERE pkg_id = ?");
+
+        $stmt->bind_param("i", $pkgId);
+
         if ($stmt->execute()) {
             return true;
         } else {

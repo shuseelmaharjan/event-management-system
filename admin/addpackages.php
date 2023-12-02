@@ -68,27 +68,7 @@ require_once('php/authentication.php');
         cursor: pointer;
     }
 </style>
-<?php 
-$addPackage = new package($conn);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    $serviceId = $_POST['serviceId']; // Assuming serviceId is an integer
-    $packageName = $_POST['packageName'];
-    $packageCost = $_POST['packageCost'];
-    $packageGuest = $_POST['packageGuest'];
-    $packageDescription = $_POST['packageDescription'];
-
-    $result = $addPackage->insertService($serviceId, $packageName, $packageCost, $packageGuest, $packageDescription);
-
-    if ($result) {
-        echo "Data inserted successfully Data inserted successfully Data inserted successfully Data inserted successfully Data inserted successfully";
-    } else {
-        echo "Data not inserted";
-    }
-}
-
-
-?>
 <div class="main">
         <div class="main-header">
             <div class="main-title">
@@ -172,6 +152,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         </div>
   
 </div>
+
+<?php 
+require_once('messagebox.php');
+$addPackage = new package($conn);
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    $serviceId = $_POST['serviceId']; // Assuming serviceId is an integer
+    $packageName = $_POST['packageName'];
+    $packageCost = $_POST['packageCost'];
+    $packageGuest = $_POST['packageGuest'];
+    $packageDescription = $_POST['packageDescription'];
+
+    $result = $addPackage->insertService($serviceId, $packageName, $packageCost, $packageGuest, $packageDescription);
+
+    if ($result) {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "green";';
+        echo 'document.getElementById("displayMsg").innerText = "Package added successfully.";';
+        echo'setTimeout(function () {
+            window.location.href = "services.php";
+        }, 3000);';
+        echo '</script>';    
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Failed to add package!";';
+        echo '</script>';    }
+}
+?>
 <script>
 var currentPage = window.location.href;
 

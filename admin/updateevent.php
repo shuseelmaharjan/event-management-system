@@ -139,57 +139,7 @@ $sql = "SELECT e.*, t.name AS name
         LEFT JOIN tbl_types AS t ON e.eventType = t.type_id WHERE e.id='$id'";
 $result = mysqli_query($conn, $sql);
 $formData = mysqli_fetch_assoc($result);
-$update = new event($conn);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
-    $eventName = $_POST['eventName'];
-    $dateofStart = $_POST['dateofStart'];
-    $dateofEnd = $_POST['dateofEnd'];
-    $eventType = $_POST['eventType'];
-    $venue = $_POST['venue'];
-    $eventOrganizer = $_POST['eventOrganizer'];
-    $description = $_POST['description'];
-    $image = $_FILES['image']['name'];
-    $status = $_POST['adStatus'];
-    $eventDays = $_POST['eventDays'];
-    $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-
-$imageUploaded = !empty($_FILES["image"]["tmp_name"]);
-$existingImage = isset($_POST["existingImage"]) ? $_POST["existingImage"] : "";
-
-if ($imageUploaded && in_array($imageFileType, array('jpg', 'jpeg', 'png', 'webp'))) {
-    $uploadDir = "../eventUploads/";
-    $uniqueFileName = uniqid() . '.' . $imageFileType;
-    $targetFilePath = $uploadDir . $uniqueFileName;
-
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
-        if ($update->updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $status, $id)) {
-            echo'<script>';
-            echo'window.location.href = "http://localhost/eveproject/admin/events.php";';
-            echo'</script>';
-        } else {
-            echo "Data could not be updated. Please try again later.";
-        }
-    } else {
-        echo "Error occurred while uploading the image.";
-    }
-} elseif (!$imageUploaded) {
-    if ($update->updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $existingImage, $eventDays, $status, $id)) {
-        echo'<script>';
-        echo'window.location.href = "http://localhost/eveproject/admin/events.php";';
-        echo'</script>';
-    } else {
-        echo "Data could not be updated. Please try again later.";
-    }
-} else {
-    echo "Invalid image file type. Please choose a valid image (jpg, jpeg, png, webp).";
-}
-
-
-}
-
 ?>
-
 <div class="main">
         <div class="main-header">
             <div class="main-title">
@@ -323,6 +273,84 @@ if ($imageUploaded && in_array($imageFileType, array('jpg', 'jpeg', 'png', 'webp
         </div>
   
 </div>
+<?php
+require_once('messagebox.php');
+$update = new event($conn);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
+    $eventName = $_POST['eventName'];
+    $dateofStart = $_POST['dateofStart'];
+    $dateofEnd = $_POST['dateofEnd'];
+    $eventType = $_POST['eventType'];
+    $venue = $_POST['venue'];
+    $eventOrganizer = $_POST['eventOrganizer'];
+    $description = $_POST['description'];
+    $image = $_FILES['image']['name'];
+    $status = $_POST['adStatus'];
+    $eventDays = $_POST['eventDays'];
+    $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+
+$imageUploaded = !empty($_FILES["image"]["tmp_name"]);
+$existingImage = isset($_POST["existingImage"]) ? $_POST["existingImage"] : "";
+
+if ($imageUploaded && in_array($imageFileType, array('jpg', 'jpeg', 'png', 'webp'))) {
+    $uploadDir = "../eventUploads/";
+    $uniqueFileName = uniqid() . '.' . $imageFileType;
+    $targetFilePath = $uploadDir . $uniqueFileName;
+
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+        if ($update->updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $uniqueFileName, $eventDays, $status, $id)) {
+            echo '<script>';
+            echo 'document.getElementById("messageBox").style.background = "green";';
+            echo 'document.getElementById("messageBox").style.display = "flex";';
+            echo 'document.getElementById("displayMsg").innerText = "Data updated successfully.";';
+            echo'setTimeout(function () {
+                    window.location.href = "events.php";
+                }, 3000);';
+            echo '</script>';
+        } else {
+            echo '<script>';
+            echo 'document.getElementById("messageBox").style.display = "flex";';
+            echo 'document.getElementById("messageBox").style.background = "red";';
+            echo 'document.getElementById("displayMsg").innerText = "Data could not be updated. Please try again later.";';
+            echo '</script>';
+        }
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Error occurred while uploading the image.";';
+        echo '</script>';
+    }
+} elseif (!$imageUploaded) {
+    if ($update->updateEvent($eventName, $dateofStart, $dateofEnd, $eventType, $venue, $eventOrganizer, $description, $existingImage, $eventDays, $status, $id)) {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.background = "green";';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("displayMsg").innerText = "Data updated successfully.";';
+        echo'setTimeout(function () {
+                window.location.href = "events.php";
+            }, 3000);';
+        echo '</script>';
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Image couldnot updated.";';
+        echo '</script>';
+    }
+} else {
+    echo '<script>';
+    echo 'document.getElementById("messageBox").style.display = "flex";';
+    echo 'document.getElementById("messageBox").style.background = "red";';
+    echo 'document.getElementById("displayMsg").innerText = "Invalid image type.";';
+    echo '</script>';
+}
+
+
+}
+
+?>
 <script>
     //for date piker
     var currentDate = new Date().toISOString().split('T')[0];
