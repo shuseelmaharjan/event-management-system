@@ -1,16 +1,7 @@
 <?php
 require_once('header.php');
 require_once('sidebar.php');
-$deletedata = new BlogPost($conn);
-if (isset($_GET['criteria'])) {
-    $id = $_GET['criteria'];
-    
-    if ($deletedata->deleteBlogPost($id)) {
-    
-    } else {
-        echo "Deletion failed:" ; 
-    }
-}
+
 
 
 ?>
@@ -105,7 +96,8 @@ if (isset($_GET['criteria'])) {
                                             <td class="center">
                                                 <a href="viewblogs.php?criteria=<?=$row['id']?>" class="view"><span><i class="fa-solid fa-eye"></i></span></a>
                                                 <a href="updateBlog.php?criteria=<?=$row['id'];?>" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
-                                                <a href="blog.php?criteria=<?= $row['id']; ?>" onclick="confirm('Are yuu sure');" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>
+                                                <a href="javascript:void(0);" class="delete" onclick="confirmDelete('blog.php?criteria=<?=$row['id']?>')"><span><i class="fa-solid fa-trash"></i></span></a>
+
                                             </td>
                                         </tr>
                                     <?php
@@ -134,53 +126,38 @@ if (isset($_GET['criteria'])) {
         </div>
                                 
 </div>
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 <script>
-        function viewData() {
-            var wrapperPopup = document.querySelector('.wrapper');
-            if (wrapperPopup) {
-                wrapperPopup.style.display = "flex";
-            }
-        }
+    function confirmDelete(redirectUrl) {
+        var confirmation = confirm("Are you sure you want to delete this record?");
 
-        function closeBtn() {
-            var wrapperPopup = document.querySelector('.wrapper');
-            if (wrapperPopup) {
-                wrapperPopup.style.display = "none";
-            }
+        if (confirmation) {
+            // If confirmation is true, redirect to the server to handle the deletion
+            window.location.href = redirectUrl;
         }
-
-        function editBtn() {
-            var editDataPopup = document.querySelector('.editData');
-            if (editDataPopup) {
-                editDataPopup.style.display = "flex";
-            }
-        }
-
-        function deleteBtn() {
-            var deleteDataPopup = document.querySelector('.deleteData');
-            if (deleteDataPopup) {
-                deleteDataPopup.style.display = "flex";
-            }
-            console.log("Delete Btn");
-        }
-
-        function closeEdit() {
-            var editDataPopup = document.querySelector('.editData');
-            if (editDataPopup) {
-                editDataPopup.style.display = "none";
-            }
-        }
-
-        function closeDel() {
-            var deleteDataPopup = document.querySelector('.deleteData');
-            if (deleteDataPopup) {
-                deleteDataPopup.style.display = "none";
-            }
-        }
+    }
 </script>
 
 <?php
+$deletedata = new BlogPost($conn);
+if (isset($_GET['criteria'])) {
+    $id = $_GET['criteria'];
+    
+    if ($deletedata->deleteBlogPost($id)) {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Data deleted successfully.";';
+        echo 'setTimeout(function () { window.location.href = "blog.php"; }, 3000);';
+        echo '</script>';
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Error deleting blog.";';
+        echo '</script>';
+    }
+}
+
                                 
 require_once('footer.php');
 ?>

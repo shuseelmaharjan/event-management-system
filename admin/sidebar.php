@@ -12,7 +12,10 @@ if($userAuth->isUserLoggedIn()){
     header("Location: login.php");
 }
 ?>
-
+<div class="messageBox" id="messageBox">
+    <p id="displayMsg"></p>
+    <p onclick="closemessageBox()" id="closeBtn"><i class="fa-solid fa-xmark"></i></p>
+</div>
     <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="sidebar-logo">

@@ -23,7 +23,6 @@ require_once('php/authentication.php');
         padding: 10px 15px;
         font-size: 1rem;
         border: none;
-        width: 300px;
         margin-left: 20px;
     }
 
@@ -34,7 +33,6 @@ require_once('php/authentication.php');
         border: none;
         color: #fff;
         font-weight: 600;
-        width: 100px;
         cursor: pointer;
         transition: ease 0.5s;
     }
@@ -95,41 +93,7 @@ require_once('php/authentication.php');
     
    
 </style>
-<?php
-//data create
-$addType = new eventType($conn);
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addType'])){
-    $name = $_POST['addType'];
 
-    $addType->insertType($name);
-    
-}
-
-//data deletion
-$deletedata = new eventType($conn);
-if (isset($_GET['criteria'])) {
-    $typeID = $_GET['criteria'];
-    
-    if ($deletedata->deleteType($typeID)) {
-    
-    } else {
-        echo "Deletion failed:" ; 
-    }
-}
-//update data
-$eventType = new eventType($conn);
-if (isset($_POST['updateType'])) {
-    $typeID = $_POST['typeID']; 
-    $newName = $_POST['name'];
-
-    if ($eventType->updateType($typeID, $newName)) {
-
-        
-    } else {
-        echo "Event Type update failed.";
-    }
-}
-?>
 <div class="popup">
     <span id="closeFormBtn" class="closeBtn" onclick="closeBtn()"><i class="fa-solid fa-xmark"></i></span>
     <div class="eventType">
@@ -138,7 +102,8 @@ if (isset($_POST['updateType'])) {
             <input type="hidden" name="typeID" id="editTypeID" value="">
             <label for="name">Your event type was:</label>
             <input type="text" name="name" id="editTypeName" placeholder="Event Type name">
-            <input type="submit" name="updateType" id="updateBtn" value="Update">
+            <!-- <input type="submit" name="updateType" id="updateBtn" value="Update"> -->
+            <button>Add Event Type</button>
         </form>
     </div>
 </div>
@@ -166,6 +131,7 @@ if (isset($_POST['updateType'])) {
                                     <label for="addform">Add Event Type</label>
                                     <input type="text" name="addType" placeholder="Event Type">
                                     <input type="button" name="addType" id="btn" value="Add Event Type">
+                                    <!-- <button>Add Event Type</button> -->
                                 </form>
                             </div>
                             
@@ -262,6 +228,52 @@ if (isset($_POST['updateType'])) {
             </div>
         </div>
 </div>
+<?php
+//data create
+$addType = new eventType($conn);
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addType'])){
+    $name = $_POST['addType'];
+
+    $addType->insertType($name);
+    
+}
+
+//data deletion
+$deletedata = new eventType($conn);
+if (isset($_GET['criteria'])) {
+    $typeID = $_GET['criteria'];
+    
+    if ($deletedata->deleteType($typeID)) {
+    
+    } else {
+        echo "Deletion failed:" ; 
+    }
+}
+//update data
+$eventType = new eventType($conn);
+if (isset($_POST['updateType'])) {
+    $typeID = $_POST['typeID']; 
+    $newName = $_POST['name'];
+
+    if ($eventType->updateType($typeID, $newName)) {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.background = "green";';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("displayMsg").innerText = "Data updated successfully.";';
+        echo'setTimeout(function () {
+                window.location.href = "eventype.php";
+            }, 3000);';
+        echo '</script>';
+        
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Image couldnot updated.";';
+        echo '</script>';
+    }
+}
+?>
 <script>
     
     function editBtn(name, typeID) {

@@ -112,43 +112,7 @@ $sql = "SELECT s.*, t.name AS serviceType FROM tbl_service s
         LEFT JOIN tbl_types t ON s.type = t.type_id WHERE s.ser_id = $id;";
 $result = mysqli_query($conn, $sql);
 $formData = mysqli_fetch_assoc($result);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
-    $update = new Service($conn);
-
-    $serviceName = $_POST['serviceName'];
-    $eventType = $_POST['type'];
-    $description = $_POST['serviceDescription'];
-    $existingImage = $_POST["existingImage"]; 
-
-    $imageUploaded = !empty($_FILES["image"]["tmp_name"]);
-
-    if ($imageUploaded) {
-        $imageFileType = strtolower(pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION));
-        $uploadDir = "../serviceUploads/";
-        $uniqueFileName = uniqid() . '.' . $imageFileType;
-        $targetFilePath = $uploadDir . $uniqueFileName;
-
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
-            $imageToUse = $uniqueFileName;
-        } else {
-            echo "Error occurred while uploading the image.";
-            exit;
-        }
-    } else {
-        $imageToUse = $existingImage;
-    }
-
-    if ($update->updateServiceData($id, $serviceName, $eventType, $description, $imageToUse)) {
-        echo '<script>';
-        echo 'window.location.href = "http://localhost/eveproject/admin/services.php";';
-        echo '</script>';
-    } else {
-        echo "Data could not be updated. Please try again later.";
-    }
-}
 ?>
-
 <div class="main">
         <div class="main-header">
             <div class="main-title">
@@ -234,6 +198,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         </div>
   
 </div>
+
+
+<?php
+require_once('messagebox.php');
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
+    $update = new Service($conn);
+
+    $serviceName = $_POST['serviceName'];
+    $eventType = $_POST['type'];
+    $description = $_POST['serviceDescription'];
+    $existingImage = $_POST["existingImage"]; 
+
+    $imageUploaded = !empty($_FILES["image"]["tmp_name"]);
+
+    if ($imageUploaded) {
+        $imageFileType = strtolower(pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION));
+        $uploadDir = "../serviceUploads/";
+        $uniqueFileName = uniqid() . '.' . $imageFileType;
+        $targetFilePath = $uploadDir . $uniqueFileName;
+
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+            $imageToUse = $uniqueFileName;
+        } else {
+            echo '<script>';
+            echo 'document.getElementById("messageBox").style.background = "red";';
+            echo 'document.getElementById("messageBox").style.display = "flex";';
+            echo 'document.getElementById("displayMsg").innerText = "Error uploading the image.";';
+            echo '</script>';
+        }
+    } else {
+        $imageToUse = $existingImage;
+    }
+
+    if ($update->updateServiceData($id, $serviceName, $eventType, $description, $imageToUse)) {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.background = "green";';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("displayMsg").innerText = "Service updated successfully.";';
+        echo'setTimeout(function () {
+            window.location.href = "services.php";
+            }, 3000);';
+        echo '</script>';
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("displayMsg").innerText = "Failed to update data.";';
+        echo '</script>';
+    }
+}
+?>
+
 <script>
         var currentPage = window.location.href;
 

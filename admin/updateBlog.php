@@ -8,37 +8,9 @@ $sql = "SELECT * FROM tbl_blog WHERE id = '$id'";
 $result = mysqli_query($conn, $sql);
 $formData = mysqli_fetch_assoc($result);
 
-$blogPost = new BlogPost($conn);
-if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["description"])) {
-    $title = $_POST["title"];
-    $author = $_POST["author"];
-    $publishDate = date('Y-m-d');
-    $description = $_POST["description"];
-    $id = $_GET['criteria'];
 
-    if (!empty($_FILES["image"]["tmp_name"])) {
-        $target_dir = "uploads/";  
-        $target_file = $target_dir . basename($_FILES["image"]["name"]);
 
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-            $image = $target_file;
-        } else {
-            echo "Failed to upload image.";
-            exit();
-        }
-    } else {
-        $image = $formData['image'];
-    }
-
-    if ($blogPost->updateBlogPost($id, $title, $author, $publishDate, $description, $image)) {
-        echo("Data updated successfully");
-        exit();
-    } else {
-        echo "Failed to update the blog post.";
-    }
-}
-
-?>
+    ?>
 
 <style>
     .box form{
@@ -147,88 +119,105 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
     <?php endif; ?>
 </div>
 <div class="main">
-        <div class="main-header">
-            <div class="main-title">
-                Update Blog
-            </div>
-            <?php
-                require_once('profile.php');
-            ?>
+    <div class="main-header">
+        <div class="main-title">
+            Update Blog
         </div>
-        <div class="main-content">
-            
-            <div class="row">
-               
-                <div class="col-12">
-                    <a href="blog.php">
-                        <div class="breadcum">
+        <?php
+            require_once('profile.php');
+        ?>
+    </div>
+    <div class="main-content">
+        <div class="row">
+            <div class="col-12">
+                <a href="blog.php">
+                    <div class="breadcum">
                         <i class="fa-solid fa-arrow-left"></i>
-                        </div>
-                    </a>
-                    <div class="box">
-                        <form action="" method="post" enctype="multipart/form-data">
-                            <div class="col" id="contentImg">
-                                <label for="chooseimg">Choose Image</label>
-                                <input type="file" name="image" value="<?=$formData['image'];?>">
-                                <?php if (!empty($formData['image'])) : ?>
-                                    <img onclick="openImage()" src="<?=$formData['image'];?>" alt="Blog Image">
-                                <?php endif; ?>
-                            </div>
-                            <div class="col-2">
-                                <label for="title">Blog Title:</label>
-                                <div class="input-box">
-                                    <input type="text" name="title" placeholder="Title" value="<?=$formData['post_title'];?>" required>
-                                </div>
-                                
-                                <div class="row-1">
-                                    <div class="col-3">
-                                        <label for="author">Author:</label>
-
-                                        <div class="input-box">
-                                            <input type="text" name="author" placeholder="Author" value="<?=$formData['author_name'];?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <label for="datePublish">Publish Date:</label>
-                                        <div class="input-box">
-                                            <input type="text" name="pdate" readonly value="<?=$formData['publish_date'];?>"><br>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div id="description" class="two-columns">
-                                    <label for="">Description</label>
-                                    <textarea id="my-textarea" name="description"><?=$formData['description'];?> </textarea>
-                                </div>
-
-                                
-                                <button>Post</button>
-                            </div>
-                        </form>
-                                              
                     </div>
+                </a>
+                <div class="box">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="col" id="contentImg">
+                            <label for="chooseimg">Choose Image</label>
+                            <input type="file" name="image" value="<?=$formData['image'];?>">
+                            <?php if (!empty($formData['image'])) : ?>
+                                <img onclick="openImage()" src="<?=$formData['image'];?>" alt="Blog Image">
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-2">
+                            <label for="title">Blog Title:</label>
+                            <div class="input-box">
+                                <input type="text" name="title" placeholder="Title" value="<?=$formData['post_title'];?>" required>
+                            </div>
+
+                            <div class="row-1">
+                                <div class="col-3">
+                                    <label for="author">Author:</label>
+                                    <div class="input-box">
+                                        <input type="text" name="author" placeholder="Author" value="<?=$formData['author_name'];?>" required>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label for="datePublish">Publish Date:</label>
+                                    <div class="input-box">
+                                        <input type="text" name="pdate" readonly value="<?=$formData['publish_date'];?>"><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="description" class="two-columns">
+                                <label for="">Description</label>
+                                <textarea id="my-textarea" name="description"><?=$formData['description'];?> </textarea>
+                            </div>
+                            <button>Update</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-  
+    </div>
 </div>
-<script>
+<?php
+require_once('messagebox.php');
+$blogPost = new BlogPost($conn);
 
-    function closeBtn(){
-        // Hide the overlay when closing
-        document.getElementById("wrapper").style.display="none";
-        // Enable pointer events for image and overlay
-        document.querySelector('.box form .col img').style.pointerEvents = "auto";
-        document.querySelector('.box form .col div').style.pointerEvents = "auto";
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['author'], $_POST['pdate'], $_POST['description'])) {
+    $title = $_POST['title'];
+    $author = $_POST['author'];
+    $publishDate = date('Y-m-d');
+    $description = $_POST['description'];
+
+    if (!empty($_FILES['image']['tmp_name'])) {
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES['image']['name']);
+
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+            $image = $target_file;
+        } else {
+            echo 'Failed to upload image.';
+            exit();
+        }
+    } else {
+        $image = $formData['image'];
     }
-    function openImage(){
-        // Show the overlay when opening
-        document.getElementById("wrapper").style.display="flex";
-        // Disable pointer events for image and overlay
-        document.querySelector('.box form .col img').style.pointerEvents = "none";
-        document.querySelector('.box form .col div').style.pointerEvents = "none";
+    if ($blogPost->updateBlogPost($id, $title, $author, $publishDate, $description, $image)) {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "green";';
+        echo 'document.getElementById("displayMsg").innerText = "Data updated successfully.";';
+        echo'setTimeout(function () {
+            window.location.href = "blog.php";
+        }, 3000);';
+        echo '</script>';
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Failed to update blog.";';
+        echo '</script>';
     }
-</script>
+}
+?>
+
 
 
 <?php

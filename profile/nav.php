@@ -64,13 +64,3 @@
         <!--navbar-->
     </div>
 </nav>
-
-
-              
-<style>
-
-
-</style>
-<script>
-    
-</script>

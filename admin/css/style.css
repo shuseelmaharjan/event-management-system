@@ -1,0 +1,15 @@
+.messageBox{
+    position: fixed;
+    z-index: 999;
+    bottom: 30px;
+    right: 30px;
+    width: 400px;
+    justify-content: space-between;
+    color: #fff;
+    padding: 10px;
+    font-size: 1em;
+    display: flex;
+}
+#closeBtn{
+    cursor: pointer;
+}

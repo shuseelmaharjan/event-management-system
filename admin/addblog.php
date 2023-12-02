@@ -2,48 +2,6 @@
 require_once('header.php');
 require_once('sidebar.php');
 
-
-$blogPost = new BlogPost($conn);
-
-if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["description"]) && isset($_FILES["image"])) {
-    if ($_FILES["image"]["error"] === 0) {
-        ob_start();
-        $title = $_POST["title"];
-        $author = $_POST["author"];
-        $publishDate = $_POST["pdate"];
-        $current_time = date("H:i:s");
-        $description = $_POST["description"];
-        $imageFileName = $_FILES["image"]["name"];
-        $imageFileType = strtolower(pathinfo($imageFileName, PATHINFO_EXTENSION));
-
-        $uploadDir = "../blogUploads/";
-        $uniqueFileName = uniqid() . '.' . $imageFileType;
-        $targetFilePath = $uploadDir . $uniqueFileName;
-
-        if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
-                try {
-                    if ($blogPost->insertBlogPost($title, $author, $publishDate, $current_time, $description, $targetFilePath)) {
-                        echo("data inserted successfully now redirecting to blog.php");
-                        exit();
-                       
-                    } else {
-                        throw new Exception("Error: Blog post insertion failed.");
-                    }
-                } catch (Exception $e) {
-                    echo "Error: " . $e->getMessage();
-                }
-            } else {
-                echo "Error uploading the image.";
-            }
-        } else {
-            echo "Error: Only jpg, jpeg, and png file types are allowed.";
-        }
-    } else {
-        echo "File upload error: " . $_FILES["image"]["error"];
-    }
-    ob_end_flush();
-}
 ?>
 
 <style>
@@ -236,6 +194,71 @@ if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["descriptio
         </div>
   
 </div>
+<?php
+require_once('messagebox.php');
+$blogPost = new BlogPost($conn);
+
+if (isset($_POST["title"], $_POST["author"], $_POST["pdate"], $_POST["description"]) && isset($_FILES["image"])) {
+    if ($_FILES["image"]["error"] === 0) {
+        $title = $_POST["title"];
+        $author = $_POST["author"];
+        $publishDate = $_POST["pdate"];
+        $current_time = date("H:i:s");
+        $description = $_POST["description"];
+        $imageFileName = $_FILES["image"]["name"];
+        $imageFileType = strtolower(pathinfo($imageFileName, PATHINFO_EXTENSION));
+
+        $uploadDir = "../blogUploads/";
+        $uniqueFileName = uniqid() . '.' . $imageFileType;
+        $targetFilePath = $uploadDir . $uniqueFileName;
+
+        if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+                try {
+                    if ($blogPost->insertBlogPost($title, $author, $publishDate, $current_time, $description, $targetFilePath)) {
+                        echo '<script>';
+                        echo 'document.getElementById("messageBox").style.display = "flex";';
+                        echo 'document.getElementById("messageBox").style.background = "green";';
+                        echo 'document.getElementById("displayMsg").innerText = "Blog post added successfully.";';
+                        echo 'setTimeout(function () {
+                            window.location.href = "blog.php";
+                        }, 3000);';
+                        echo '</script>';
+                    } else {
+                        throw new Exception("Error: Blog post insertion failed.");
+                    }
+                } catch (Exception $e) {
+                    echo '<script>';
+                    echo 'document.getElementById("messageBox").style.display = "flex";';
+                    echo 'document.getElementById("messageBox").style.background = "red";';
+                    echo 'document.getElementById("displayMsg").innerText = "Error: ' . $e->getMessage() . '";';
+                    echo '</script>';
+                }
+            } else {
+                echo '<script>';
+                echo 'document.getElementById("messageBox").style.display = "flex";';
+                echo 'document.getElementById("messageBox").style.background = "red";';
+                echo 'document.getElementById("displayMsg").innerText = "Error uploading the image.";';
+                echo '</script>';
+            }
+        } else {
+            echo '<script>';
+            echo 'document.getElementById("messageBox").style.display = "flex";';
+            echo 'document.getElementById("messageBox").style.background = "red";';
+            echo 'document.getElementById("displayMsg").innerText = "Error: Only jpg, jpeg, and png file types are allowed.";';
+            echo '</script>';
+        }
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "File upload error: ' . $_FILES["image"]["error"] . '";';
+        echo '</script>';
+    }
+}
+?>
+
+
 <script>
 
 

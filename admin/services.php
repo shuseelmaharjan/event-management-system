@@ -1,20 +1,6 @@
 <?php
-
 require_once('header.php');
 require_once('sidebar.php');
-
-if (isset($_GET['criteria'])) {
-    $id = $_GET['criteria'];
-    $deleteData = new Service($conn);
-
-    if ($deleteData->deleteService($id)) {
-        echo'<script>';
-        echo'window.location.href = "http://localhost/eveproject/admin/services.php";';
-        echo'</script>';
-    } else {
-        echo "Deletion failed";
-    }
-}
 
 ?>
 <style>
@@ -126,8 +112,7 @@ if (isset($_GET['criteria'])) {
                                         <td class="center">
                                             <a href="view-service.php?criteria=<?=$row['ser_id']?>" class="view" onclick="viewData()"><span><i class="fa-solid fa-eye"></i></span></a>
                                             <a href="editservice.php?criteria=<?=$row['ser_id']?>" class="edit" onclick="editBtn()"><span><i class="fa-solid fa-pen-to-square"></i></span></a>
-                                            <a href="services.php?criteria=<?=$row['ser_id']?>" class="delete"><span><i class="fa-solid fa-trash"></i></span></a>
-                                                
+                                            <a href="javascript:void(0);" class="delete" onclick="confirmDelete('services.php?criteria=<?=$row['ser_id']?>')"><span><i class="fa-solid fa-trash"></i></span></a>     
                                         </td>
                                         
                                     </tr>
@@ -154,13 +139,51 @@ if (isset($_GET['criteria'])) {
                         <?php endif; ?>
                     </div>
                     
-                    <!-- END ORDERS TABLE -->
                 </div>
             </div>
         </div>
   
 </div>
+<script>
+    function confirmDelete(redirectUrl) {
+        var confirmation = confirm("Are you sure you want to delete this record?");
 
+        if (confirmation) {
+            window.location.href = redirectUrl;
+        }
+    }
+</script>
 <?php
+if (isset($_GET['criteria'])) {
+    $id = $_GET['criteria'];
+    require_once('php/authentication.php');
+    $deleteData = new service($conn);
+
+    // Debug statement
+    echo "Debug: Before deleteService call. ID: $id<br>";
+
+    if ($deleteData->deleteService($id)) {
+        // Debug statement
+        echo "Debug: Service deleted successfully.<br>";
+
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "green";';
+        echo 'document.getElementById("displayMsg").innerText = "Service deleted successfully.";';
+        echo 'setTimeout(function () { window.location.href = "services.php"; }, 3000);';
+        echo '</script>';
+    } else {
+        // Debug statement
+        echo "Debug: Error deleting the service.<br>";
+
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Error deleting the service.";';
+        echo '</script>';
+    }
+}
+
+
 require_once('footer.php');
 ?>

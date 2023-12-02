@@ -1,4 +1,4 @@
-
+<script src="js/app.js"></script>
 <script>
   
       var currentUrl = window.location.href;
