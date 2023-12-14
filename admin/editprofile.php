@@ -46,59 +46,76 @@ require_once('sidebar.php');
    
 </style>
 <div class="main">
-        <div class="main-header">
-            <div class="mobile-toggle" id="mobile-toggle">
-                <i class='bx bx-menu-alt-right'></i>
-            </div>
-            <div class="main-title">
-                Edit Profile
-            </div>
-            <?php 
-            require_once('profile.php');
-            ?>
+    <div class="main-header">
+        <div class="mobile-toggle" id="mobile-toggle">
+            <i class='bx bx-menu-alt-right'></i>
         </div>
-        <div class="main-content">
-            <div class="row">
-                <div class="col-12">
-                    <div class="box">
-                        <div class="box-header">
-                            Personal Details
-                        </div>
-                        <div class="row-1">
-                            <div class="col-1">
-                                <img src="images/sneaker.jpg" alt="iamge">
-                            </div>
-                            <div class="col-2">
-                                <h1>Admin</h1>
-                                <h2>Username: <span>admin</span></h2>
-                                <h2>Email: <span>admin@ems.com</span></h2>
-                                <h2>phone: <span>909009090</span></h2>
-                            </div>
-                        </div>
-                    </div>
+        <div class="main-title">
+            Edit Profile
+        </div>
+        <?php 
+            require_once('profile.php');
+        ?>
+    </div>
+    <div class="main-content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header">
+                    Personal Details
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="box">
-                        <div class="box-header">
-                            Other Details
-                        </div>
-                        <div class="col-3">
-                            <h2>Date of Birth: <span></span></h2>
-                            <h2>Father's Name: <span>admin</span></h2>
-                            <h2>Mother's Name: <span>admin</span></h2>
-                            <h2>Permanent Address: <span>admin</span></h2>
-                            <h2>Temporary Address: <span>admin</span></h2>
-                        </div>
+                <div class="row-1">
+                    <div class="col-1">
+                        <?php
+                            // Retrieve the image URL from the database
+                            $imageURL = "images/default-1.png"; // Replace with the actual column name for the image in your database
+
+                            echo "<img src='$imageURL' alt='image'>";
+                        ?>
+                    </div>
+                    <div class="col-2">
+                        <?php
+                        $sql = "SELECT * FROM tbl_admin WHERE id = 1";
+                        $result = mysqli_query($conn, $sql);
+
+                        if (!$result) {
+                            die("Query failed: " . mysqli_error($conn));
+                        }
+
+                        // Check if any row is returned
+                        if (mysqli_num_rows($result) > 0) {
+                            $row = mysqli_fetch_assoc($result);
+
+                            // Retrieve other details from the database
+                            $username = $row['username']; // Replace with the actual column name for the username in your database
+                            $fullName = $row['name']; // Replace with the actual column name for the full name in your database
+                            $email = $row['email']; // Replace with the actual column name for the email in your database
+                            $phone = $row['phone']; // Replace with the actual column name for the phone in your database
+
+                            echo "<h1>Role: Admin</h1>";
+                            echo "<h2>Username: <span>$username</span></h2>";
+                            echo "<h2>Full Name: <span>$fullName</span></h2>";
+                            echo "<h2>Email: <span>$email</span></h2>";
+                            echo "<h2>Phone: <span>$phone</span></h2>";
+                        } else {
+                            echo "No data found";
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
             <div class="button">
-                <a href="updateprofile.php">Update Profile</a>
-            </div>
+            <a href="updateprofile.php">Update Profile</a>
         </div>
+        </div>
+    </div>
 </div>
+
+        
+        
+    </div>
+</div>
+
 
 <?php
 require_once('footer.php');

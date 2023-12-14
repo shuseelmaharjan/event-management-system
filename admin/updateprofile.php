@@ -1,9 +1,11 @@
 <?php
 require_once('header.php');
 require_once('sidebar.php');
+require_once('php/authentication.php');
+
 ?>
 <style>
-        .box form{
+    .box form{
         width: 100%;
         position: relative;
         display: flex;
@@ -106,23 +108,21 @@ require_once('sidebar.php');
     #banner div span {
         font-size:40px;
     }
-    .two-columns{
-        grid-column: span 2;
-    }
-    #description label{
-        font-size: 1rem;
-        font-weight: 600;
-    }
-    #my-textarea {
-        width: 100%;
-        min-height: 200px;
-        resize: none;
-        padding: 10px;
-        font-size: 1rem;
-        font-weight: 400;
-        margin: 10px 0px;
-    }
+
 </style>
+<?php
+    $sql = "SELECT * from tbl_admin where id = 1";
+    $result = $conn->query($sql);
+
+    if($result->num_rows > 0){
+        $row = $result->fetch_assoc(); // Fix the syntax error here
+
+        $name = isset($row['name']) ? htmlspecialchars($row['name']) : '';
+        $username = isset($row['username']) ? htmlspecialchars($row['username']) : '';
+        $email = isset($row['email']) ? htmlspecialchars($row['email']) : '';
+        $phone = isset($row['phone']) ? htmlspecialchars($row['phone']) : '';
+    }
+?>
 <div class="main">
         <div class="main-header">
             <div class="mobile-toggle" id="mobile-toggle">
@@ -141,164 +141,54 @@ require_once('sidebar.php');
                
                <div class="col-12">
                    <div class="box">
-                   <?php
-                   
-                    $sql = "SELECT * FROM tbl_admin WHERE id = 1"; 
-                    $result = mysqli_query($conn, $sql);
 
-                    if ($result) {
-                        $row = mysqli_fetch_assoc($result);
-
-                   
-                        function displayNA($value) {
-                            return $value !== null ? $value : "N/A";
-                        }
-
-                        $name = displayNA($row['name']);
-                        $username = displayNA($row['username']);
-                        $email = displayNA($row['email']);
-                        $phone = displayNA($row['phone']);
-                        $fname = displayNA($row['fname']);
-                        $mname = displayNA($row['mname']);
-                        $paddress = displayNA($row['paddress']);
-                        $taddress = displayNA($row['taddress']);
-                        $dob = displayNA($row['dob']);
-                    } else {
-                        echo "Error: " . mysqli_error($conn);
-                    }
-                    
-                    
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                        // Capture form data
-                        $name = $_POST['name'];
-                        $username = $_POST['username'];
-                        $email = $_POST['email'];
-                        $phone = $_POST['phone'];
-                        $fname = $_POST['fname'];
-                        $mname = $_POST['mname'];
-                        $paddress = $_POST['paddress'];
-                        $taddress = $_POST['taddress'];
-                        $dob = $_POST['dob'];
-
-                        // Construct the SQL query to update the record in tbl_admin
-                        $updateQuery = "UPDATE tbl_admin SET
-                                        name = '$name',
-                                        username = '$username',
-                                        email = '$email',
-                                        phone = '$phone',
-                                        fname = '$fname',
-                                        mname = '$mname',
-                                        paddress = '$paddress',
-                                        taddress = '$taddress',
-                                        dob = '$dob'
-                                        WHERE id = 1"; // Assuming you want to update the record with admin_id = 1
-
-                        // Perform the SQL query
-                        $result = mysqli_query($conn, $updateQuery);
-
-                        if ($result) {
-                            echo "Data updated successfully";
-                        } else {
-                            echo "Error updating data: " . mysqli_error($conn);
-                        }
-                    }
-                    ?>
-
-                       <form action="" method="post" enctype="multipart/form-data">
-                           <div class="col" id="contentImg">
-                               <div class="banner" id="banner">
-                                   <div class="input-box">
-                                       <label for="">Select Image</label>
-                                       <input type="file" name="image" id="selectFile" accept="image/*">
-                                       <label for="selectFile" id="file-2-preview">
-                                           <img id="previewImage" src="eventImages/default.jpg" alt="Thumbnail">
-                                           <div>
-                                               <span>+</span>
-                                           </div>
-                                       </label>
-                                   </div>
-                               </div>
-                           </div>
-                           <div class="col-2">
-                               
-                               
-                               <div class="row-1">
-                                   <div class="col-3">
-                                       <label for="name">Full Name:</label>
-                                       <div class="input-box">
-                                           <input type="text" name="name" placeholder="Full Name" value="<?php echo $name; ?>" required>
-                                       </div>
-                                   </div>
-                                   <div class="col-3">
-                                       <label for="username">Username:</label>
-                                       <div class="input-box">
-                                           <input type="text" name="username"  value="<?php echo $username;?>">
-                                       </div>
-                                   </div>
-
-                               </div>
-                               <div class="row-1">
-                                   <div class="col-3">
-                                       <label for="email">Email:</label>
-                                       <div class="input-box">
-                                           <input type="email" name="email" placeholder="Email" value="<?php echo $email;?>">
-                                       </div>
-                                   </div>
-                                   <div class="col-3">
-                                       <label for="phone">Phone:</label>
-                                       <div class="input-box">
-                                           <input type="number" name="phone"  value="<?php echo $phone; ?>">
-                                       </div>
-                                   </div>
-
-                               </div>
-                               <div class="row-1">
-                                   <div class="col-3">
-                                       <label for="fatherName">Father Name:</label>
-                                       <div class="input-box">
-                                           <input type="text" name="fname" placeholder="Father Name" value="<?php echo $fname; ?>">
-                                       </div>
-                                   </div>
-                                   <div class="col-3">
-                                       <label for="motherName">Mother Name:</label>
-                                       <div class="input-box">
-                                           <input type="text" name="mname" placeholder="Mother Name" value="<?php echo $mname; ?>">
-                                       </div>
-                                   </div>
-
-                               </div>
-                               <div class="row-1">
-                                   <div class="col-3">
-                                       <label for="paddress">Permanent Address:</label>
-                                       <div class="input-box">
-                                           <input type="text" name="paddress" placeholder="Permanent Address" value="<?php echo $paddress; ?>">
-                                       </div>
-                                   </div>
-                                   <div class="col-3">
-                                       <label for="taddress">Temporary Address:</label>
-                                       <div class="input-box">
-                                           <input type="text" name="taddress" placeholder="Temporary Address" value="<?php echo $taddress; ?>">
-                                       </div>
-                                   </div>
-
-                               </div>
-                               <div class="row-1">
-                               <div class="col-3">
-                                    <label for="dob">Date of Birth:</label>
+                   <form action="" method="post" enctype="multipart/form-data">
+                        <div class="col" id="contentImg">
+                            <div class="banner" id="banner">
+                                <div class="input-box">
+                                    <label for="">Select Image</label>
+                                    <input type="file" name="image" id="selectFile" accept="image/*">
+                                    <label for="selectFile" id="file-2-preview">
+                                        <img id="previewImage" src="images/image.svg" alt="Thumbnail">
+                                        <div>
+                                            <span>+</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="row-1">
+                                <div class="col-3">
+                                    <label for="name">Full Name:</label>
                                     <div class="input-box">
-                                        <input type="date" name="dob" value="<?php echo ($dob !== "N/A") ? $dob : ""; ?>">
+                                        <input type="text" name="name" placeholder="Full Name" value="<?php echo isset($name) ? htmlspecialchars($name) : ''; ?>" required>
                                     </div>
                                 </div>
-
-                                  
-
-                               </div>
-                              
-                               
-                               <button>Update</button>
-                               
-                           </div>
-                       </form>
+                                <div class="col-3">
+                                    <label for="username">Username:</label>
+                                    <div class="input-box">
+                                        <input type="text" name="username" value="<?php echo isset($username) ? htmlspecialchars($username) : ''; ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-1">
+                                <div class="col-3">
+                                    <label for="email">Email:</label>
+                                    <div class="input-box">
+                                        <input type="email" name="email" placeholder="Email" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label for="phone">Phone:</label>
+                                    <div class="input-box">
+                                        <input type="number" name="phone" value="<?php echo isset($phone) ? htmlspecialchars($phone) : ''; ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <button>Update</button>
+                        </div>
+                    </form>
                                              
                    </div>
                </div>
@@ -307,6 +197,62 @@ require_once('sidebar.php');
             
         </div>
 </div>
+<?php
+require_once('messagebox.php');
+$adminInfo = new AdminInfo($conn);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
+    $id = 1; // Change this according to your requirements
+
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $username = $_POST['username'];
+
+    $imageFileType = strtolower(pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION));
+
+    $imageUploaded = !empty($_FILES["image"]["tmp_name"]);
+    $existingImage = isset($_POST["existingImage"]) ? $_POST["existingImage"] : "";
+
+    if ($imageUploaded && in_array($imageFileType, array('jpg', 'jpeg', 'png', 'webp'))) {
+        $uploadDir = "images/";
+        $uniqueFileName = uniqid() . '.' . $imageFileType;
+        $targetFilePath = $uploadDir . $uniqueFileName;
+
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+            if ($adminInfo->updateUserData($name, $username, $email, $phone, $uniqueFileName)) {
+                echo '<script>';
+                echo 'document.getElementById("messageBox").style.background = "green";';
+                echo 'document.getElementById("messageBox").style.display = "flex";';
+                echo 'document.getElementById("displayMsg").innerText = "Data updated successfully.";';
+                echo 'setTimeout(function () {
+                        window.location.href = "editprofile.php";
+                    }, 3000);';
+                echo '</script>';
+            } else {
+                echo '<script>';
+                echo 'document.getElementById("messageBox").style.display = "flex";';
+                echo 'document.getElementById("messageBox").style.background = "red";';
+                echo 'document.getElementById("displayMsg").innerText = "Data could not be updated. Please try again later.";';
+                echo '</script>';
+            }
+        } else {
+            echo '<script>';
+            echo 'document.getElementById("messageBox").style.display = "flex";';
+            echo 'document.getElementById("messageBox").style.background = "red";';
+            echo 'document.getElementById("displayMsg").innerText = "Error occurred while uploading the image.";';
+            echo '</script>';
+        }
+    } else {
+        if ($adminInfo->updateUserData($name, $username, $email, $phone, $uniqueFileName)) {
+            echo "success";
+        } else {
+            // Failed
+            echo "failed";
+        }
+    }
+} 
+?>
 <script>
 
 
@@ -324,5 +270,7 @@ require_once('sidebar.php');
 previewBeforeUpload("selectFile");
 </script>
 <?php
+
+
 require_once('footer.php');
 ?>

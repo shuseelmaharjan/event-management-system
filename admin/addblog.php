@@ -140,6 +140,11 @@ require_once('sidebar.php');
             <div class="row">
                
                 <div class="col-12">
+                    <a href="blog.php">
+                        <div class="breadcum">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </a>
                     <div class="box">
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="col" id="contentImg">

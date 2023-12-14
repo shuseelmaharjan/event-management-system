@@ -348,6 +348,13 @@ require_once('nav.php');
         </div>
     </div>
 
+  
+    <script>
+        document.getElementById("alertBox").style.display = "none";
+        document.querySelector(".closeMsg").addEventListener("click", function() {
+            document.getElementById("alertBox").style.display = "none";
+        });
+
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = $_POST['name'];
@@ -357,25 +364,21 @@ require_once('nav.php');
         $message = $_POST['message'];
         $date = date("Y-m-d");
         $time = date("H:i:s");
-    
+
         $query = "INSERT INTO tbl_mail (name, email, subject, phone, message, publish_date, publish_time) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $query);
-    
+
         if ($stmt) {
             mysqli_stmt_bind_param($stmt, "sssssss", $name, $email, $subject, $phone, $message, $date, $time);
-    
+
             $result = mysqli_stmt_execute($stmt);
-    
+
             if ($result) {
-                echo '<script>';
                 echo 'document.getElementById("alertBox").style.display = "flex";';
                 echo 'document.getElementById("msg").innerText = "Message Sent Successfully";';
-                echo '</script>';
             } else {
-                echo '<script>';
                 echo 'document.getElementById("alertBox").style.display = "flex";';
                 echo 'document.getElementById("msg").innerText = "Error: ' . mysqli_error($conn) . '";';
-                echo '</script>';
             }
             mysqli_stmt_close($stmt);
         } else {
@@ -383,17 +386,12 @@ require_once('nav.php');
         }
     }
     ?>
-    <script>
-        window.onload = function() {
-                document.getElementById("alertBox").style.display = "none";
 
-                // Add event listener for the close button
-                document.querySelector(".closeMsg").addEventListener("click", function() {
-                        document.getElementById("alertBox").style.display = "none";
-                });
-        };
+    setTimeout(function() {
+        document.getElementById("alertBox").style.display = "none";
+    }, 15000);
+</script>
 
-    </script>
 
 <?php
 require_once('footer.php');

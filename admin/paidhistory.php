@@ -2,19 +2,13 @@
 require_once('header.php');
 require_once('sidebar.php');
 ?>
-<style>
-     #btns{
-        display: flex;
-        justify-content: flex-end;
-    }
-</style>
 <div class="main">
     <div class="main-header">
         <div class="mobile-toggle" id="mobile-toggle">
             <i class='bx bx-menu-alt-right'></i>
         </div>
         <div class="main-title">
-            Billing
+            Billing History
         </div>
         <?php 
         require_once('profile.php');
@@ -23,15 +17,15 @@ require_once('sidebar.php');
     <div class="main-content">
         <div class="row">
             <div class="col-12">
-            <div class="btns" id="btns">
-                        <div id="addBtn">
-                            <a href="paidhistory.php">View Paid History</a>
+            <a href="billing.php">
+                        <div class="breadcum">
+                        <i class="fa-solid fa-arrow-left"></i>
                         </div>
-                    </div>
+                    </a>
                 <!-- ORDERS TABLE -->
                 <div class="box">
                     <div class="box-header">
-                        Due Payment Lists
+                        Paid History
                     </div>
                     <div class="box-body overflow-scroll">
                         <table>
@@ -77,7 +71,7 @@ require_once('sidebar.php');
                                         JOIN tbl_service s ON p.service_id = s.ser_id
                                         JOIN tbl_types t ON s.type = t.type_id
                                         WHERE
-                                            r.amtstatus != 'paid'
+                                            r.amtstatus != 'due'
                                         ORDER BY
                                             r.reserveDate DESC
                                         LIMIT $offset, $recordsPerPage;";

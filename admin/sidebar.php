@@ -98,7 +98,7 @@ if($userAuth->isUserLoggedIn()){
                 </ul>
             </li>
             <li class="sidebar-submenu">
-                <a href="logout.php">
+                <a onclick="confirmLogout()">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span>
                 </a>
@@ -121,6 +121,13 @@ if($userAuth->isUserLoggedIn()){
             }
         });
     });
+
+    function confirmLogout() {
+        var confirmLogout = confirm("Are you sure you want to logout?");
+        if (confirmLogout) {
+            window.location.href = "logout.php";
+        } 
+    }
 
     </script>
   

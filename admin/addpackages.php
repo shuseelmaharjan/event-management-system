@@ -159,29 +159,42 @@ $addPackage = new package($conn);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    $serviceId = $_POST['serviceId']; // Assuming serviceId is an integer
+    $serviceId = $_POST['serviceId'];
     $packageName = $_POST['packageName'];
     $packageCost = $_POST['packageCost'];
     $packageGuest = $_POST['packageGuest'];
     $packageDescription = $_POST['packageDescription'];
 
-    $result = $addPackage->insertService($serviceId, $packageName, $packageCost, $packageGuest, $packageDescription);
+    // Validate description word limit
+    $maxWords = 100;
+    $descriptionWordCount = str_word_count($packageDescription);
 
-    if ($result) {
-        echo '<script>';
-        echo 'document.getElementById("messageBox").style.display = "flex";';
-        echo 'document.getElementById("messageBox").style.background = "green";';
-        echo 'document.getElementById("displayMsg").innerText = "Package added successfully.";';
-        echo'setTimeout(function () {
-            window.location.href = "services.php";
-        }, 3000);';
-        echo '</script>';    
-    } else {
+    if ($descriptionWordCount > $maxWords) {
         echo '<script>';
         echo 'document.getElementById("messageBox").style.display = "flex";';
         echo 'document.getElementById("messageBox").style.background = "red";';
-        echo 'document.getElementById("displayMsg").innerText = "Failed to add package!";';
-        echo '</script>';    }
+        echo 'document.getElementById("displayMsg").innerText = "Description exceeds the limit of 100 words.";';
+        echo '</script>';
+    } else {
+        $result = $addPackage->insertService($serviceId, $packageName, $packageCost, $packageGuest, $packageDescription);
+
+        if ($result) {
+            echo '<script>';
+            echo 'document.getElementById("messageBox").style.display = "flex";';
+            echo 'document.getElementById("messageBox").style.background = "green";';
+            echo 'document.getElementById("displayMsg").innerText = "Package added successfully.";';
+            echo'setTimeout(function () {
+                window.location.href = "services.php";
+            }, 3000);';
+            echo '</script>';
+        } else {
+            echo '<script>';
+            echo 'document.getElementById("messageBox").style.display = "flex";';
+            echo 'document.getElementById("messageBox").style.background = "red";';
+            echo 'document.getElementById("displayMsg").innerText = "Failed to add package!";';
+            echo '</script>';
+        }
+    }
 }
 ?>
 <script>

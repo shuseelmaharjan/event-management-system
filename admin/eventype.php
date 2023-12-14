@@ -189,14 +189,15 @@ require_once('php/authentication.php');
                                     if ($result !== false) {
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             ?>
-                                            <tr>
-                                                <td class="center"><?php echo $serialNumber; ?>.</td>
-                                                <td class="left"><?php echo $row['name']; ?></td>
-                                                <td class="center">
-                                                    <a class="edit" href="#"><span><i class="fa-solid fa-pen-to-square"></i> Edit</span></a>
-                                                    <a class="delete" ><span><i class="fa-solid fa-trash"></i> Delete</span></a>
+                                                <tr>
+                                                    <td class="center"><?php echo $serialNumber; ?>.</td>
+                                                    <td class="left"><?php echo $row['name']; ?></td>
+                                                    <td class="center">
+                                                        <a class="delete" href="eventype.php?criteria=<?php echo $row['type_id']; ?>&action=delete">
+                                                            <span><i class="fa-solid fa-trash"></i> Delete</span>
+                                                        </a>
                                                     </td>
-                                            </tr>
+                                                </tr>
                                             <?php
                                             $serialNumber++; 
                                         }
@@ -229,70 +230,61 @@ require_once('php/authentication.php');
         </div>
 </div>
 <?php
+require_once('messagebox.php');
 //data create
 $addType = new eventType($conn);
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addType'])){
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addType'])) {
     $name = $_POST['addType'];
 
-    $addType->insertType($name);
-    
-}
-
-//data deletion
-$deletedata = new eventType($conn);
-if (isset($_GET['criteria'])) {
-    $typeID = $_GET['criteria'];
-    
-    if ($deletedata->deleteType($typeID)) {
-    
-    } else {
-        echo "Deletion failed:" ; 
-    }
-}
-//update data
-$eventType = new eventType($conn);
-if (isset($_POST['updateType'])) {
-    $typeID = $_POST['typeID']; 
-    $newName = $_POST['name'];
-
-    if ($eventType->updateType($typeID, $newName)) {
+    if ($addType->insertType($name)) {
         echo '<script>';
-        echo 'document.getElementById("messageBox").style.background = "green";';
         echo 'document.getElementById("messageBox").style.display = "flex";';
-        echo 'document.getElementById("displayMsg").innerText = "Data updated successfully.";';
-        echo'setTimeout(function () {
-                window.location.href = "eventype.php";
-            }, 3000);';
+        echo 'document.getElementById("messageBox").style.background = "green";';
+        echo 'document.getElementById("displayMsg").innerText = "Data added Successfully.";';
+        echo 'setTimeout(function () {
+            window.location.href = "eventype.php";
+        }, 3000);';
         echo '</script>';
-        
     } else {
         echo '<script>';
         echo 'document.getElementById("messageBox").style.display = "flex";';
         echo 'document.getElementById("messageBox").style.background = "red";';
-        echo 'document.getElementById("displayMsg").innerText = "Image couldnot updated.";';
+        echo 'document.getElementById("displayMsg").innerText = "Failed to add event type!";';
+        echo 'setTimeout(function () {
+            window.location.href = "eventype.php";
+        }, 3000);';
+        echo '</script>';    }
+}
+
+
+if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['criteria'])) {
+    $typeID = $_GET['criteria'];
+
+    $deletedata = new eventType($conn);
+
+    if ($deletedata->deleteType($typeID)) {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Data deleted Successfully.";';
+        echo 'setTimeout(function () {
+            window.location.href = "eventype.php";
+        }, 3000);';
+        echo '</script>';
+    } else {
+        echo '<script>';
+        echo 'document.getElementById("messageBox").style.display = "flex";';
+        echo 'document.getElementById("messageBox").style.background = "red";';
+        echo 'document.getElementById("displayMsg").innerText = "Deletion failed!";';
+        echo 'setTimeout(function () {
+            window.location.href = "eventype.php";
+        }, 3000);';
         echo '</script>';
     }
 }
 ?>
-<script>
-    
-    function editBtn(name, typeID) {
-        var popup = document.querySelector('.popup');
-        popup.style.display = 'flex';
 
-        var typeNameInput = document.getElementById('editTypeName');
-        typeNameInput.value = name;
-        
-        var typeIDInput = document.getElementById('editTypeID');
-        typeIDInput.value = typeID;
-    }
-
-
-    function closeBtn() {
-        var popup = document.querySelector('.popup');
-        popup.style.display = 'none';
-    }
-</script>
 
 <?php
 require_once('footer.php');

@@ -1,5 +1,10 @@
 <?php
 require_once('../php/connection.php');
+require_once('php/authentication.php'); 
+
+$auth = new UserAuthentication($conn);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,126 +12,141 @@ require_once('../php/connection.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <!--bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <!--css-->
-    <link rel="stylesheet" href="css/login.css">
-    <!--fontawesome-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <!--fontawesome cdn-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <div class="container py-5">
+  <div class="container">
+    <div class="box">
+      <form action="" method="post">
+        <h1>Admin Login</h1>
+        <div class="form-group">
+          <label for="username">Username:</label>
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Username"  class="form-control"> 
+            </div>
+        </div>
 
-        <!-- For demo purpose -->
-        <div class="row mb-5">
-          <div class="col-lg-8 mx-auto text-center">
-            <h1 class="display-4">Admin Login</h1>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <div class="input-group">
+            <input type="password" name="password" placeholder="Password" class="form-control" id="myInput" >
           </div>
         </div>
-        <!-- End -->
-      
-      
-        <div class="row">
-          <div class="col-lg-5 mx-auto">
-            <div class="bg-white rounded-lg shadow-sm p-5">
-              
-                <div id="nav-tab-card" class="tab-pane fade show active">
-                  <form role="form" action="" method="post" enctype="multipart/form-data">
-
-                  
-                    <div class="form-group">
-                      <label for="username">Username :</label> <br>
-                      <div class="input-group">
-                        <input type="text" name="username" placeholder="Username"  class="form-control"> 
-                      </div>
-                    </div><br>
-
-                    <div class="form-group">
-                      <label for="password">Password :</label> <br>
-                      <div class="input-group">
-                        <input type="password" name="password" placeholder="Password" class="form-control" id="myInput" >
-                        
-                      </div>
-                      <br>
-                      <!-- An element to toggle between password visibility -->
-                    <input type="checkbox" onclick="myFunction()">Show Password
-                      
-                    </div>
-                    <br>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-large btn-block btn-primary" name="login">Login</button>
-                    </div>
-                    <br>    
-                    <div class="etc-login-form">
-                        <p>Forgot your password? <a href="#">Click here</a></p>
-                        <p>Create an account <a href="signup.php">Signup</a></p>
-                    </div>
-                  </form>
-                  <?php
-                      require_once('php/authentication.php'); 
-
-                      $auth = new UserAuthentication($conn);
-
-                      if($_SERVER["REQUEST_METHOD"] == "POST"){
-                        $username = $_POST['username'];
-                        $password = $_POST['password'];
-
-                        if($auth->login($username, $password)){
-                          header('Location: index.php');
-                        }else{
-                          echo'Login First';
-                          header('login.php');
-                        }
-                      }
-
-                    
-
-                      
-                    
-                      ?>
-                      <!-- Your HTML login form goes here -->
-                                                      
-                  </div>
-                </div>
-                <!-- End -->
-          </div>
+        <div class="errorMsg" id="errorBox">
+          <p id="msg"></p>
+          <a onclick="closeBox()"><i class="fa-solid fa-xmark"></i></a>
         </div>
+
+        <div class="form-group">
+          <button>Login</button>
+        </div>
+      </form>
     </div>
-    <style>
-      .close{
-        float: right;
-        background: none;
-        border: none;
-        color: #58151c;
-      }
-    </style>
-    
-    <script>
-
-$('.alert').alert()
-                function closeBtn(){
-                  document.getElementById('error').style.display='none';
-                  console.log("demo");
-                }
-            
-        document.getElementById('invalid_msg').style.display='none';
-            $(function() {
-                $('[data-toggle="tooltip"]').tooltip()
-            })
-
-            function myFunction() {
-                var x = document.getElementById("myInput");
-                if (x.type === "password") {
-                    x.type = "text";
-                } else {
-                    x.type = "password";
-                }
-                }
-
-                
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-
+  </div>
+  <script>
+    document.getElementById("msg").innerHTML = "Login Failed. Please check your username and password.";
+    document.getElementById("errorBox").style.display = "none";
+    function closeBox(){
+      document.getElementById("errorBox").style.display = "none";
+    }
+  </script>
+  <?php
+  if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+  
+    if($auth->login($username, $password)){
+      header('Location: index.php');
+    }else{
+      echo'<script>';
+      echo'document.getElementById("errorBox").style.display = "flex";';
+      echo'document.getElementById("msg").innerHTML = "Invalid Credientials";';
+      echo'</script>';
+    }
+  }
+  ?>
 </body>
 </html>
+
+<style>
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #5e5f73;
+    margin: 0;
+  }
+
+  .container {
+    text-align: center;
+    width: 400px; 
+    background-color: #d4e3f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .box {
+    max-width: 100%;
+  }
+
+  .form-group {
+    margin-bottom: 20px; 
+    text-align: left;
+  }
+
+  .input-group {
+    margin-top: 15px; 
+  }
+
+  form input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button {
+    width: 100%; 
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #2374a7; 
+  }
+  .errorMsg {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ff5050; 
+    color: #fff; 
+    padding: 10px;
+    border-radius: 4px; 
+    margin-bottom: 15px;
+  }
+
+  .errorMsg p {
+    margin: 0;
+  }
+
+  .errorMsg a {
+    color: #fff; 
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .errorMsg a:hover {
+    text-decoration: underline;
+  }
+
+
+
+</style>

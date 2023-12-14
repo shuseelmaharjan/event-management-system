@@ -438,5 +438,25 @@ class package{
     
     
 }
+
+class AdminInfo {
+    private $db;
+
+    public function __construct($db){
+        $this->db = $db;
+    }
+
+    public function updateUserData($name, $username, $email, $phone, $uniqueFileName) {
+        $stmt = $this->db->prepare("UPDATE tbl_admin SET name = ?, username = ?, email = ?, phone = ?, image = ? WHERE id = 1");
+        $stmt->bind_param("sssss", $name, $username, $email, $phone, $uniqueFileName);
+    
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 ?>
 

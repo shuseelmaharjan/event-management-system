@@ -41,7 +41,7 @@
                         <ul>
                             <li>
                                 <div class="profile-info">
-                                    <img src="<?= $imagePath ?>" alt="profile">
+                                    <img src="userUploads/<?= $imagePath ?>" alt="profile">
                                     <span id="username"><?= $username ?></span>
                                 </div>
                                 <ul id="dropdown">
